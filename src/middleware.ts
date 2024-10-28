@@ -24,7 +24,7 @@ export default auth((req: NextRequest) => {
 })
 
 export const config = {
-  matcher: ['/categories-management/:path*', '/products-management/:path*', '/chapters-management/:path*'],
+  // matcher: ['/categories-management/:path*', '/products-management/:path*', '/chapters-management/:path*'],
   unstable_allowDynamic: ['**/node_modules/_root.js'],
-  // matcher: ['/admin((?!api|error|_next/static|_next/image|favicon.ico).*)'],
+  matcher: ['/admin((?!api|error|_next/static|_next/image|favicon.ico).*)'],
 }
