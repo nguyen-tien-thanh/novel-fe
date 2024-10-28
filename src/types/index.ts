@@ -21,7 +21,7 @@ export interface IProduct {
 }
 
 export interface ICategory {
-  id: number
+  id?: number
   name: string
   description?: string
 }
@@ -48,7 +48,7 @@ export interface IRate {
 }
 
 export interface IUser {
-  id: number
+  id: number | string | undefined
   name?: string | null
   email?: string
   phone?: string | null
@@ -87,12 +87,12 @@ export interface DashboardProps {
 }
 
 export interface ProductDetailProps {
-  id: number
+  id?: number
   products: IProduct[]
   product: IProduct
   chapters: IChapter[]
   rates: IRate[]
-  user?: IUser
+  user: IUser | string
 }
 export interface ITextStyle {
   fontFamily?: string

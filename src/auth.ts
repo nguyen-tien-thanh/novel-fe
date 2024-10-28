@@ -1,9 +1,10 @@
 import NextAuth from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
 import 'next-auth/jwt'
+import { IUser } from './types'
 
 declare module 'next-auth' {
-  interface User {
+  interface User extends IUser {
     accessToken?: string
   }
 

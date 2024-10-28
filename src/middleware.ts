@@ -1,11 +1,11 @@
 import { auth } from '@/auth'
 import { NextResponse, NextRequest } from 'next/server'
-import { get } from 'lodash'
-import { UserRole } from './types'
+// import { UserRole } from './types'
 
 export default auth((req: NextRequest) => {
-  const user = get(req, 'auth.user.user') as UserRole | undefined
-
+  // const user = get(req, 'auth.user.user') as UserRole | undefined
+  const user = { role: '' }
+  console.log('user======>', user)
   if (!user) {
     if (req.nextUrl.pathname !== '/error') {
       return NextResponse.redirect(new URL('/error', req.url))
@@ -24,7 +24,7 @@ export default auth((req: NextRequest) => {
 })
 
 export const config = {
-  matcher: ['/admin/:path*', '/dashboard/:path*'],
-  unstable_allowDynamic: ['**/node_modules/lodash/_root.js'],
+  matcher: ['/categories-management/:path*', '/products-management/:path*', '/chapters-management/:path*'],
+  unstable_allowDynamic: ['**/node_modules/_root.js'],
   // matcher: ['/admin((?!api|error|_next/static|_next/image|favicon.ico).*)'],
 }

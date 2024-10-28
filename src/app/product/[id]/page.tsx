@@ -26,11 +26,21 @@ async function fetchProductData(id: number) {
 export default async function Page({ params }: PageProps) {
   const { id } = params
   const session = await auth()
+
   const user = session?.user
 
   const { products, product, chapters, rates } = await fetchProductData(id)
 
   if (!product) return null
 
-  return <ProductDetail id={id} user={user} products={products} product={product} chapters={chapters} rates={rates} />
+  return (
+    <ProductDetail
+      id={id}
+      user={user?.id || ''}
+      products={products}
+      product={product}
+      chapters={chapters}
+      rates={rates}
+    />
+  )
 }

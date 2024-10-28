@@ -46,9 +46,11 @@ export default function ProductDetail({ id, products, product, chapters, rates, 
   }
   useEffect(() => {
     if (products) {
-      setRelatedProduct(products.filter(prod => prod.id !== +id))
+      if (id) {
+        setRelatedProduct(products.filter(prod => prod.id !== id))
+      }
     }
-  }, [products])
+  }, [products, id])
 
   const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     setPage(newPage)
@@ -68,7 +70,7 @@ export default function ProductDetail({ id, products, product, chapters, rates, 
     if (!user) return router.push('/login')
 
     const existingRate = rates.find(rate => {
-      return rate.userId === user.id
+      return rate.userId === (typeof user === 'number' ? user : Number(user))
     })
 
     setFlag(!flag)
@@ -76,7 +78,7 @@ export default function ProductDetail({ id, products, product, chapters, rates, 
     if (!existingRate) {
       return fetch(`/api/rate`, {
         method: 'POST',
-        body: JSON.stringify({ userId: user.id, productId: product.id, rating }),
+        body: JSON.stringify({ userId: user, productId: product.id, rating }),
       })
     } else {
       if (existingRate.rating === rating) return
@@ -191,7 +193,7 @@ export default function ProductDetail({ id, products, product, chapters, rates, 
                     <TableCell>{formatDatetime(chap.createdAt)}</TableCell>
                     {user && (
                       <TableCell
-                        className={`${chap.price > 0 && user && !chap.users.includes(user.id) ? 'text-red-600' : ''}`}
+                        className={`${chap.price > 0 && user && !chap.users.includes(typeof user === 'number' ? user : Number(user)) ? 'text-red-600' : ''}`}
                       >
                         {chap.price > 0 ? formatCurrency(chap.price) : ''}
                       </TableCell>
