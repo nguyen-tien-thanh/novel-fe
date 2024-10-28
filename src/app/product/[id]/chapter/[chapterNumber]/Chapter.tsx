@@ -3,8 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import { Box, Skeleton, Typography } from '@mui/material'
 import { IChapter, ITextStyle } from '@/types'
-import { ChapterActionButton, Container } from '@/components'
-import { getRandomWidth } from '@/lib'
+import { ArraySkeleton, ChapterActionButton, Container } from '@/components'
 import { useBlockCopy } from '@/hooks/useBlockCopy'
 
 interface IPageParams {
@@ -41,6 +40,15 @@ export const Chapter = ({ chapter, chapters }: IPageParams) => {
     }
   }, [chapters, chapter])
 
+  useEffect(() => {
+    const incrementViewCount = async () => {
+      // TODO: Cant send
+      await fetch(`/api/product/${chapter.productId}/view`, { method: 'POST', body: JSON.stringify({}) })
+    }
+
+    incrementViewCount()
+  }, [chapter.productId])
+
   useBlockCopy()
 
   return (
@@ -66,9 +74,7 @@ export const Chapter = ({ chapter, chapters }: IPageParams) => {
 
         {!chapter || loading ? (
           <Box>
-            {Array.from({ length: 40 }).map((_, index) => (
-              <Skeleton key={index} sx={{ my: 2 }} variant="text" width={getRandomWidth()} height="20px" />
-            ))}
+            <ArraySkeleton sx={{ my: 2 }} variant="text" height="20px" />
           </Box>
         ) : (
           <Box sx={{ py: 3 }}>

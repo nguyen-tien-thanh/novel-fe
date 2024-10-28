@@ -5,7 +5,7 @@ export enum PRODUCT_STATUS {
 
 export interface IProduct {
   id: number
-  userId: number
+  createdBy: number
   authorName: string
   name: string
   source: string
@@ -40,20 +40,20 @@ export interface IChapter {
 
 export interface IRate {
   id: number
-  userId: number
   productId: number
   rating: number
+  createdBy: number
   createdAt: string
   updatedAt: string
 }
 
 export interface IUser {
-  id: number
+  id: number | string
   name?: string | null
   email?: string
   phone?: string | null
   birthdate?: string | null
-  picture?: string | null
+  image?: string | null
   money?: number
   refreshToken?: string | null
   emailVerified?: Date | null
@@ -80,20 +80,6 @@ export interface UserRole {
   role: 'ADMIN' | 'MANAGER' | string // Define other fields as needed
 }
 
-export interface DashboardProps {
-  products: IProduct[]
-  categories: ICategory[]
-  doneProducts: IProduct[]
-}
-
-export interface ProductDetailProps {
-  id: number
-  products: IProduct[]
-  product: IProduct
-  chapters: IChapter[]
-  rates: IRate[]
-  user?: IUser
-}
 export interface ITextStyle {
   fontFamily?: string
   fontWeight: number

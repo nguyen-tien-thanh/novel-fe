@@ -2,8 +2,6 @@ import { twMerge } from 'tailwind-merge'
 
 export const cn = twMerge
 
-export const getRandomWidth = () => `${Math.floor(Math.random() * 71) + 30}%`
-
 const _stringToColor = (string: string) => {
   let hash = 0
   let i

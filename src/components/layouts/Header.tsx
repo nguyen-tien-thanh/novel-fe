@@ -15,7 +15,6 @@ import { useRouter } from 'next/navigation'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import Link from 'next/link'
 import IconButton from '@mui/material/IconButton'
-import { Tooltip } from '@mui/material'
 import { Container, ProfileButton, ThemeModeButton } from '@/components'
 import PersonIcon from '@mui/icons-material/Person'
 import { signOut, useSession } from 'next-auth/react'
@@ -29,6 +28,7 @@ const pages = [
 
 export const Header = () => {
   const { data } = useSession()
+  const user = data?.user
   const router = useRouter()
   const [open, setOpen] = React.useState(false)
   const toggleDrawer = (newOpen: boolean) => () => {
@@ -127,7 +127,7 @@ export const Header = () => {
             }}
           >
             <ThemeModeButton />
-            {!data ? (
+            {!user ? (
               <>
                 <Link href="/register">
                   <Button color="primary" variant="text" size="medium">
@@ -142,11 +142,11 @@ export const Header = () => {
               </>
             ) : (
               <>
-                <Tooltip title="Yêu thích">
-                  <IconButton aria-label="delete" color="error" disabled>
-                    <FavoriteIcon />
-                  </IconButton>
-                </Tooltip>
+                {/* <Tooltip title="Yêu thích"> */}
+                <IconButton aria-label="delete" color="error" disabled>
+                  <FavoriteIcon />
+                </IconButton>
+                {/* </Tooltip> */}
 
                 <ProfileButton />
               </>
@@ -180,7 +180,7 @@ export const Header = () => {
                   </MenuItem>
                 ))}
                 <Divider />
-                {!data ? (
+                {!user ? (
                   <>
                     <MenuItem>
                       <Button color="primary" variant="outlined" component="a" href="/register" sx={{ width: '100%' }}>

@@ -18,14 +18,18 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import React from 'react'
 import { formatTimeAgo } from '@/lib/utils'
-import { ProductGrid } from '@/components/grids'
 import Grid from '@mui/material/Grid2'
 import Link from 'next/link'
-import { DashboardProps } from '@/types'
-import { CardPaper, Container } from '@/components'
+import { CardPaper, Container, ProductGrid } from '@/components'
 import { Swiper } from '@/components/swiper'
+import { ICategory, IProduct, PRODUCT_STATUS } from '@/types'
 
-export default function Dashboard({ products, categories, doneProducts }: DashboardProps) {
+export interface DashboardProps {
+  products: IProduct[]
+  categories: ICategory[]
+}
+
+export default function Dashboard({ products, categories }: DashboardProps) {
   const router = useRouter()
   const [loading, setLoading] = useState(true)
 
@@ -33,7 +37,7 @@ export default function Dashboard({ products, categories, doneProducts }: Dashbo
     if (products.length > 0 && categories.length > 0) {
       setLoading(false)
     }
-  }, [products, categories, doneProducts])
+  }, [products, categories])
 
   return (
     <Container>
@@ -211,7 +215,12 @@ export default function Dashboard({ products, categories, doneProducts }: Dashbo
         <Grid size={12}>
           <CardPaper title="Truyện đã hoàn thành">
             <Box sx={{ p: 2 }}>
-              <ProductGrid products={doneProducts} loading={loading} limit={6} showInfo />
+              <ProductGrid
+                products={products.filter(d => d.status === PRODUCT_STATUS.DONE)}
+                loading={loading}
+                limit={6}
+                showInfo
+              />
             </Box>
           </CardPaper>
         </Grid>

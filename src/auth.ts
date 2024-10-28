@@ -1,14 +1,15 @@
 import NextAuth from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
 import 'next-auth/jwt'
+import { IUser } from './types'
 
 declare module 'next-auth' {
   interface User {
     accessToken?: string
   }
-
   interface Session {
     accessToken?: string
+    user?: IUser
   }
 }
 
@@ -46,17 +47,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     error: '/error',
   },
   callbacks: {
-    jwt({ token, trigger, session, account, user }) {
+    jwt({ token, user }) {
       if (user) token.accessToken = user.accessToken
-      if (trigger === 'update') token.name = session.user.name
-      if (account?.provider === 'keycloak') return { ...token, accessToken: account.access_token }
-
       return token
     },
     session({ session, token }) {
-      if (token?.accessToken) session.accessToken = token.accessToken
-      if (token?.sub) session.user.id = token.sub
-
+      if (token.accessToken) session.accessToken = token.accessToken
+      if (token.sub) session.user.id = token.sub
       return session
     },
   },

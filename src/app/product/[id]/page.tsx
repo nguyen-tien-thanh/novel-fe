@@ -1,23 +1,17 @@
-import { auth } from '@/auth'
 import ProductDetail from './ProductDetail'
+import { get } from '@/lib'
+import { IChapter, IProduct, IRate } from '@/types'
 
 interface PageProps {
   params: { id: number }
 }
 
 async function fetchProductData(id: number) {
-  const [productsResp, productResp, chaptersResp, ratesResp] = await Promise.all([
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/product`),
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/product/${id}`),
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/product/${id}/chapter`),
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/product/${id}/rate`),
-  ])
-
   const [products, product, chapters, rates] = await Promise.all([
-    productsResp.json(),
-    productResp.json(),
-    chaptersResp.json(),
-    ratesResp.json(),
+    get<Promise<IProduct[] | undefined>>('/product'),
+    get<Promise<IProduct | undefined>>(`/product/${id}`),
+    get<Promise<IChapter[] | undefined>>(`/product/${id}/chapter`),
+    get<Promise<IRate[] | undefined>>(`/product/${id}/rate`),
   ])
 
   return { products, product, chapters, rates }
@@ -25,12 +19,12 @@ async function fetchProductData(id: number) {
 
 export default async function Page({ params }: PageProps) {
   const { id } = params
-  const session = await auth()
-  const user = session?.user
+  // const session = await auth()
+  // const user = session?.user as any
 
   const { products, product, chapters, rates } = await fetchProductData(id)
 
   if (!product) return null
 
-  return <ProductDetail id={id} user={user} products={products} product={product} chapters={chapters} rates={rates} />
+  return <ProductDetail id={id} products={products} product={product} chapters={chapters} rates={rates} />
 }

@@ -12,7 +12,8 @@ import { stringAvatar } from '@/lib'
 import CircularProgress from '@mui/material/CircularProgress'
 
 export const ProfileButton = () => {
-  const { data: session } = useSession()
+  const { data } = useSession()
+  const user = data?.user
   const [anchorEl, setAnchorEl] = React.useState(null)
   const open = Boolean(anchorEl)
 
@@ -23,9 +24,6 @@ export const ProfileButton = () => {
     setAnchorEl(null)
   }
 
-  if (!session || !session.user) return null
-  const { user } = session
-
   return (
     <React.Fragment>
       <IconButton
@@ -35,9 +33,9 @@ export const ProfileButton = () => {
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
       >
-        {user.image ? (
+        {user && user.image ? (
           <Avatar sx={{ width: 28, height: 28 }} src={user.image} srcSet={user.image} />
-        ) : user.name ? (
+        ) : user && user.name ? (
           <Avatar {...stringAvatar(user.name)} />
         ) : null}
       </IconButton>
@@ -79,7 +77,7 @@ export const ProfileButton = () => {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         <MenuItem onClick={handleClose} disabled>
-          <Avatar /> {user.name}
+          <Avatar /> {user && user.name}
         </MenuItem>
         <Divider />
         <MenuItem onClick={handleClose} disabled>
