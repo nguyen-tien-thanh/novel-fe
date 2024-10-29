@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import {
   Button,
+  IconButton,
   Paper,
   Table,
   TableBody,
@@ -17,20 +18,17 @@ import {
 // import DeleteIcon from '@mui/icons-material/Delete'
 import AddIcon from '@mui/icons-material/Add'
 import TablePaginationActions from '@mui/material/TablePagination/TablePaginationActions'
-import CreateForm from './create'
 import { formatDatetime } from '@/lib'
-import { IProduct } from '@/types'
+import DeleteIcon from '@mui/icons-material/Delete'
+import EditIcon from '@mui/icons-material/Edit'
+import Link from 'next/link'
+import { toast } from 'react-toastify'
+import { useRouter } from 'next/navigation'
 
-interface ProductsProps {
-  initialProducts: IProduct[]
-}
-
-export default function ProductList({ initialProducts }: ProductsProps) {
+export default function ProductList({ initialProducts, deleteProduct }) {
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(5)
-  const [openPopup, setOpenPopup] = useState(false)
-  //   const { data: session } = useSession()
-  //   const token = session?.accessToken
+  const router = useRouter()
 
   const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     setPage(newPage)
@@ -41,8 +39,14 @@ export default function ProductList({ initialProducts }: ProductsProps) {
     setPage(0)
   }
 
-  const handleClosePopup = () => {
-    setOpenPopup(false)
+  const deleteRow = async (id: number) => {
+    const result = await deleteProduct(id)
+    if (result?.statusCode) {
+      toast.error(result?.message)
+    } else {
+      router.push('/products-management')
+      toast.success('Xóa thành công truyện')
+    }
   }
 
   return (
@@ -56,7 +60,7 @@ export default function ProductList({ initialProducts }: ProductsProps) {
               variant="contained"
               size="small"
               startIcon={<AddIcon />}
-              onClick={() => setOpenPopup(true)}
+              onClick={() => router.push('/products-management/create')}
             >
               Create
             </Button>
@@ -94,17 +98,23 @@ export default function ProductList({ initialProducts }: ProductsProps) {
                     <img src={row.image} height={100} width={300} alt="" />
                   </TableCell>
                   <TableCell>
-                    {/* <IconButton
-                        onClick={async () => {
-                          await fetch(`${process.env.NEXT_PUBLIC_API_URL}/product/${row.id}`, {
-                            method: 'DELETE',
-                            headers: { Authorization: `Bearer ${token}` },
-                          })
-                          setRefresh(true)
-                        }}
-                      >
-                        <DeleteIcon />
-                      </IconButton> */}
+                    <IconButton
+                      onClick={() => {
+                        deleteRow(row.id)
+                      }}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                    <Link
+                      href={{
+                        pathname: `/products-management/${row.id}`,
+                        query: row,
+                      }}
+                    >
+                      <IconButton>
+                        <EditIcon />
+                      </IconButton>
+                    </Link>
                   </TableCell>
                 </TableRow>
               ))}
@@ -125,7 +135,6 @@ export default function ProductList({ initialProducts }: ProductsProps) {
           </Table>
         </TableContainer>
       </div>
-      <CreateForm open={openPopup} handleClose={handleClosePopup} setRefresh={() => {}} />
     </div>
   )
 }

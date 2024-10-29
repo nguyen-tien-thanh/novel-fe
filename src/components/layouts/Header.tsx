@@ -18,7 +18,7 @@ import IconButton from '@mui/material/IconButton'
 import { Tooltip } from '@mui/material'
 import { Container, ProfileButton, ThemeModeButton } from '@/components'
 import PersonIcon from '@mui/icons-material/Person'
-import { signOut, useSession } from 'next-auth/react'
+import { signOut } from 'next-auth/react'
 import { Settings } from '@mui/icons-material'
 
 const pages = [
@@ -30,8 +30,7 @@ const pages = [
   { name: 'QLchương', href: '/chapters-management', role: 'ADMIN' },
 ]
 
-export const Header = () => {
-  const { data } = useSession()
+export const Header = ({ data }) => {
   const router = useRouter()
   const [open, setOpen] = React.useState(false)
   const toggleDrawer = (newOpen: boolean) => () => {
@@ -146,12 +145,14 @@ export const Header = () => {
             ) : (
               <>
                 <Tooltip title="Yêu thích">
-                  <IconButton aria-label="delete" color="error" disabled>
-                    <FavoriteIcon />
-                  </IconButton>
+                  <span>
+                    <IconButton aria-label="delete" color="error" disabled>
+                      <FavoriteIcon />
+                    </IconButton>
+                  </span>
                 </Tooltip>
 
-                <ProfileButton />
+                <ProfileButton user={data} />
               </>
             )}
           </Box>

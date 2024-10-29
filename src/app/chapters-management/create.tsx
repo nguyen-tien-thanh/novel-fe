@@ -7,13 +7,11 @@ import { useEffect } from 'react'
 // import { useStripe, useElements } from '@stripe/react-stripe-js';
 import { Autocomplete, Box, Button, Dialog, TextField } from '@mui/material'
 import React from 'react'
-import { useSession } from 'next-auth/react'
 // import axios from 'axios';
 
 export default function CreateForm({ open, handleClose, setRefresh, products }) {
   // const [productValue, setProductValue] = React.useState()
-  const { data: session } = useSession()
-  const token = session?.accessToken
+  const token = ''
 
   useEffect(() => {
     // const fetchData = async () => {

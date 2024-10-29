@@ -101,3 +101,21 @@ export interface ITextStyle {
   lineHeight: number
   letterSpacing: number
 }
+
+export interface ICrawledData {
+  name: string
+  description: string
+  author: string
+  image: string
+  chapters: {
+    chapterNumber: number
+    chapterName: string
+    content: string
+  }[]
+}
+
+export interface ApiResponse<T> {
+  data: T
+  statusCode: number
+  message: string
+}

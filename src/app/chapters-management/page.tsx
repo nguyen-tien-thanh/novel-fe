@@ -22,7 +22,6 @@ import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { formatDatetime } from '@/lib'
 import CreateForm from './create'
-import { useSession } from 'next-auth/react'
 import { IChapter, IProduct } from '@/types'
 
 // export default function Categories({ params }: { params: { slug: string } }) {
@@ -35,8 +34,7 @@ export default function Categories() {
 
   const rows: IChapter[] = []
   const products: IProduct[] = []
-  const { data: session } = useSession()
-  const token = session?.accessToken
+  const token = ''
   const [refresh, setRefresh] = React.useState(false)
 
   useEffect(() => {

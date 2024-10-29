@@ -7,12 +7,11 @@ import Divider from '@mui/material/Divider'
 import IconButton from '@mui/material/IconButton'
 import Settings from '@mui/icons-material/Settings'
 import Logout from '@mui/icons-material/Logout'
-import { signOut, useSession } from 'next-auth/react'
+import { signOut } from 'next-auth/react'
 import { stringAvatar } from '@/lib'
 import CircularProgress from '@mui/material/CircularProgress'
 
-export const ProfileButton = () => {
-  const { data: session } = useSession()
+export const ProfileButton = ({ user }) => {
   const [anchorEl, setAnchorEl] = React.useState(null)
   const open = Boolean(anchorEl)
 
@@ -23,8 +22,7 @@ export const ProfileButton = () => {
     setAnchorEl(null)
   }
 
-  if (!session || !session.user) return null
-  const { user } = session
+  if (!user) return null
 
   return (
     <React.Fragment>
