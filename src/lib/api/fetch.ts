@@ -1,121 +1,51 @@
-import { _handleParams, _handleReponse } from '@/lib/utils'
+'use server'
 
-export async function getApi<T>(
-  endpoint: string,
-  params: Record<string, string> = {},
-  headers: Record<string, string> = { 'Content-Type': 'application/json' },
-): Promise<T> {
+import { auth } from '@/auth'
+import { _handleResponse } from '@/lib/utils'
+
+const getToken = async () => {
+  const session = await auth()
+  return session?.accessToken
+}
+
+export async function _fetchWithAuth(endpoint: string, options: RequestInit = {}): Promise<Response> {
+  const token = await getToken()
+  const headers: HeadersInit = {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${token}`,
+    ...options.headers,
+  }
   const baseUrl = `${process.env.NEXT_PUBLIC_API_URL}/${endpoint}`
-  const url = _handleParams(baseUrl, params)
 
-  return _handleReponse(await fetch(url, { headers }))
+  return fetch(baseUrl.replace(/\/\//g, '/'), { ...options, headers })
 }
 
-export async function getOne<T>(
-  endpoint: string,
-  id: number | string,
-  params: Record<string, string> = {},
-  headers: Record<string, string> = { 'Content-Type': 'application/json' },
-): Promise<T> {
-  const baseUrl = `${process.env.NEXT_PUBLIC_API_URL}/${endpoint}/${id}`
-  const url = _handleParams(baseUrl, params)
-
-  return _handleReponse(await fetch(url, { headers }))
+export async function get<T>(endpoint: string): Promise<T | undefined> {
+  const response = await _fetchWithAuth(endpoint)
+  return _handleResponse<T | undefined>(response)
 }
 
-export async function postApi<T, U>(
-  endpoint: string,
-  data: U,
-  params: Record<string, string> = {},
-  headers: Record<string, string> = { 'Content-Type': 'application/json' },
-): Promise<T> {
-  const baseUrl = `${process.env.NEXT_PUBLIC_API_URL}/${endpoint}`
-  const url = _handleParams(baseUrl, params)
+export async function post<T>(endpoint: string, body: T): Promise<T | undefined> {
+  const response = await _fetchWithAuth(endpoint, {
+    method: 'POST',
+    body: JSON.stringify(body),
+  })
 
-  return _handleReponse(
-    await fetch(url, {
-      headers,
-      method: 'POST',
-      body: JSON.stringify(data),
-    }),
-  )
+  return _handleResponse<T | undefined>(response)
 }
 
-export async function postOne<T, U>(
-  endpoint: string,
-  id: number | string,
-  data: U,
-  params: Record<string, string> = {},
-  headers: Record<string, string> = { 'Content-Type': 'application/json' },
-): Promise<T> {
-  const baseUrl = `${process.env.NEXT_PUBLIC_API_URL}/${endpoint}/${id}`
-  const url = _handleParams(baseUrl, params)
+export async function patch<T>(endpoint: string, body: T): Promise<T | undefined> {
+  const response = await _fetchWithAuth(endpoint, {
+    method: 'PATCH',
+    body: JSON.stringify(body),
+  })
 
-  return _handleReponse(
-    await fetch(url, {
-      headers,
-      method: 'POST',
-      body: JSON.stringify(data),
-    }),
-  )
+  return _handleResponse<T | undefined>(response)
 }
 
-export async function patchApi<T, U>(
-  endpoint: string,
-  data: U,
-  params: Record<string, string> = {},
-  headers: Record<string, string> = { 'Content-Type': 'application/json' },
-): Promise<T> {
-  const baseUrl = `${process.env.NEXT_PUBLIC_API_URL}/${endpoint}`
-  const url = _handleParams(baseUrl, params)
-
-  return _handleReponse(
-    await fetch(url, {
-      headers,
-      method: 'PATCH',
-      body: JSON.stringify(data),
-    }),
-  )
-}
-
-export async function patchOne<T, U>(
-  endpoint: string,
-  id: number | string,
-  data: U,
-  params: Record<string, string> = {},
-  headers: Record<string, string> = { 'Content-Type': 'application/json' },
-): Promise<T> {
-  const baseUrl = `${process.env.NEXT_PUBLIC_API_URL}/${endpoint}/${id}`
-  const url = _handleParams(baseUrl, params)
-
-  return _handleReponse(
-    await fetch(url, {
-      headers,
-      method: 'PATCH',
-      body: JSON.stringify(data),
-    }),
-  )
-}
-
-export async function deleteApi<T>(
-  endpoint: string,
-  params: Record<string, string> = {},
-  headers: Record<string, string> = { 'Content-Type': 'application/json' },
-): Promise<T> {
-  const baseUrl = `${process.env.NEXT_PUBLIC_API_URL}/${endpoint}`
-  const url = _handleParams(baseUrl, params)
-
-  return _handleReponse(await fetch(url, { headers, method: 'DELETE' }))
-}
-
-export async function deleteOne<T>(
-  endpoint: string,
-  id: number | string,
-  params: Record<string, string> = {},
-  headers: Record<string, string> = { 'Content-Type': 'application/json' },
-): Promise<T> {
-  const baseUrl = `${process.env.NEXT_PUBLIC_API_URL}/${endpoint}/${id}`
-  const url = _handleParams(baseUrl, params)
-
-  return _handleReponse(await fetch(url, { headers, method: 'DELETE' }))
+export async function del(endpoint: string): Promise<void> {
+  const response = await _fetchWithAuth(endpoint, {
+    method: 'DELETE',
+  })
+  return _handleResponse<undefined>(response)
 }

@@ -18,14 +18,25 @@ import TablePaginationActions from '@mui/material/TablePagination/TablePaginatio
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Rating from '@mui/material/Rating'
-import { IChapter, IProduct, PRODUCT_STATUS, ProductDetailProps } from '@/types'
+import { IChapter, IProduct, IRate, PRODUCT_STATUS } from '@/types'
 import { formatCurrency, formatDatetime } from '@/lib/utils'
 import { ProductGrid } from '@/components/grids'
 import Image from 'next/image'
 import { Container } from '@/components'
+import { useSession } from 'next-auth/react'
 
-export default function ProductDetail({ id, products, product, chapters, rates, user }: ProductDetailProps) {
+export interface ProductDetailProps {
+  id: number
+  product: IProduct
+  products?: IProduct[]
+  chapters?: IChapter[]
+  rates?: IRate[]
+}
+
+export default function ProductDetail({ id, products, product, chapters, rates }: ProductDetailProps) {
   const router = useRouter()
+  const session = useSession()
+  const user = session?.data?.user
 
   const [flag, setFlag] = useState(false)
   const [page, setPage] = React.useState(0)
@@ -65,24 +76,20 @@ export default function ProductDetail({ id, products, product, chapters, rates, 
 
   const handleRating = (rating: number | null) => {
     // TODO: Remove rate api
-    if (!rating) return
-
     if (!user) return router.push('/login')
+    if (!rating || !rates) return
 
-    const existingRate = rates.find(rate => {
-      return rate.userId === (typeof user === 'number' ? user : Number(user))
-    })
+    const existingRate = rates.find(rate => rate.createdBy === +user.id)
 
     setFlag(!flag)
 
     if (!existingRate) {
       return fetch(`/api/rate`, {
         method: 'POST',
-        body: JSON.stringify({ userId: user, productId: product.id, rating }),
+        body: JSON.stringify({ productId: product.id, rating }),
       })
     } else {
       if (existingRate.rating === rating) return
-
       return fetch(`/api/rate/${existingRate.id}`, {
         method: 'PATCH',
         body: JSON.stringify({ rating }),
@@ -116,9 +123,11 @@ export default function ProductDetail({ id, products, product, chapters, rates, 
                   onChange={(e, val) => handleRating(val)}
                 />
 
-                <Typography variant="body2" color="textSecondary">
-                  ({rates.length} lượt đánh giá)
-                </Typography>
+                {rates && (
+                  <Typography variant="body2" color="textSecondary">
+                    ({rates.length} lượt đánh giá)
+                  </Typography>
+                )}
               </Box>
             </Box>
 
@@ -168,23 +177,26 @@ export default function ProductDetail({ id, products, product, chapters, rates, 
 
       <Divider className="w-full !my-10" />
 
-      <Box component={'section'}>
-        <TableContainer sx={{ boxShadow: 'none' }} component={Paper}>
-          <Typography variant="h5" className="p-2">
-            Chương ({chapters.length})
-          </Typography>
-          <Table aria-label="simple table">
-            <TableHead>
-              <TableRow className="[&>*]:font-bold">
-                <TableCell>Tập</TableCell>
-                <TableCell>Tên</TableCell>
-                <TableCell>Ngày đăng</TableCell>
-                {user && <TableCell>Giá</TableCell>}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {(rowsPerPage > 0 ? chapters.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : chapters).map(
-                chap => (
+      {chapters && (
+        <Box component={'section'}>
+          <TableContainer sx={{ boxShadow: 'none' }} component={Paper}>
+            <Typography variant="h5" className="p-2">
+              Chương ({chapters.length})
+            </Typography>
+            <Table aria-label="simple table">
+              <TableHead>
+                <TableRow className="[&>*]:font-bold">
+                  <TableCell>Tập</TableCell>
+                  <TableCell>Tên</TableCell>
+                  <TableCell>Ngày đăng</TableCell>
+                  {user && <TableCell>Giá</TableCell>}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {(rowsPerPage > 0
+                  ? chapters.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  : chapters
+                ).map(chap => (
                   <TableRow key={chap.id} role="button" hover onClick={() => handleChapterClick(chap)}>
                     <TableCell>{chap.chapterNumber}</TableCell>
                     <TableCell component="th" scope="row">
@@ -193,40 +205,40 @@ export default function ProductDetail({ id, products, product, chapters, rates, 
                     <TableCell>{formatDatetime(chap.createdAt)}</TableCell>
                     {user && (
                       <TableCell
-                        className={`${chap.price > 0 && user && !chap.users.includes(typeof user === 'number' ? user : Number(user)) ? 'text-red-600' : ''}`}
+                        className={`${chap.price > 0 && user && !chap.users.includes(+user.id) ? 'text-red-600' : ''}`}
                       >
                         {chap.price > 0 ? formatCurrency(chap.price) : ''}
                       </TableCell>
                     )}
                   </TableRow>
-                ),
-              )}
-            </TableBody>
-            <TableFooter>
-              <TableRow>
-                <TablePagination
-                  rowsPerPageOptions={[5, 10, 25, { label: 'Tất cả', value: -1 }]}
-                  count={chapters.length}
-                  rowsPerPage={rowsPerPage}
-                  page={page}
-                  slotProps={{
-                    select: {
-                      inputProps: {
-                        'aria-label': 'rows per page',
+                ))}
+              </TableBody>
+              <TableFooter>
+                <TableRow>
+                  <TablePagination
+                    rowsPerPageOptions={[5, 10, 25, { label: 'Tất cả', value: -1 }]}
+                    count={chapters.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    slotProps={{
+                      select: {
+                        inputProps: {
+                          'aria-label': 'rows per page',
+                        },
+                        native: true,
                       },
-                      native: true,
-                    },
-                  }}
-                  onPageChange={handleChangePage}
-                  onRowsPerPageChange={handleChangeRowsPerPage}
-                  ActionsComponent={TablePaginationActions}
-                  labelRowsPerPage="Số hàng"
-                />
-              </TableRow>
-            </TableFooter>
-          </Table>
-        </TableContainer>
-      </Box>
+                    }}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                    ActionsComponent={TablePaginationActions}
+                    labelRowsPerPage="Số hàng"
+                  />
+                </TableRow>
+              </TableFooter>
+            </Table>
+          </TableContainer>
+        </Box>
+      )}
 
       {relatedProduct && (
         <Box component={'section'} className="relative mt-20">

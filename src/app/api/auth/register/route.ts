@@ -1,10 +1,10 @@
-import { postApi } from '@/lib'
+import { post } from '@/lib'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest) {
   const { name, email, password } = await request.json()
 
-  return await postApi('auth/register', {
+  return await post('auth/register', {
     name,
     email,
     password,

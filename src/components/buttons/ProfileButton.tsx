@@ -7,11 +7,13 @@ import Divider from '@mui/material/Divider'
 import IconButton from '@mui/material/IconButton'
 import Settings from '@mui/icons-material/Settings'
 import Logout from '@mui/icons-material/Logout'
-import { signOut } from 'next-auth/react'
+import { signOut, useSession } from 'next-auth/react'
 import { stringAvatar } from '@/lib'
 import CircularProgress from '@mui/material/CircularProgress'
 
-export const ProfileButton = ({ user }) => {
+export const ProfileButton = () => {
+  const { data } = useSession()
+  const user = data?.user
   const [anchorEl, setAnchorEl] = React.useState(null)
   const open = Boolean(anchorEl)
 
@@ -22,8 +24,6 @@ export const ProfileButton = ({ user }) => {
     setAnchorEl(null)
   }
 
-  if (!user) return null
-
   return (
     <React.Fragment>
       <IconButton
@@ -33,9 +33,9 @@ export const ProfileButton = ({ user }) => {
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
       >
-        {user.image ? (
+        {user && user.image ? (
           <Avatar sx={{ width: 28, height: 28 }} src={user.image} srcSet={user.image} />
-        ) : user.name ? (
+        ) : user && user.name ? (
           <Avatar {...stringAvatar(user.name)} />
         ) : null}
       </IconButton>
@@ -77,7 +77,7 @@ export const ProfileButton = ({ user }) => {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         <MenuItem onClick={handleClose} disabled>
-          <Avatar /> {user.name}
+          <Avatar /> {user && user.name}
         </MenuItem>
         <Divider />
         <MenuItem onClick={handleClose} disabled>
