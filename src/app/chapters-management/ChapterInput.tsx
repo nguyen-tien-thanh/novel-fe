@@ -13,8 +13,8 @@ import { toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
 
 interface CreateFormProps {
-  edit?: (body: string) => Promise<ApiResponse<IChapter>>
-  create?: (body: string) => Promise<ApiResponse<IChapter>>
+  edit?: (body: IChapter) => Promise<IChapter | undefined>
+  create?: (body: IChapter) => Promise<IChapter | undefined>
   products: IProduct[]
   defaultValue?: IChapter
 }
@@ -28,32 +28,23 @@ export default function ChapterInput({ products, edit, create, defaultValue }: C
     event.preventDefault()
 
     const data = new FormData(event.currentTarget)
-    let result: ApiResponse<IChapter> | undefined
-    if (id && edit) {
-      result =
-        edit &&
-        (await edit(
-          JSON.stringify({
-            productId: 1,
-            chapterName: data.get(`chapterName`),
-            price: data.get(`price`),
-            content: data.get(`content`),
-            chapterNumber: data.get(`chapterNumber`),
-          }),
-        ))
-    } else {
-      result =
-        create &&
-        (await create(
-          JSON.stringify({
-            productId: 1,
-            chapterName: data.get(`chapterName`),
-            price: data.get(`price`),
-            content: data.get(`content`),
-            chapterNumber: data.get(`chapterNumber`),
-          }),
-        ))
+    const body: IChapter = {
+      productId: 1,
+      chapterName: data.get(`chapterName`) as string,
+      price: data.get(`price`) as unknown as number,
+      content: data.get(`content`) as string,
+      chapterNumber: Number(data.get(`chapterNumber`)),
+      createdAt: defaultValue?.createdAt || new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      users: defaultValue?.users || [],
     }
+    let result
+    if (id) {
+      result = await edit!(body)
+    } else {
+      result = await create!(body)
+    }
+
     if (result?.statusCode) {
       toast.error(result?.message)
     } else {

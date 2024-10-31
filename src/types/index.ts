@@ -27,7 +27,7 @@ export interface ICategory {
 }
 
 export interface IChapter {
-  id: number
+  id?: number
   productId: number
   chapterName: string
   content: string

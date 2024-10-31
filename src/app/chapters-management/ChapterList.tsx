@@ -14,21 +14,15 @@ import {
   Typography,
 } from '@mui/material'
 import TablePaginationActions from '@mui/material/TablePagination/TablePaginationActions'
-import React, { useEffect, useState } from 'react'
-// import { Elements, PaymentElement } from '@stripe/react-stripe-js';
-// import StripePaymentForm from '@/components/StripePaymentForm';
-// import Header from '@/components/Header/Header'
+import React from 'react'
 import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { formatDatetime } from '@/lib'
-import CreateForm from './ChapterInput'
-import { IChapter, IProduct } from '@/types'
 import Link from 'next/link'
 import EditIcon from '@mui/icons-material/Edit'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
 
-// export default function Categories({ params }: { params: { slug: string } }) {
 export default function ChapterList({ initialChapters, deleteChapter, products }) {
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(5)

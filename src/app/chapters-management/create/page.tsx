@@ -1,31 +1,21 @@
-import { IProduct } from '@/types'
+import { IChapter, IProduct } from '@/types'
 import ChapterInput from '../ChapterInput'
 import { auth } from '@/auth'
+import { get, post } from '@/lib'
 
 export default async function ChapterPageCreate() {
-  const session = await auth()
-  const token = session?.accessToken
-
-  const createChapter = async (body: string) => {
+  const createChapter = async (body: IChapter) => {
     'use server'
 
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/chapter`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body,
-    })
-    return response.json()
+    const response = await post<IChapter | undefined>('/chapter', body)
+
+    return response
   }
 
   async function fetchProducts() {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/product`)
-    if (!response.ok) {
-      throw new Error('Failed to fetch Products')
-    }
-    return response.json()
+    const response = await get<IProduct[]>('/product')
+    if (!response) return []
+    return response
   }
 
   const products: IProduct[] = await fetchProducts()
