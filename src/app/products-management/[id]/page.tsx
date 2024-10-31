@@ -1,24 +1,22 @@
 import { auth } from '@/auth'
 import ProductInput from '../ProductInput'
-import { ICategory } from '@/types'
+import { ICategory, IProduct } from '@/types'
+import { get, patch } from '@/lib'
 
 export default async function ProductsPageEdit({ params, searchParams }) {
   const { id } = params || {}
-  const session = await auth()
-  const token = session?.accessToken
 
-  const editProducts = async (body: string) => {
+  async function fetchProductDetail() {
+    const response = await get<IProduct>(`/product/${id}`)
+    if (!response) return
+    return response
+  }
+
+  const editProducts = async (body: IProduct) => {
     'use server'
 
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/product/${id}`, {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body,
-    })
-    return response.json()
+    const response = await patch(`/chapter/${id}`, body)
+    return response
   }
 
   async function fetchCategories() {
@@ -30,6 +28,7 @@ export default async function ProductsPageEdit({ params, searchParams }) {
   }
 
   const categories: ICategory[] = await fetchCategories()
+  const defaultValue: IProduct | undefined = await fetchProductDetail()
 
-  return <ProductInput edit={editProducts} defaultValue={searchParams} categories={categories} />
+  return <ProductInput edit={editProducts} defaultValue={defaultValue} categories={categories} />
 }

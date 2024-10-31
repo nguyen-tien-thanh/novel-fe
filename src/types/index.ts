@@ -4,19 +4,19 @@ export enum PRODUCT_STATUS {
 }
 
 export interface IProduct {
-  id: number
-  createdBy: number
-  authorName: string
-  name: string
-  source: string
-  status: PRODUCT_STATUS
-  image: string
-  viewCount: number
+  id?: number
+  createdBy?: number
+  authorName?: string
+  name?: string
+  source?: string
+  status?: PRODUCT_STATUS
+  image?: string
+  viewCount?: number
   description?: string
-  createdAt: string
-  updatedAt: string
-  averageRate: number
-  chapterCount: number
+  createdAt?: string
+  updatedAt?: string
+  averageRate?: number
+  chapterCount?: number
   categories?: ICategory[]
 }
 
