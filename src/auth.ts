@@ -4,7 +4,7 @@ import 'next-auth/jwt'
 import { IUser } from './types'
 
 declare module 'next-auth' {
-  interface User {
+  interface User extends IUser {
     accessToken?: string
   }
   interface Session {

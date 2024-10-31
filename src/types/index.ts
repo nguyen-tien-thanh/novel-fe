@@ -21,7 +21,7 @@ export interface IProduct {
 }
 
 export interface ICategory {
-  id: number
+  id?: number
   name: string
   description?: string
 }
@@ -80,10 +80,42 @@ export interface UserRole {
   role: 'ADMIN' | 'MANAGER' | string // Define other fields as needed
 }
 
+export interface DashboardProps {
+  products: IProduct[]
+  categories: ICategory[]
+  doneProducts: IProduct[]
+}
+
+export interface ProductDetailProps {
+  id?: number
+  products: IProduct[]
+  product: IProduct
+  chapters: IChapter[]
+  rates: IRate[]
+  user: IUser | string
+}
 export interface ITextStyle {
   fontFamily?: string
   fontWeight: number
   fontSize: number
   lineHeight: number
   letterSpacing: number
+}
+
+export interface ICrawledData {
+  name: string
+  description: string
+  author: string
+  image: string
+  chapters: {
+    chapterNumber: number
+    chapterName: string
+    content: string
+  }[]
+}
+
+export interface ApiResponse<T> {
+  data: T
+  statusCode: number
+  message: string
 }

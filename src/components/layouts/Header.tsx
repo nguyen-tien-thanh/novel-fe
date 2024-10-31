@@ -24,6 +24,9 @@ const pages = [
   { name: 'Danh sách', href: '/' },
   { name: 'Thể loại', href: '/' },
   { name: 'Phân loại', href: '/' },
+  { name: 'QLtruyện', href: '/products-management', role: 'ADMIN' },
+  { name: 'QLdanh mục', href: '/categories-management', role: 'ADMIN' },
+  { name: 'QLchương', href: '/chapters-management', role: 'ADMIN' },
 ]
 
 export const Header = () => {

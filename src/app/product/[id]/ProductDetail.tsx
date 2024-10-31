@@ -57,7 +57,9 @@ export default function ProductDetail({ id, products, product, chapters, rates }
   }
   useEffect(() => {
     if (products) {
-      setRelatedProduct(products.filter(prod => prod.id !== +id))
+      if (id) {
+        setRelatedProduct(products.filter(prod => prod.id !== id))
+      }
     }
   }, [products, id])
 
