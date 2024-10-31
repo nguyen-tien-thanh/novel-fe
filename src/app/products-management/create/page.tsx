@@ -23,8 +23,6 @@ export default async function CategoriesPageCreate() {
   const crawlData = async (url: string, body: string): Promise<ApiResponse<ICrawledData>> => {
     'use server'
 
-    console.log('response===> vaooooooooo kkkkkkkkkkk', url, body)
-
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/crawler/${url}`, {
       method: 'POST',
       headers: {

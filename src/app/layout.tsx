@@ -5,6 +5,7 @@ import { ThemeClientProvider } from '@/providers'
 import { auth } from '@/auth'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { SessionProvider } from 'next-auth/react'
 
 export const metadata: Metadata = {
   title: 'AiTruyen',
@@ -17,26 +18,25 @@ export default async function RootLayout({
   children: React.ReactNode
 }>) {
   const session = await auth()
-  const data = session?.user
 
   return (
-    // <SessionProvider session={session}>
-    <ThemeClientProvider>
-      <html lang="en" suppressHydrationWarning>
-        <body>
-          <Header data={data} />
+    <SessionProvider session={session}>
+      <ThemeClientProvider>
+        <html lang="en" suppressHydrationWarning>
+          <body>
+            <Header />
 
-          <ToastContainer />
-          <main className="relative mt-28 min-h-[calc(100dvh-112px-90px)] flex flex-col">
-            {children}
+            <ToastContainer />
+            <main className="relative mt-28 min-h-[calc(100dvh-112px-90px)] flex flex-col">
+              {children}
 
-            <ScrollToTopButton />
-          </main>
+              <ScrollToTopButton />
+            </main>
 
-          <Footer />
-        </body>
-      </html>
-    </ThemeClientProvider>
-    // </SessionProvider>
+            <Footer />
+          </body>
+        </html>
+      </ThemeClientProvider>
+    </SessionProvider>
   )
 }

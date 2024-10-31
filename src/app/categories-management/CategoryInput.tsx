@@ -8,8 +8,8 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { ICategory } from '@/types'
 
 interface CategoryProps {
-  create?: (body: string) => Promise<void>
-  edit?: (body: string) => Promise<void>
+  create?: (body: ICategory) => Promise<ICategory | undefined>
+  edit?: (body: ICategory) => Promise<ICategory | undefined>
   defaultValue?: ICategory
 }
 
@@ -21,17 +21,18 @@ export default function CategoryInput({ create, edit, defaultValue }: CategoryPr
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
-    const jsonData = JSON.stringify({
-      name: data.get('name'),
-      description: data.get('description'),
-    })
+    const jsonData: ICategory = {
+      name: data.get('name') as string,
+      description: data.get('description') as string,
+    }
+
     try {
       let result
 
-      if (id && edit) {
-        result = await edit(jsonData)
-      } else if (create) {
-        result = await create(jsonData)
+      if (id) {
+        result = await edit!(jsonData)
+      } else {
+        result = await create!(jsonData)
       }
 
       if (result?.statusCode) {

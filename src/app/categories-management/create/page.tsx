@@ -1,22 +1,14 @@
+import { post } from '@/lib'
 import CategoryInput from '../CategoryInput'
-import { auth } from '@/auth'
+import { ICategory } from '@/types'
 
 export default async function CategoriesPageCreate() {
-  const session = await auth()
-  const token = session?.accessToken
-
-  const createCategories = async (body: string) => {
+  const createCategories = async (body: ICategory) => {
     'use server'
 
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/category`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body,
-    })
-    return response.json()
+    const response = await post<ICategory | undefined>('/category', body)
+
+    return response
   }
 
   return <CategoryInput create={createCategories} />
