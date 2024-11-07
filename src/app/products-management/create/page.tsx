@@ -7,7 +7,7 @@ export default async function CategoriesPageCreate() {
   const createProduct = async (body: IProduct) => {
     'use server'
 
-    const response = await post<IProduct | undefined>('/chapter', body)
+    const response = await post<IProduct | undefined>('/product', body)
 
     return response
   }

@@ -103,9 +103,9 @@ export default function ProductDetail({ id, products, product, chapters, rates }
         <Box className="book-3d relative h-60 w-40 md:h-[480px] md:w-[320px] lg:h-full lg:w-full lg:col-span-2">
           <Image
             className="object-cover w-full h-full object-center rounded"
-            src={product.image}
+            src={product.image || '/images/placeholder.png'}
             layout="fill"
-            alt={product.name}
+            alt={product.name || 'product image'}
             draggable={false}
           />
         </Box>
@@ -158,7 +158,7 @@ export default function ProductDetail({ id, products, product, chapters, rates }
                 <Typography width={100} color="textSecondary">
                   Published
                 </Typography>
-                <Typography>{formatDatetime(product.createdAt)}</Typography>
+                <Typography>{product.createdAt && formatDatetime(product.createdAt)}</Typography>
               </Box>
             </Box>
             {product.categories && (
