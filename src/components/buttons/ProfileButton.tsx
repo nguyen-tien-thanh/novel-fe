@@ -92,7 +92,7 @@ export const ProfileButton = () => {
           </ListItemIcon>
           Cài đặt
         </MenuItem>
-        <MenuItem onClick={() => signOut()}>
+        <MenuItem onClick={() => signOut({ callbackUrl: '/', redirect: true })}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>

@@ -220,7 +220,12 @@ export const Header = () => {
                     </MenuItem>
                     <Divider />
                     <MenuItem>
-                      <Button color="error" variant="contained" sx={{ width: '100%' }} onClick={() => signOut()}>
+                      <Button
+                        color="error"
+                        variant="contained"
+                        sx={{ width: '100%' }}
+                        onClick={() => signOut({ callbackUrl: '/', redirect: true })}
+                      >
                         Đăng xuất
                       </Button>
                     </MenuItem>

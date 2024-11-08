@@ -3,6 +3,12 @@ export enum PRODUCT_STATUS {
   DONE = 'DONE',
 }
 
+export enum ROLE {
+  ADMIN = 'ADMIN',
+  MANAGER = 'MANAGER',
+  USER = 'USER',
+}
+
 export interface IProduct {
   id: number
   createdBy: number
@@ -49,6 +55,7 @@ export interface IRate {
 
 export interface IUser {
   id: number | string
+  role: ROLE
   name?: string | null
   email?: string
   phone?: string | null
@@ -59,25 +66,6 @@ export interface IUser {
   emailVerified?: Date | null
   createdAt?: string
   accessToken?: string
-}
-
-export interface LoginResponse {
-  accessToken: string
-  data: IUser
-}
-
-export interface LoginRequest {
-  email: string
-  password: string
-}
-
-export interface SessionLogin {
-  accessToken?: string
-  user?: IUser
-}
-
-export interface UserRole {
-  role: 'ADMIN' | 'MANAGER' | string // Define other fields as needed
 }
 
 export interface ITextStyle {
