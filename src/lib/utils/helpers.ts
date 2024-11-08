@@ -30,3 +30,23 @@ export const stringAvatar = (name: string) => {
     children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
   }
 }
+
+export const isEmpty = (value: string | number | Array<any> | Object | null | undefined) => {
+  if (value === undefined || value === null) {
+    return true
+  }
+
+  if (typeof value === 'string' || Array.isArray(value)) {
+    return value.length === 0
+  }
+
+  if (typeof value === 'object') {
+    return Object.keys(value).length === 0
+  }
+
+  if (typeof value === 'number') {
+    return value === 0
+  }
+
+  return false
+}

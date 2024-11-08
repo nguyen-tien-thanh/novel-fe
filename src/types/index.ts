@@ -10,30 +10,30 @@ export enum ROLE {
 }
 
 export interface IProduct {
-  id: number
-  createdBy: number
-  authorName: string
-  name: string
-  source: string
-  status: PRODUCT_STATUS
-  image: string
-  viewCount: number
+  id?: number
+  createdBy?: number
+  authorName?: string
+  name?: string
+  source?: string
+  status?: PRODUCT_STATUS
+  image?: string
+  viewCount?: number
   description?: string
-  createdAt: string
-  updatedAt: string
-  averageRate: number
-  chapterCount: number
+  createdAt?: string
+  updatedAt?: string
+  averageRate?: number
+  chapterCount?: number
   categories?: ICategory[]
 }
 
 export interface ICategory {
   id: number
-  name: string
+  name?: string
   description?: string
 }
 
 export interface IChapter {
-  id: number
+  id?: number
   productId: number
   chapterName: string
   content: string
@@ -68,10 +68,61 @@ export interface IUser {
   accessToken?: string
 }
 
+export interface LoginResponse {
+  accessToken: string
+  data: IUser
+}
+
+export interface LoginRequest {
+  email: string
+  password: string
+}
+
+export interface SessionLogin {
+  accessToken?: string
+  user?: IUser
+}
+
+export interface UserRole {
+  role: 'ADMIN' | 'MANAGER' | string // Define other fields as needed
+}
+
+export interface DashboardProps {
+  products: IProduct[]
+  categories: ICategory[]
+  doneProducts: IProduct[]
+}
+
+export interface ProductDetailProps {
+  id?: number
+  products: IProduct[]
+  product: IProduct
+  chapters: IChapter[]
+  rates: IRate[]
+  user: IUser | string
+}
 export interface ITextStyle {
   fontFamily?: string
   fontWeight: number
   fontSize: number
   lineHeight: number
   letterSpacing: number
+}
+
+export interface ICrawledData {
+  name: string
+  description: string
+  author: string
+  image: string
+  chapters: {
+    chapterNumber: number
+    chapterName: string
+    content: string
+  }[]
+}
+
+export interface ApiResponse<T> {
+  data: T
+  statusCode: number
+  message: string
 }

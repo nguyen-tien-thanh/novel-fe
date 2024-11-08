@@ -194,7 +194,10 @@ export default function Dashboard({ products, categories }: DashboardProps) {
                           </TableRow>
                         ))
                       : products
-                          .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
+                          .sort((a, b) => {
+                            if (!a?.updatedAt || !b?.updatedAt) return 0
+                            return new Date(b?.updatedAt).getTime() - new Date(a?.updatedAt).getTime()
+                          })
                           .map((prod, i) => (
                             <TableRow hover key={i} onClick={() => router.push(`/product/${prod.id}`)} role="button">
                               <TableCell>{prod.name}</TableCell>
@@ -202,7 +205,7 @@ export default function Dashboard({ products, categories }: DashboardProps) {
                                 <Chip label={prod.chapterCount} color="info" />
                               </TableCell>
                               <TableCell>{prod.authorName}</TableCell>
-                              <TableCell>{formatTimeAgo(prod.updatedAt)}</TableCell>
+                              <TableCell>{prod.updatedAt && formatTimeAgo(prod.updatedAt)}</TableCell>
                             </TableRow>
                           ))}
                   </TableBody>

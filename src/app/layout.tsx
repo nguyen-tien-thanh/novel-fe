@@ -3,6 +3,8 @@ import './globals.css'
 import { Footer, Header, ScrollToTopButton } from '@/components'
 import { ThemeClientProvider } from '@/providers'
 import { auth } from '@/auth'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import { SessionProvider } from 'next-auth/react'
 
 export const metadata: Metadata = {
@@ -24,6 +26,7 @@ export default async function RootLayout({
           <body>
             <Header />
 
+            <ToastContainer />
             <main className="relative mt-28 min-h-[calc(100dvh-112px-90px)] flex flex-col">
               {children}
 
