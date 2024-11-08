@@ -11,6 +11,8 @@ import { ApiResponse, IChapter, IProduct } from '@/types'
 import { useSearchParams } from 'next/navigation'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
+import Form from '@/components/form/Form'
+import { Input } from '@/components/form'
 
 interface CreateFormProps {
   edit?: (body: IChapter) => Promise<IChapter | undefined>
@@ -24,16 +26,10 @@ export default function ChapterInput({ products, edit, create, defaultValue }: C
   const id = searchParams.get('id')
   const router = useRouter()
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-
-    const data = new FormData(event.currentTarget)
+  const handleSubmit = async (data: IChapter) => {
     const body: IChapter = {
+      ...data,
       productId: 1,
-      chapterName: data.get(`chapterName`) as string,
-      price: data.get(`price`) as unknown as number,
-      content: data.get(`content`) as string,
-      chapterNumber: Number(data.get(`chapterNumber`)),
       createdAt: defaultValue?.createdAt || new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       users: defaultValue?.users || [],
@@ -53,7 +49,7 @@ export default function ChapterInput({ products, edit, create, defaultValue }: C
     }
   }
   return (
-    <Box className="flex flex-col items-center" component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+    <Form onSubmit={handleSubmit}>
       {/* <Autocomplete
         disablePortal
         id="categories"
@@ -67,42 +63,47 @@ export default function ChapterInput({ products, edit, create, defaultValue }: C
             <h3>{option?.name}</h3>
           </div>
         )}
+        
       /> */}
-      <TextField
-        margin="normal"
-        required
+      <Input
         fullWidth
-        id="chapterNumber"
+        validation={{ required: 'Vui lòng chương mấy' }}
         label="Chapter Number"
         name="chapterNumber"
         type="number"
-        defaultValue={defaultValue?.chapterNumber}
         autoFocus
+        defaultValue={defaultValue?.chapterNumber}
       />
-      <TextField margin="normal" required fullWidth id="price" label="Price" name="price" type="number" autoFocus />
-      <TextField
-        margin="normal"
-        required
+      <Input
         fullWidth
-        id="chapterName"
-        defaultValue={defaultValue?.chapterName}
+        validation={{ required: 'Vui lòng giá' }}
+        label="Price"
+        name="price"
+        type="number"
+        autoFocus
+        defaultValue={defaultValue?.price}
+      />
+      <Input
+        fullWidth
+        validation={{ required: 'Vui lòng tên chương' }}
         label="Chapter Name"
         name="chapterName"
         autoFocus
+        defaultValue={defaultValue?.chapterName}
       />
-      <TextField
-        margin="normal"
-        defaultValue={defaultValue?.content}
+      <Input
         fullWidth
-        name="content"
+        validation={{ required: 'Vui lòng điền nội dung' }}
         label="Content"
-        id="content"
-        multiline
+        name="content"
         rows={4}
+        multiline
+        defaultValue={defaultValue?.content}
       />
+
       <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
         Submit
       </Button>
-    </Box>
+    </Form>
   )
 }
