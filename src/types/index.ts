@@ -3,6 +3,12 @@ export enum PRODUCT_STATUS {
   DONE = 'DONE',
 }
 
+export enum ROLE {
+  ADMIN = 'ADMIN',
+  MANAGER = 'MANAGER',
+  USER = 'USER',
+}
+
 export interface IProduct {
   id?: number
   createdBy?: number
@@ -49,6 +55,7 @@ export interface IRate {
 
 export interface IUser {
   id: number | string
+  role: ROLE
   name?: string | null
   email?: string
   phone?: string | null

@@ -1,13 +1,17 @@
+'use client'
+
 import { DarkMode, WbSunny } from '@mui/icons-material'
 import { IconButton, Tooltip, useColorScheme } from '@mui/material'
-import React from 'react'
+import { useEffect } from 'react'
 
 export const ThemeModeButton = () => {
   const { mode, setMode } = useColorScheme()
-  if (!mode) {
-    setMode('light')
-    return null
-  }
+
+  useEffect(() => {
+    if (!mode) {
+      setMode('light')
+    }
+  }, [mode, setMode])
 
   return mode === 'dark' ? (
     <Tooltip title="Sáng" onClick={() => setMode('light')}>
