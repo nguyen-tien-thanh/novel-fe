@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import Link from 'next/link'
 
-const NotFound = () => {
+const Error = () => {
   return (
     <Box
       sx={{
@@ -17,7 +17,7 @@ const NotFound = () => {
     >
       <Typography variant="h1">403</Typography>
       <Typography variant="h6" className="text-center">
-        You dont have permission to access this page
+        Bạn không có quyền truy cập vào trang này
       </Typography>
       <Link href="/">
         <Button variant="contained" sx={{ mt: 3, mb: 2 }}>
@@ -28,4 +28,4 @@ const NotFound = () => {
   )
 }
 
-export default NotFound
+export default Error

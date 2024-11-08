@@ -14,7 +14,7 @@ declare module 'next-auth' {
 }
 
 declare module 'next-auth/jwt' {
-  interface JWT {
+  interface JWT extends IUser {
     accessToken?: string
   }
 }
@@ -48,12 +48,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   callbacks: {
     jwt({ token, user }) {
-      if (user) token.accessToken = user.accessToken
+      if (user) {
+        token.accessToken = user.accessToken
+        token.role = user.role
+      }
       return token
     },
     session({ session, token }) {
       if (token.accessToken) session.accessToken = token.accessToken
       if (token.sub) session.user.id = token.sub
+      if (token.role) session.user.role = token.role
       return session
     },
   },

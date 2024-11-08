@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 
 export const useBlockCopy = () => {
   useEffect(() => {
-    if (process.env.NEXT_PUBLIC_NODE_ENV !== 'production') return
+    if (process.env.NODE_ENV !== 'production') return
 
     const detectDevTools = () => {
       const threshold = 160
