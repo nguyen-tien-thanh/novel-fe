@@ -6,6 +6,9 @@ import React from 'react'
 import { toast } from 'react-toastify'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { ICategory } from '@/types'
+import Form from '@/components/form/Form'
+import { Input } from '@/components/form'
+import { isEmpty } from '@/lib'
 
 interface CategoryProps {
   create?: (body: ICategory) => Promise<ICategory | undefined>
@@ -18,21 +21,14 @@ export default function CategoryInput({ create, edit, defaultValue }: CategoryPr
   const searchParams = useSearchParams()
   const id = searchParams.get('id')
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    const data = new FormData(event.currentTarget)
-    const jsonData: ICategory = {
-      name: data.get('name') as string,
-      description: data.get('description') as string,
-    }
-
+  const handleSubmit = async (data: ICategory) => {
     try {
       let result
 
-      if (id) {
-        result = await edit!(jsonData)
+      if (!isEmpty(id)) {
+        result = await edit!(data)
       } else {
-        result = await create!(jsonData)
+        result = await create!(data)
       }
 
       if (result?.statusCode) {
@@ -51,31 +47,27 @@ export default function CategoryInput({ create, edit, defaultValue }: CategoryPr
     }
   }
   return (
-    <Box className="flex flex-col items-center" component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-      <TextField
-        margin="normal"
-        required
+    <Form onSubmit={handleSubmit}>
+      <Input
         fullWidth
-        id="Name"
+        validation={{ required: 'Vui lòng điền tên' }}
         label="Name"
         name="name"
         autoFocus
         defaultValue={defaultValue?.name}
       />
-      <TextField
-        margin="normal"
+      <Input
         fullWidth
-        name="description"
+        validation={{ required: 'Vui lòng điền mô tả' }}
         label="Description"
-        id="description"
-        multiline
-        autoFocus
+        name="description"
         rows={4}
+        multiline
         defaultValue={defaultValue?.description}
       />
       <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
         Submit
       </Button>
-    </Box>
+    </Form>
   )
 }

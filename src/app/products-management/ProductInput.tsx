@@ -17,7 +17,7 @@ import React, { Fragment, useEffect } from 'react'
 import { toast } from 'react-toastify'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Form from '@/components/form/Form'
-import { AutoCompleteInput, TextInput } from '@/components/form'
+import { AutoCompleteInput, Input } from '@/components/form'
 import { useFormContext } from 'react-hook-form'
 import { isEmpty } from '@/lib'
 
@@ -63,21 +63,35 @@ export default function ProductInput({ create, edit, defaultValue, categories }:
 
   return (
     <Form onSubmit={handleSubmit}>
-      <TextInput fullWidth id="name" label="Name" name="name" autoFocus defaultValue={defaultValue?.name} />
+      <Input
+        fullWidth
+        validation={{ required: 'Vui lòng điền tên' }}
+        id="name"
+        label="Name"
+        name="name"
+        autoFocus
+        defaultValue={defaultValue?.name}
+      />
       <AutoCompleteInput
         disablePortal
         name="categories"
         fullWidth
         multiple
+        validation={{
+          validate: val => {
+            if (!val) {
+              return 'Vui lòng chọn ít nhất 1 danh mục'
+            }
+          },
+        }}
         options={categories}
         label={'Categories'}
         getOptionLabel={option => option.name}
         renderInput={params => <TextField {...params} label="Categories" required />}
       />
-      <TextInput required fullWidth id="description" label="Description" name="description" />
-      <TextInput required fullWidth id="authorName" label="Author Name" name="authorName" />
-      <TextInput
-        required
+      <Input fullWidth id="description" label="Description" name="description" />
+      <Input fullWidth id="authorName" label="Author Name" name="authorName" />
+      <Input
         fullWidth
         id="image"
         label="Image"
