@@ -17,11 +17,11 @@ const NotFound = () => {
     >
       <Typography variant="h1">404</Typography>
       <Typography variant="h6" className="text-center">
-        The page you’re looking for doesn’t exist.
+        Trang bạn đang tìm kiếm không tồn tại.
       </Typography>
       <Link href="/">
         <Button variant="contained" sx={{ mt: 3, mb: 2 }}>
-          Back Home
+          Quay lại trang chủ
         </Button>
       </Link>
     </Box>

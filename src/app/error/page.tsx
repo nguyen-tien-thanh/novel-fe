@@ -21,7 +21,7 @@ const Error = () => {
       </Typography>
       <Link href="/">
         <Button variant="contained" sx={{ mt: 3, mb: 2 }}>
-          Back Home
+          Quay lại trang chủ
         </Button>
       </Link>
     </Box>
