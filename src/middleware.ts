@@ -1,30 +1,20 @@
 import { auth } from '@/auth'
-import { NextResponse, NextRequest } from 'next/server'
-// import { UserRole } from './types'
+import { NextResponse } from 'next/server'
+import { ROLE } from './types'
 
-export default auth((req: NextRequest) => {
-  // const user = get(req, 'auth.user.user') as UserRole | undefined
-  const user = { role: '' }
-  console.log('user======>', user)
-  if (!user) {
-    if (req.nextUrl.pathname !== '/error') {
-      return NextResponse.redirect(new URL('/error', req.url))
-    }
-  }
+export default auth(req => {
+  const { nextUrl, auth } = req
 
-  const hasPermission = user && (user.role === 'ADMIN' || user.role === 'MANAGER')
+  const user = auth?.user
+  const isAdminPage = nextUrl?.pathname.startsWith('/admin')
 
-  if (!hasPermission) {
-    if (req.nextUrl.pathname !== '/error') {
-      return NextResponse.redirect(new URL('/error', req.url))
-    }
+  if (isAdminPage && !user?.role.includes(ROLE.ADMIN)) {
+    return Response.redirect(new URL('/error', nextUrl))
   }
 
   return NextResponse.next()
 })
 
 export const config = {
-  // matcher: ['/categories-management/:path*', '/products-management/:path*', '/chapters-management/:path*'],
-  unstable_allowDynamic: ['**/node_modules/_root.js'],
-  matcher: ['/admin((?!api|error|_next/static|_next/image|favicon.ico).*)'],
+  matcher: ['/admin/:path*'],
 }
