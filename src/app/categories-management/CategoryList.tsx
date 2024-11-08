@@ -94,7 +94,6 @@ export default function CategoryList({ initialCategories, deleteCategory }) {
                       <Link
                         href={{
                           pathname: `/categories-management/${row.id}`,
-                          query: row,
                         }}
                       >
                         <IconButton>

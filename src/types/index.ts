@@ -10,7 +10,7 @@ export enum ROLE {
 }
 
 export interface IProduct {
-  id?: number
+  id: number
   createdBy?: number
   authorName?: string
   name?: string
@@ -34,7 +34,7 @@ export interface ICategory {
 
 export interface IChapter {
   id?: number
-  productId: number
+  productId: number | IProduct
   chapterName: string
   content: string
   chapterNumber: number

@@ -2,7 +2,7 @@ import React from 'react'
 import { Autocomplete, TextField, TextFieldProps } from '@mui/material'
 import { Controller, useFormContext } from 'react-hook-form'
 
-export function Input({ name, label, type = 'text', validation = {}, ...rest }) {
+export function Input({ name, label, type = 'text', validation = {}, style = {}, ...rest }) {
   const {
     register,
     formState: { errors },
@@ -17,6 +17,7 @@ export function Input({ name, label, type = 'text', validation = {}, ...rest }) 
       type={type}
       error={!!errors[name]}
       helperText={typeof errorMessage === 'string' ? errorMessage : ''}
+      sx={style}
       {...rest}
     />
   )
@@ -26,8 +27,12 @@ export function AutoCompleteInput({
   name,
   label,
   options,
-  getOptionLabel = option => option?.label || '',
+  optionName = 'name',
+  optionValue = 'id',
+  getOptionLabel = option => option?.[optionName] || '',
   validation = {},
+  style = {},
+  defaultValue,
   ...rest
 }) {
   const {
@@ -36,20 +41,33 @@ export function AutoCompleteInput({
   } = useFormContext()
   const errorMessage = errors[name]?.message ?? ''
 
+  // Determine initial value based on whether multiple selection is enabled
+  const initialValue = rest.multiple
+    ? options.filter(option => defaultValue?.includes(option[optionValue]))
+    : options.find(option => option[optionValue] === defaultValue) || null
+
   return (
     <Controller
       name={name}
       control={control}
       rules={validation}
+      defaultValue={defaultValue}
       render={({ field }) => (
         <Autocomplete
           {...field}
           {...rest}
           options={options}
-          value={field.value ?? (rest.multiple ? [] : null)}
+          sx={style}
+          multiple={rest.multiple}
+          value={
+            rest.multiple
+              ? options.filter(option => field.value?.includes(option[optionValue]))
+              : options.find(option => option[optionValue] === field.value) || null
+          }
           getOptionLabel={getOptionLabel}
           onChange={(e, val) => {
-            field.onChange(val ?? (rest.multiple ? [] : null))
+            const selectedValue = rest.multiple ? val.map(option => option[optionValue]) : val ? val[optionValue] : null
+            field.onChange(selectedValue)
           }}
           renderInput={params => (
             <TextField

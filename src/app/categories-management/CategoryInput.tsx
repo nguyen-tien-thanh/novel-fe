@@ -4,7 +4,7 @@
 import { Box, Button, TextField } from '@mui/material'
 import React from 'react'
 import { toast } from 'react-toastify'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import { ICategory } from '@/types'
 import Form from '@/components/form/Form'
 import { Input } from '@/components/form'
@@ -18,10 +18,10 @@ interface CategoryProps {
 
 export default function CategoryInput({ create, edit, defaultValue }: CategoryProps) {
   const router = useRouter()
-  const searchParams = useSearchParams()
-  const id = searchParams.get('id')
+  const { id } = useParams()
 
   const handleSubmit = async (data: ICategory) => {
+    console.log('data=========>', data)
     try {
       let result
 
@@ -33,7 +33,6 @@ export default function CategoryInput({ create, edit, defaultValue }: CategoryPr
 
       if (result?.statusCode) {
         toast.error(result.message || 'An error occurred')
-        return
       }
 
       const successMessage = id ? 'Cập nhật danh mục thành công' : 'Tạo danh mục thành công'
@@ -47,27 +46,41 @@ export default function CategoryInput({ create, edit, defaultValue }: CategoryPr
     }
   }
   return (
-    <Form onSubmit={handleSubmit}>
-      <Input
-        fullWidth
-        validation={{ required: 'Vui lòng điền tên' }}
-        label="Name"
-        name="name"
-        autoFocus
-        defaultValue={defaultValue?.name}
-      />
-      <Input
-        fullWidth
-        validation={{ required: 'Vui lòng điền mô tả' }}
-        label="Description"
-        name="description"
-        rows={4}
-        multiline
-        defaultValue={defaultValue?.description}
-      />
-      <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
-        Submit
-      </Button>
-    </Form>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px' }}>
+      <Form
+        onSubmit={handleSubmit}
+        style={{
+          width: '100%',
+          maxWidth: '500px',
+          padding: '20px',
+          backgroundColor: '#fff',
+          boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+          borderRadius: '8px',
+        }}
+      >
+        <Input
+          fullWidth
+          validation={{ required: 'Vui lòng điền tên' }}
+          label="Tên danh mục"
+          name="name"
+          style={{ marginBottom: '16px' }}
+          autoFocus
+          defaultValue={defaultValue?.name}
+        />
+        <Input
+          fullWidth
+          validation={{ required: 'Vui lòng điền mô tả' }}
+          label="Mô tả"
+          name="description"
+          style={{ marginBottom: '16px' }}
+          rows={4}
+          multiline
+          defaultValue={defaultValue?.description}
+        />
+        <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
+          Tạo
+        </Button>
+      </Form>
+    </div>
   )
 }

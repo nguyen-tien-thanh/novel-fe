@@ -6,15 +6,18 @@ const elementsUseControl = ['AutoCompleteInput']
 type FormProps<TFormValues extends FieldValues> = {
   onSubmit: SubmitHandler<TFormValues>
   children: React.ReactNode
+  style?: React.CSSProperties
 }
 
-export default function Form<TFormValues extends FieldValues>({ onSubmit, children }: FormProps<TFormValues>) {
+export default function Form<TFormValues extends FieldValues>({ onSubmit, children, style }: FormProps<TFormValues>) {
   const methods = useForm<TFormValues>()
   const { handleSubmit } = methods
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onSubmit)}>{children}</form>
+      <form onSubmit={handleSubmit(onSubmit)} style={style}>
+        {children}
+      </form>
     </FormProvider>
   )
 }

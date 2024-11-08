@@ -108,7 +108,6 @@ export default function ProductList({ initialProducts, deleteProduct }) {
                     <Link
                       href={{
                         pathname: `/products-management/${row.id}`,
-                        query: row,
                       }}
                     >
                       <IconButton>

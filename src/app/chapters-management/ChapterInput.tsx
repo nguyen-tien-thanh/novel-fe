@@ -1,18 +1,15 @@
 'use client'
-// import {
-//   PaymentElement,
-//   LinkAuthenticationElement,
-// } from '@stripe/react-stripe-js';
+
 import { useEffect } from 'react'
-// import { useStripe, useElements } from '@stripe/react-stripe-js';
 import { Autocomplete, Box, Button, Dialog, TextField } from '@mui/material'
 import React from 'react'
 import { ApiResponse, IChapter, IProduct } from '@/types'
-import { useSearchParams } from 'next/navigation'
+import { useSearchParams, useParams } from 'next/navigation'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
 import Form from '@/components/form/Form'
-import { Input } from '@/components/form'
+import { AutoCompleteInput, Input } from '@/components/form'
+import { isEmpty } from '@/lib'
 
 interface CreateFormProps {
   edit?: (body: IChapter) => Promise<IChapter | undefined>
@@ -22,20 +19,23 @@ interface CreateFormProps {
 }
 
 export default function ChapterInput({ products, edit, create, defaultValue }: CreateFormProps) {
-  const searchParams = useSearchParams()
-  const id = searchParams.get('id')
+  const { id } = useParams()
   const router = useRouter()
 
   const handleSubmit = async (data: IChapter) => {
     const body: IChapter = {
       ...data,
-      productId: 1,
+      chapterNumber: Number(data.chapterNumber),
+      price: Number(data.price),
+      productId: typeof data.productId === 'object' ? data.productId.id : data.productId,
       createdAt: defaultValue?.createdAt || new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       users: defaultValue?.users || [],
     }
+
+    console.log('body=========>', body)
     let result
-    if (id) {
+    if (!isEmpty(id)) {
       result = await edit!(body)
     } else {
       result = await create!(body)
@@ -49,61 +49,77 @@ export default function ChapterInput({ products, edit, create, defaultValue }: C
     }
   }
   return (
-    <Form onSubmit={handleSubmit}>
-      {/* <Autocomplete
-        disablePortal
-        id="categories"
-        fullWidth
-        options={products}
-        getOptionLabel={(option: { name: string }) => option.name}
-        renderInput={params => <TextField {...params} label="Categories" id="id" />}
-        // onChange={(e, val: any) => setProductValue(val?.map((v: any) => Number(v.id)))}
-        renderOption={(props, option, key) => (
-          <div key={key} {...(props as React.HTMLAttributes<HTMLDivElement>)}>
-            <h3>{option?.name}</h3>
-          </div>
-        )}
-        
-      /> */}
-      <Input
-        fullWidth
-        validation={{ required: 'Vui lòng chương mấy' }}
-        label="Chapter Number"
-        name="chapterNumber"
-        type="number"
-        autoFocus
-        defaultValue={defaultValue?.chapterNumber}
-      />
-      <Input
-        fullWidth
-        validation={{ required: 'Vui lòng giá' }}
-        label="Price"
-        name="price"
-        type="number"
-        autoFocus
-        defaultValue={defaultValue?.price}
-      />
-      <Input
-        fullWidth
-        validation={{ required: 'Vui lòng tên chương' }}
-        label="Chapter Name"
-        name="chapterName"
-        autoFocus
-        defaultValue={defaultValue?.chapterName}
-      />
-      <Input
-        fullWidth
-        validation={{ required: 'Vui lòng điền nội dung' }}
-        label="Content"
-        name="content"
-        rows={4}
-        multiline
-        defaultValue={defaultValue?.content}
-      />
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px' }}>
+      <Form
+        onSubmit={handleSubmit}
+        style={{
+          width: '100%',
+          maxWidth: '500px',
+          padding: '20px',
+          backgroundColor: '#fff',
+          boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+          borderRadius: '8px',
+        }}
+      >
+        <AutoCompleteInput
+          name="productId"
+          fullWidth
+          validation={{
+            validate: val => {
+              if (!val) {
+                return 'Vui lòng chọn ít nhất 1 truyện'
+              }
+            },
+          }}
+          options={products}
+          defaultValue={defaultValue?.productId}
+          label="Truyện"
+          style={{ marginBottom: '16px' }}
+        />
+        <Input
+          fullWidth
+          validation={{ required: 'Vui lòng chương mấy' }}
+          label="Chương số"
+          name="chapterNumber"
+          type="number"
+          autoFocus
+          defaultValue={defaultValue?.chapterNumber}
+          style={{ marginBottom: '16px' }}
+        />
+        <Input
+          fullWidth
+          validation={{ required: 'Vui lòng giá' }}
+          label="Giá"
+          name="price"
+          type="number"
+          autoFocus
+          defaultValue={defaultValue?.price}
+          style={{ marginBottom: '16px' }}
+        />
+        <Input
+          fullWidth
+          validation={{ required: 'Vui lòng tên chương' }}
+          label="Tên chương"
+          name="chapterName"
+          autoFocus
+          defaultValue={defaultValue?.chapterName}
+          style={{ marginBottom: '16px' }}
+        />
+        <Input
+          fullWidth
+          validation={{ required: 'Vui lòng điền nội dung' }}
+          label="Nội dung"
+          name="content"
+          rows={4}
+          multiline
+          defaultValue={defaultValue?.content}
+          style={{ marginBottom: '16px' }}
+        />
 
-      <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
-        Submit
-      </Button>
-    </Form>
+        <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2, width: '100%' }}>
+          Tạo
+        </Button>
+      </Form>
+    </div>
   )
 }

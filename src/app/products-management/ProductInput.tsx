@@ -1,24 +1,11 @@
 'use client'
-import { ApiResponse, ICategory, ICrawledData, IProduct, PRODUCT_STATUS } from '@/types'
-import {
-  Autocomplete,
-  Box,
-  Button,
-  Divider,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  Radio,
-  RadioGroup,
-  TextField,
-  Typography,
-} from '@mui/material'
-import React, { Fragment, useEffect } from 'react'
+import { ICategory, IProduct, PRODUCT_STATUS } from '@/types'
+import { Button } from '@mui/material'
+import React from 'react'
 import { toast } from 'react-toastify'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import Form from '@/components/form/Form'
 import { AutoCompleteInput, Input } from '@/components/form'
-import { useFormContext } from 'react-hook-form'
 import { isEmpty } from '@/lib'
 
 interface CreateFormProps {
@@ -29,8 +16,7 @@ interface CreateFormProps {
 }
 
 export default function ProductInput({ create, edit, defaultValue, categories }: CreateFormProps) {
-  const searchParams = useSearchParams()
-  const id = searchParams.get('id')
+  const { id } = useParams()
   const router = useRouter()
 
   const handleSubmit = async (data: IProduct) => {
@@ -38,11 +24,9 @@ export default function ProductInput({ create, edit, defaultValue, categories }:
       toast.error('Please choose at least one category')
       return
     }
+
     const body = {
       ...data,
-      categories: data.categories.map(category => ({
-        id: category.id,
-      })),
       source: 'Sưu tầm',
       status: 'PROGRESS' as PRODUCT_STATUS,
     }
@@ -62,43 +46,60 @@ export default function ProductInput({ create, edit, defaultValue, categories }:
   }
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Input
-        fullWidth
-        validation={{ required: 'Vui lòng điền tên' }}
-        id="name"
-        label="Name"
-        name="name"
-        autoFocus
-        defaultValue={defaultValue?.name}
-      />
-      <AutoCompleteInput
-        disablePortal
-        name="categories"
-        fullWidth
-        multiple
-        validation={{
-          validate: val => {
-            if (!val) {
-              return 'Vui lòng chọn ít nhất 1 danh mục'
-            }
-          },
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px' }}>
+      <Form
+        onSubmit={handleSubmit}
+        style={{
+          width: '100%',
+          maxWidth: '500px',
+          padding: '20px',
+          backgroundColor: '#fff',
+          boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+          borderRadius: '8px',
         }}
-        options={categories}
-        label={'Categories'}
-        getOptionLabel={option => option.name}
-        renderInput={params => <TextField {...params} label="Categories" required />}
-      />
-      <Input fullWidth id="description" label="Description" name="description" />
-      <Input fullWidth id="authorName" label="Author Name" name="authorName" />
-      <Input
-        fullWidth
-        id="image"
-        label="Image"
-        placeholder="Put the image's link from gg to display for product"
-        name="image"
-      />
-      <Button type="submit">Create</Button>
-    </Form>
+      >
+        <Input
+          fullWidth
+          validation={{ required: 'Vui lòng điền tên' }}
+          label="Tên truyện"
+          name="name"
+          autoFocus
+          style={{ marginBottom: '16px' }}
+          defaultValue={defaultValue?.name}
+        />
+        <AutoCompleteInput
+          name="categories"
+          label="Danh mục"
+          fullWidth
+          multiple
+          validation={{
+            validate: val => {
+              if (!val) {
+                return 'Vui lòng chọn ít nhất 1 danh mục'
+              }
+            },
+          }}
+          options={categories}
+          defaultValue={defaultValue?.categories}
+          style={{ marginBottom: '16px' }}
+        />
+        <Input
+          fullWidth
+          label="Mô tả"
+          name="description"
+          style={{ marginBottom: '16px' }}
+          defaultValue={defaultValue?.description}
+        />
+        <Input
+          fullWidth
+          label="Tác giả"
+          name="authorName"
+          style={{ marginBottom: '16px' }}
+          defaultValue={defaultValue?.authorName}
+        />
+        <Input fullWidth label="Ảnh" name="image" style={{ marginBottom: '16px' }} defaultValue={defaultValue?.image} />
+        <Button type="submit">Tạo</Button>
+      </Form>
+    </div>
   )
 }

@@ -101,7 +101,6 @@ export default function ChapterList({ initialChapters, deleteChapter, products }
                       <Link
                         href={{
                           pathname: `/chapters-management/${row.id}`,
-                          // query: row,
                         }}
                       >
                         <IconButton>

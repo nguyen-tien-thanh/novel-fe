@@ -3,7 +3,7 @@ import ProductInput from '../ProductInput'
 import { ICategory, IProduct } from '@/types'
 import { get, patch } from '@/lib'
 
-export default async function ProductsPageEdit({ params, searchParams }) {
+export default async function ProductsPageEdit({ params }) {
   const { id } = params || {}
 
   async function fetchProductDetail() {
