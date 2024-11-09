@@ -12,8 +12,8 @@ export enum ROLE {
 export interface IProduct {
   id: number
   createdBy?: number
-  authorName?: string
-  name?: string
+  authorName: string
+  name: string
   source?: string
   status?: PRODUCT_STATUS
   image?: string

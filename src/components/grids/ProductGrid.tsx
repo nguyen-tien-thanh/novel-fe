@@ -44,16 +44,18 @@ export const ProductGrid = ({ products, limit = 12, loading, showInfo = false }:
                       },
                     }}
                   >
-                    <Image
-                      className={cn(
-                        'object-cover w-full h-full object-center',
-                        !showInfo && `group-hover:scale-105 transition-all `,
-                      )}
-                      fill={true}
-                      src={prod.image}
-                      alt={prod.name}
-                      loading="lazy"
-                    />
+                    {prod.image ? (
+                      <Image
+                        className={cn(
+                          'object-cover w-full h-full object-center',
+                          !showInfo && `group-hover:scale-105 transition-all `,
+                        )}
+                        fill={true}
+                        src={prod.image}
+                        alt={prod.name}
+                        loading="lazy"
+                      />
+                    ) : null}
                   </Box>
 
                   {!showInfo && (
@@ -71,15 +73,15 @@ export const ProductGrid = ({ products, limit = 12, loading, showInfo = false }:
                       <Typography className="font-semibold">{prod.name}</Typography>
                     </Box>
                     <Box className="text-gray-400 flex flex-wrap justify-between items-center gap-2">
-                      <Typography>{prod.chapterCount} chapters</Typography>
+                      <Typography>{prod.chapterCount} chương</Typography>
                       <Box className="text-gray-400 flex items-center space-x-1">
-                        {prod.viewCount > 0 && (
+                        {prod.viewCount! > 0 && (
                           <>
                             <Typography>{prod.viewCount}</Typography>
                             <VisibilityIcon fontSize="small" />
                           </>
                         )}
-                        {prod.averageRate > 0 && (
+                        {prod.averageRate! > 0 && (
                           <>
                             <Typography>{prod.averageRate}</Typography>
                             <Star fontSize="small" />
