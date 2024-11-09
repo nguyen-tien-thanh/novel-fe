@@ -31,7 +31,7 @@ export const stringAvatar = (name: string) => {
   }
 }
 
-export const isEmpty = (value: string | number | Array<any> | Object | null | undefined) => {
+export const isEmpty = (value: string | number | Array<unknown> | object | null | undefined): boolean => {
   if (value === undefined || value === null) {
     return true
   }
