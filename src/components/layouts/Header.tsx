@@ -93,7 +93,7 @@ export const Header = () => {
             <Link href="/">
               <Box className="flex items-center gap-2" sx={{ mr: 2 }}>
                 <Image
-                  className="h-10 sm:h-14 w-auto cursor-pointer"
+                  className="h-10 sm:h-12 w-auto cursor-pointer"
                   src={'/logo.png'}
                   width={457}
                   height={175}

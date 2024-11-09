@@ -13,9 +13,11 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Typography from '@mui/material/Typography'
 import { useRouter } from 'next/navigation'
 import { Container } from '@/components'
+import { useSession } from 'next-auth/react'
 
 const Register = () => {
   const router = useRouter()
+  const { data: session } = useSession()
   const [submit, setSubmit] = useState(false)
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
@@ -44,6 +46,8 @@ const Register = () => {
       })
       .catch((err: Error) => setErrorText(err.message))
   }
+
+  if (session) return router.push('/')
 
   return (
     <Container component="main" maxWidth="xs" className="flex justify-center items-center">

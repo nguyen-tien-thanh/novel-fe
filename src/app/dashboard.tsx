@@ -20,9 +20,9 @@ import React from 'react'
 import { formatTimeAgo } from '@/lib/utils'
 import Grid from '@mui/material/Grid2'
 import Link from 'next/link'
-import { CardPaper, Container, ProductGrid } from '@/components'
-import { Swiper } from '@/components/swiper'
+import { CardPaper, Container } from '@/components'
 import { ICategory, IProduct, PRODUCT_STATUS } from '@/types'
+import { Book } from '@/components/book'
 
 export interface DashboardProps {
   products: IProduct[]
@@ -45,7 +45,7 @@ export default function Dashboard({ products, categories }: DashboardProps) {
         <Grid size={{ xs: 12, lg: 9 }}>
           <CardPaper title="🔥 Hot">
             <Box sx={{ p: 2 }}>
-              <Swiper items={products.slice(0, 10)} loading={loading} />
+              <Book.Swiper items={products.slice(0, 10)} loading={loading} slidesPerView={4} />
             </Box>
           </CardPaper>
         </Grid>
@@ -78,62 +78,6 @@ export default function Dashboard({ products, categories }: DashboardProps) {
                   <Stack role="button" direction="row" spacing={1} sx={{ alignItems: 'center' }}>
                     <Chip label={'20/10'} color="info" size="small" sx={{ width: '50px' }} />
                     <Typography color="textSecondary">Tuyển dụng Dịch giả/Editor </Typography>
-                  </Stack>
-                  <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                    <Chip label={'11/11'} color="info" size="small" sx={{ width: '50px' }} />
-                    <Typography color="textSecondary">Tiết Kiệm Sinh Lời đến 24%/năm</Typography>
-                  </Stack>
-                  <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                    <Chip label={'11/11'} color="info" size="small" sx={{ width: '50px' }} />
-                    <Typography color="textSecondary">Tiết Kiệm Sinh Lời đến 24%/năm</Typography>
-                  </Stack>
-                  <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                    <Chip label={'11/11'} color="info" size="small" sx={{ width: '50px' }} />
-                    <Typography color="textSecondary">Tiết Kiệm Sinh Lời đến 24%/năm</Typography>
-                  </Stack>
-                  <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                    <Chip label={'11/11'} color="info" size="small" sx={{ width: '50px' }} />
-                    <Typography color="textSecondary">Tiết Kiệm Sinh Lời đến 24%/năm</Typography>
-                  </Stack>
-                  <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                    <Chip label={'11/11'} color="info" size="small" sx={{ width: '50px' }} />
-                    <Typography color="textSecondary">Tiết Kiệm Sinh Lời đến 24%/năm</Typography>
-                  </Stack>
-                  <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                    <Chip label={'11/11'} color="info" size="small" sx={{ width: '50px' }} />
-                    <Typography color="textSecondary">Tiết Kiệm Sinh Lời đến 24%/năm</Typography>
-                  </Stack>
-                  <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                    <Chip label={'11/11'} color="info" size="small" sx={{ width: '50px' }} />
-                    <Typography color="textSecondary">Tiết Kiệm Sinh Lời đến 24%/năm</Typography>
-                  </Stack>
-                  <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                    <Chip label={'11/11'} color="info" size="small" sx={{ width: '50px' }} />
-                    <Typography color="textSecondary">Tiết Kiệm Sinh Lời đến 24%/năm</Typography>
-                  </Stack>
-                  <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                    <Chip label={'11/11'} color="info" size="small" sx={{ width: '50px' }} />
-                    <Typography color="textSecondary">Tiết Kiệm Sinh Lời đến 24%/năm</Typography>
-                  </Stack>
-                  <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                    <Chip label={'11/11'} color="info" size="small" sx={{ width: '50px' }} />
-                    <Typography color="textSecondary">Tiết Kiệm Sinh Lời đến 24%/năm</Typography>
-                  </Stack>
-                  <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                    <Chip label={'11/11'} color="info" size="small" sx={{ width: '50px' }} />
-                    <Typography color="textSecondary">Tiết Kiệm Sinh Lời đến 24%/năm</Typography>
-                  </Stack>
-                  <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                    <Chip label={'11/11'} color="info" size="small" sx={{ width: '50px' }} />
-                    <Typography color="textSecondary">Tiết Kiệm Sinh Lời đến 24%/năm</Typography>
-                  </Stack>
-                  <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                    <Chip label={'11/11'} color="info" size="small" sx={{ width: '50px' }} />
-                    <Typography color="textSecondary">Tiết Kiệm Sinh Lời đến 24%/năm</Typography>
-                  </Stack>
-                  <Stack direction="row" spacing={1} sx={{ alignItems: 'center' }}>
-                    <Chip label={'11/11'} color="info" size="small" sx={{ width: '50px' }} />
-                    <Typography color="textSecondary">Tiết Kiệm Sinh Lời đến 24%/năm</Typography>
                   </Stack>
                 </Stack>
               )}
@@ -218,11 +162,10 @@ export default function Dashboard({ products, categories }: DashboardProps) {
         <Grid size={12}>
           <CardPaper title="Truyện đã hoàn thành">
             <Box sx={{ p: 2 }}>
-              <ProductGrid
-                products={products.filter(d => d.status === PRODUCT_STATUS.DONE)}
+              <Book.Swiper
+                items={products.filter(d => d.status === PRODUCT_STATUS.DONE).slice(0, 10)}
                 loading={loading}
-                limit={6}
-                showInfo
+                slidesPerView={5}
               />
             </Box>
           </CardPaper>

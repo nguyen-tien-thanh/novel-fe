@@ -42,7 +42,6 @@ export const Chapter = ({ chapter, chapters }: IPageParams) => {
 
   useEffect(() => {
     const incrementViewCount = async () => {
-      // TODO: Cant send
       await fetch(`/api/product/${chapter.productId}/view`, { method: 'POST', body: JSON.stringify({}) })
     }
 

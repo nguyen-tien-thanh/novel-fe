@@ -20,10 +20,9 @@ import { useRouter } from 'next/navigation'
 import Rating from '@mui/material/Rating'
 import { IChapter, IProduct, IRate, PRODUCT_STATUS } from '@/types'
 import { formatCurrency, formatDatetime } from '@/lib/utils'
-import { ProductGrid } from '@/components/grids'
-import Image from 'next/image'
 import { Container } from '@/components'
 import { useSession } from 'next-auth/react'
+import { Book } from '@/components/book'
 
 export interface ProductDetailProps {
   id: number
@@ -100,14 +99,8 @@ export default function ProductDetail({ id, products, product, chapters, rates }
   return (
     <Container>
       <Box component={'section'} className="grid lg:grid-cols-7 gap-8 place-items-center lg:place-items-start">
-        <Box className="book-3d relative h-60 w-40 md:h-[480px] md:w-[320px] lg:h-full lg:w-full lg:col-span-2">
-          <Image
-            className="object-cover w-full h-full object-center rounded"
-            src={product.image || '/images/placeholder.png'}
-            layout="fill"
-            alt={product.name || 'product image'}
-            draggable={false}
-          />
+        <Box className="relative h-full w-full lg:col-span-2">
+          <Book.Cover product={product} />
         </Box>
         <Box className="lg:col-span-5">
           <Box className="lg:px-5 pb-0 lg:pt-5 rounded-md">
@@ -245,7 +238,7 @@ export default function ProductDetail({ id, products, product, chapters, rates }
           <Typography variant="h5">Truyện liên quan</Typography>
 
           <Box sx={{ py: 2 }}>
-            <ProductGrid products={relatedProduct} limit={6} />
+            <Book.Swiper items={relatedProduct.slice(0, 10)} slidesPerView={5} />
           </Box>
         </Box>
       )}

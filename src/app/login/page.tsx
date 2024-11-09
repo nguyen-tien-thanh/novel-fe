@@ -11,8 +11,12 @@ import Box from '@mui/material/Box'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Typography from '@mui/material/Typography'
 import { Container } from '@/components'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 
 const Login = () => {
+  const { data: session } = useSession()
+  const router = useRouter()
   const [submit, setSubmit] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -29,11 +33,13 @@ const Login = () => {
       body: JSON.stringify({ email, password }),
     })
     if (user.status !== 200) {
-      setErrorText('Sai tài khoản hoặc mật khẩu')
+      setErrorText('Sai tài khoản hoặc Mật khẩu')
     } else {
       window.location.href = '/'
     }
   }
+
+  if (session) return router.push('/')
 
   return (
     <Container component="main" maxWidth="xs" className="flex justify-center items-center">
