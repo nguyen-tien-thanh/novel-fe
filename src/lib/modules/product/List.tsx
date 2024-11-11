@@ -15,7 +15,6 @@ import {
   TableRow,
   Typography,
 } from '@mui/material'
-// import DeleteIcon from '@mui/icons-material/Delete'
 import AddIcon from '@mui/icons-material/Add'
 import TablePaginationActions from '@mui/material/TablePagination/TablePaginationActions'
 import { formatDatetime } from '@/lib'
@@ -44,7 +43,7 @@ export const List = ({ initialProducts, deleteProduct }) => {
     if (result?.statusCode) {
       toast.error(result?.message)
     } else {
-      router.push('/products-management')
+      router.push('/admin/product')
       toast.success('Xóa thành công truyện')
     }
   }
@@ -54,27 +53,29 @@ export const List = ({ initialProducts, deleteProduct }) => {
       <div className="w-full lg:max-w-[1200px] lg:px-6 flex flex-col justify-center">
         <TableContainer sx={{ boxShadow: 'none' }} component={Paper}>
           <div className="flex justify-between">
-            <Typography variant="h6">Stories Management</Typography>
+            <Typography variant="h6">Quản lí truyện</Typography>
             <Button
               color="primary"
               variant="contained"
               size="small"
               startIcon={<AddIcon />}
-              onClick={() => router.push('/products-management/create')}
+              onClick={() => router.push('/admin/product/create')}
             >
-              Create
+              Tạo mới
             </Button>
           </div>
           <Table aria-label="simple table">
             <TableHead>
               <TableRow className="[&>*]:font-bold">
-                <TableCell>Name</TableCell>
-                <TableCell>Author</TableCell>
-                <TableCell>Description</TableCell>
-                <TableCell>Public Date</TableCell>
-                <TableCell>Views number</TableCell>
-                <TableCell>Image</TableCell>
-                <TableCell>Action</TableCell>
+                <TableCell>Tên truyện</TableCell>
+                <TableCell>Tác giả</TableCell>
+                <TableCell>Mô tả</TableCell>
+                <TableCell>Ngày tạo</TableCell>
+                <TableCell>Lượt xem</TableCell>
+                <TableCell>Trạng thái</TableCell>
+                <TableCell>Công khai</TableCell>
+                <TableCell>Ảnh</TableCell>
+                <TableCell></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -94,6 +95,7 @@ export const List = ({ initialProducts, deleteProduct }) => {
                   </TableCell>
                   <TableCell>{formatDatetime(row?.createdAt)}</TableCell>
                   <TableCell>{row?.viewCount}</TableCell>
+                  <TableCell>{row?.state}</TableCell>
                   <TableCell>
                     <img src={row.image} height={100} width={300} alt="" />
                   </TableCell>
@@ -107,7 +109,7 @@ export const List = ({ initialProducts, deleteProduct }) => {
                     </IconButton>
                     <Link
                       href={{
-                        pathname: `/products-management/${row.id}`,
+                        pathname: `/admin/product/${row.id}`,
                       }}
                     >
                       <IconButton>

@@ -43,7 +43,7 @@ export const InputField = ({ products, edit, create, defaultValue }: CreateFormP
     if (result?.statusCode) {
       toast.error(result?.message)
     } else {
-      router.push('/chapters-management')
+      router.push('/admin/chapter')
       toast.success('Tạo thành công chương')
     }
   }
@@ -116,7 +116,7 @@ export const InputField = ({ products, edit, create, defaultValue }: CreateFormP
         />
 
         <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2, width: '100%' }}>
-          Tạo
+          Gửi
         </Button>
       </Form>
     </div>

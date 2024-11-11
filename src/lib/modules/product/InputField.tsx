@@ -31,17 +31,15 @@ export const InputField = ({ create, edit, defaultValue, categories }: CreateFor
       status: 'PROGRESS' as PRODUCT_STATUS,
     }
     let result
-    console.log('body=========>', id, body)
     if (!isEmpty(id)) {
       result = await edit!(body)
     } else {
       result = await create!(body)
     }
-    console.log('result========>', result)
     if (result?.statusCode) {
       toast.error(result?.message)
     } else {
-      router.push('/products-management')
+      router.push('/admin/product')
       toast.success('Tạo thành công truyện')
     }
   }
@@ -99,7 +97,7 @@ export const InputField = ({ create, edit, defaultValue, categories }: CreateFor
           defaultValue={defaultValue?.authorName}
         />
         <Input fullWidth label="Ảnh" name="image" style={{ marginBottom: '16px' }} defaultValue={defaultValue?.image} />
-        <Button type="submit">Tạo</Button>
+        <Button type="submit">Gửi</Button>
       </Form>
     </div>
   )

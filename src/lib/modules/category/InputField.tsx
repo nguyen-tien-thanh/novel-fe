@@ -21,7 +21,6 @@ export const InputField = ({ create, edit, defaultValue }: CategoryProps) => {
   const { id } = useParams()
 
   const handleSubmit = async (data: ICategory) => {
-    console.log('data=========>', data)
     try {
       let result
 
@@ -39,7 +38,7 @@ export const InputField = ({ create, edit, defaultValue }: CategoryProps) => {
 
       toast.success(successMessage)
 
-      router.push('/categories-management')
+      router.push('/admin/category')
     } catch (error) {
       toast.error('An unexpected error occurred. Please try again.')
       console.error('Submission error:', error)
@@ -78,7 +77,7 @@ export const InputField = ({ create, edit, defaultValue }: CategoryProps) => {
           defaultValue={defaultValue?.description}
         />
         <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
-          Tạo
+          Gửi
         </Button>
       </Form>
     </div>

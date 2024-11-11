@@ -1,30 +1,22 @@
 import { IProduct } from '@/types'
 import { auth } from '@/auth'
-import { Product } from '@/lib'
+import { del, get, Product } from '@/lib'
 
 async function fetchProducts() {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/product`)
-  if (!response.ok) {
-    throw new Error('Failed to fetch products')
-  }
-  return response.json()
+  const response = await get<IProduct[] | undefined>('/product')
+  return response
 }
 
 export default async function ProductsPage() {
   const session = await auth()
   const token = session?.accessToken
-  const products: IProduct[] = await fetchProducts()
+  const products: IProduct[] | undefined = await fetchProducts()
 
-  const deleteCategory = async (id: number) => {
+  const deleteProduct = async (id: number) => {
     'use server'
 
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/category/${id}`, {
-      method: 'DELETE',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    return response.json()
+    const response = await del(`/product/${id}`)
+    return response
   }
-  return <Product.List initialProducts={products} deleteProduct={deleteCategory} />
+  return <Product.List initialProducts={products} deleteProduct={deleteProduct} />
 }

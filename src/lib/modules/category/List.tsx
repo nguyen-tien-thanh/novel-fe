@@ -42,7 +42,7 @@ export const List = ({ initialCategories, deleteCategory }) => {
     if (result?.statusCode) {
       toast.error(result?.message)
     } else {
-      router.push('/categories-management')
+      router.push('/admin/category')
       toast.success('Xóa thành công danh mục')
     }
   }
@@ -53,24 +53,25 @@ export const List = ({ initialCategories, deleteCategory }) => {
         <div className="w-full lg:max-w-[1200px] lg:px-6 flex flex-col justify-center">
           <TableContainer sx={{ boxShadow: 'none' }} component={Paper}>
             <div className="flex justify-between">
-              <Typography variant="h6">Categories Management</Typography>
+              <Typography variant="h6">Danh sách danh mục</Typography>
               <Button
                 color="primary"
                 variant="contained"
                 size="small"
                 component="a"
                 startIcon={<AddIcon />}
-                onClick={() => router.push('/categories-management/create')}
+                onClick={() => router.push('/admin/category/create')}
               >
-                Create
+                Tạo mới
               </Button>
             </div>
             <Table aria-label="simple table">
               <TableHead>
                 <TableRow className="[&>*]:font-bold">
-                  <TableCell>Name</TableCell>
-                  <TableCell>Description</TableCell>
-                  <TableCell>Action</TableCell>
+                  <TableCell>Tên</TableCell>
+                  <TableCell>Mô tả</TableCell>
+                  <TableCell>Công khai</TableCell>
+                  <TableCell></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -83,6 +84,8 @@ export const List = ({ initialCategories, deleteCategory }) => {
                       {row?.name}
                     </TableCell>
                     <TableCell>{row?.description}</TableCell>
+
+                    <TableCell>{row?.state}</TableCell>
                     <TableCell>
                       <IconButton
                         onClick={() => {
@@ -93,7 +96,7 @@ export const List = ({ initialCategories, deleteCategory }) => {
                       </IconButton>
                       <Link
                         href={{
-                          pathname: `/categories-management/${row.id}`,
+                          pathname: `/admin/category/${row.id}`,
                         }}
                       >
                         <IconButton>

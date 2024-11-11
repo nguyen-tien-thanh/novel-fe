@@ -1,11 +1,16 @@
-import { Category, patch } from '@/lib'
-import { auth } from '@/auth'
+import { Category, get, patch } from '@/lib'
 import { ICategory } from '@/types'
 
-export default async function CategoriesPageEdit({ params, searchParams }) {
+export default async function CategoriesPageEdit({ params }) {
   const { id } = params || {}
-  const session = await auth()
-  const token = session?.accessToken
+
+  async function fetchCategoryDetail() {
+    const response = await get<ICategory>(`/category/${id}`)
+    if (!response) return
+    return response
+  }
+
+  const defaultValue: ICategory | undefined = await fetchCategoryDetail()
 
   const editCategories = async (body: ICategory) => {
     'use server'
@@ -14,5 +19,5 @@ export default async function CategoriesPageEdit({ params, searchParams }) {
     return response
   }
 
-  return <Category.InputField edit={editCategories} defaultValue={searchParams} />
+  return <Category.InputField edit={editCategories} defaultValue={defaultValue} />
 }

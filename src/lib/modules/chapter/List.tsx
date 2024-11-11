@@ -42,7 +42,7 @@ export const List = ({ initialChapters, deleteChapter, products }) => {
     if (result?.statusCode) {
       toast.error(result?.message)
     } else {
-      router.push('/categories-management')
+      router.push('/admin/chapter')
       toast.success('Xóa thành công danh mục')
     }
   }
@@ -59,7 +59,7 @@ export const List = ({ initialChapters, deleteChapter, products }) => {
                 size="small"
                 component="a"
                 startIcon={<AddIcon />}
-                onClick={() => router.push('/chapters-management/create')}
+                onClick={() => router.push('/admin/chapter/create')}
               >
                 Create
               </Button>
@@ -67,13 +67,15 @@ export const List = ({ initialChapters, deleteChapter, products }) => {
             <Table aria-label="simple table">
               <TableHead>
                 <TableRow className="[&>*]:font-bold">
-                  <TableCell>Product Name</TableCell>
-                  <TableCell>Chapter Name</TableCell>
-                  <TableCell>Content</TableCell>
-                  <TableCell>Chapter Number</TableCell>
-                  <TableCell>Price</TableCell>
-                  <TableCell>Created At</TableCell>
-                  <TableCell>Action</TableCell>
+                  <TableCell>Tên truyện</TableCell>
+                  <TableCell>Tên Chương</TableCell>
+                  <TableCell>Nội dung</TableCell>
+                  <TableCell>Số chương</TableCell>
+                  <TableCell>Giá</TableCell>
+                  <TableCell>Trạng thái</TableCell>
+                  <TableCell>Công khai</TableCell>
+                  <TableCell>Thời gian tạo</TableCell>
+                  <TableCell></TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -89,6 +91,8 @@ export const List = ({ initialChapters, deleteChapter, products }) => {
                     <TableCell>{row?.content?.slice(0, 50)}...</TableCell>
                     <TableCell>{row?.chapterNumber}</TableCell>
                     <TableCell>{row?.price}</TableCell>
+                    <TableCell>{row?.status}</TableCell>
+                    <TableCell>{row?.state}</TableCell>
                     <TableCell>{formatDatetime(row?.createdAt)}</TableCell>
                     <TableCell>
                       <IconButton
@@ -100,7 +104,7 @@ export const List = ({ initialChapters, deleteChapter, products }) => {
                       </IconButton>
                       <Link
                         href={{
-                          pathname: `/chapters-management/${row.id}`,
+                          pathname: `/admin/chapter/${row.id}`,
                         }}
                       >
                         <IconButton>
