@@ -15,7 +15,7 @@ interface CreateFormProps {
   defaultValue?: IProduct
 }
 
-export default function ProductInput({ create, edit, defaultValue, categories }: CreateFormProps) {
+export const InputField = ({ create, edit, defaultValue, categories }: CreateFormProps) => {
   const { id } = useParams()
   const router = useRouter()
 
@@ -31,6 +31,7 @@ export default function ProductInput({ create, edit, defaultValue, categories }:
       status: 'PROGRESS' as PRODUCT_STATUS,
     }
     let result
+    console.log('body=========>', id, body)
     if (!isEmpty(id)) {
       result = await edit!(body)
     } else {

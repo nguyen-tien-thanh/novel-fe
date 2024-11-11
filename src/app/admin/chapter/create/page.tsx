@@ -1,7 +1,5 @@
 import { IChapter, IProduct } from '@/types'
-import ChapterInput from '../ChapterInput'
-import { auth } from '@/auth'
-import { get, post } from '@/lib'
+import { Chapter, get, post } from '@/lib'
 
 export default async function ChapterPageCreate() {
   const createChapter = async (body: IChapter) => {
@@ -20,5 +18,5 @@ export default async function ChapterPageCreate() {
 
   const products: IProduct[] = await fetchProducts()
 
-  return <ChapterInput create={createChapter} products={products} />
+  return <Chapter.InputField create={createChapter} products={products} />
 }

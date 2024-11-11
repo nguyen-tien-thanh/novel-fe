@@ -1,6 +1,5 @@
 import { ICategory, IProduct } from '@/types'
-import ChapterList from './ChapterList'
-import { del, get } from '@/lib'
+import { Chapter, del, get } from '@/lib'
 
 async function fetchChapters() {
   const response = await get<ICategory[] | undefined>('/chapter')
@@ -23,5 +22,5 @@ export default async function ChapterPage() {
     return response
   }
 
-  return <ChapterList initialChapters={chapters} deleteChapter={deleteChapter} products={products} />
+  return <Chapter.List initialChapters={chapters} deleteChapter={deleteChapter} products={products} />
 }

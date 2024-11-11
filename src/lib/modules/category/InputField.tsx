@@ -16,7 +16,7 @@ interface CategoryProps {
   defaultValue?: ICategory
 }
 
-export default function CategoryInput({ create, edit, defaultValue }: CategoryProps) {
+export const InputField = ({ create, edit, defaultValue }: CategoryProps) => {
   const router = useRouter()
   const { id } = useParams()
 

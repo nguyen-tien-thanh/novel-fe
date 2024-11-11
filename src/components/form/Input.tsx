@@ -42,9 +42,6 @@ export function AutoCompleteInput({
   const errorMessage = errors[name]?.message ?? ''
 
   // Determine initial value based on whether multiple selection is enabled
-  const initialValue = rest.multiple
-    ? options.filter(option => defaultValue?.includes(option[optionValue]))
-    : options.find(option => option[optionValue] === defaultValue) || null
 
   return (
     <Controller
@@ -61,12 +58,16 @@ export function AutoCompleteInput({
           multiple={rest.multiple}
           value={
             rest.multiple
-              ? options.filter(option => field.value?.includes(option[optionValue]))
+              ? options.filter(option => field.value?.some(val => val[optionValue] === option[optionValue]))
               : options.find(option => option[optionValue] === field.value) || null
           }
           getOptionLabel={getOptionLabel}
           onChange={(e, val) => {
-            const selectedValue = rest.multiple ? val.map(option => option[optionValue]) : val ? val[optionValue] : null
+            const selectedValue = rest.multiple
+              ? val.map(option => ({ [optionValue]: option[optionValue] }))
+              : val
+                ? val[optionValue]
+                : null
             field.onChange(selectedValue)
           }}
           renderInput={params => (

@@ -25,7 +25,7 @@ import Link from 'next/link'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
 
-export default function ProductList({ initialProducts, deleteProduct }) {
+export const List = ({ initialProducts, deleteProduct }) => {
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(5)
   const router = useRouter()

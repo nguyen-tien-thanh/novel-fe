@@ -1,7 +1,5 @@
-import { auth } from '@/auth'
-import ProductInput from '../ProductInput'
-import { ApiResponse, ICategory, ICrawledData, IProduct } from '@/types'
-import { get, post } from '@/lib'
+import { ICategory, IProduct } from '@/types'
+import { get, post, Product } from '@/lib'
 
 export default async function CategoriesPageCreate() {
   const createProduct = async (body: IProduct) => {
@@ -20,5 +18,5 @@ export default async function CategoriesPageCreate() {
 
   const categories: ICategory[] = await fetchCategories()
 
-  return <ProductInput create={createProduct} categories={categories} />
+  return <Product.InputField create={createProduct} categories={categories} />
 }

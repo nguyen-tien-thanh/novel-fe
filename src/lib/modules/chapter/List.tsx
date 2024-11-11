@@ -23,7 +23,7 @@ import EditIcon from '@mui/icons-material/Edit'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
 
-export default function ChapterList({ initialChapters, deleteChapter, products }) {
+export const List = ({ initialChapters, deleteChapter, products }) => {
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(5)
   const router = useRouter()

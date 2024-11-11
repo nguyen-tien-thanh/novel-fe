@@ -1,7 +1,5 @@
-import { auth } from '@/auth'
-import ProductInput from '../ProductInput'
 import { ICategory, IProduct } from '@/types'
-import { get, patch } from '@/lib'
+import { get, patch, Product } from '@/lib'
 
 export default async function ProductsPageEdit({ params }) {
   const { id } = params || {}
@@ -15,7 +13,7 @@ export default async function ProductsPageEdit({ params }) {
   const editProducts = async (body: IProduct) => {
     'use server'
 
-    const response = await patch(`/chapter/${id}`, body)
+    const response = await patch(`/product/${id}`, body)
     return response
   }
 
@@ -30,5 +28,5 @@ export default async function ProductsPageEdit({ params }) {
   const categories: ICategory[] = await fetchCategories()
   const defaultValue: IProduct | undefined = await fetchProductDetail()
 
-  return <ProductInput edit={editProducts} defaultValue={defaultValue} categories={categories} />
+  return <Product.InputField edit={editProducts} defaultValue={defaultValue} categories={categories} />
 }

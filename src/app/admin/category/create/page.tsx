@@ -1,5 +1,4 @@
-import { post } from '@/lib'
-import CategoryInput from '../CategoryInput'
+import { Category, post } from '@/lib'
 import { ICategory } from '@/types'
 
 export default async function CategoriesPageCreate() {
@@ -11,5 +10,5 @@ export default async function CategoriesPageCreate() {
     return response
   }
 
-  return <CategoryInput create={createCategories} />
+  return <Category.InputField create={createCategories} />
 }

@@ -1,10 +1,9 @@
 'use client'
 
-import { useEffect } from 'react'
-import { Autocomplete, Box, Button, Dialog, TextField } from '@mui/material'
+import { Button } from '@mui/material'
 import React from 'react'
-import { ApiResponse, IChapter, IProduct } from '@/types'
-import { useSearchParams, useParams } from 'next/navigation'
+import { IChapter, IProduct } from '@/types'
+import { useParams } from 'next/navigation'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
 import Form from '@/components/form/Form'
@@ -18,7 +17,7 @@ interface CreateFormProps {
   defaultValue?: IChapter
 }
 
-export default function ChapterInput({ products, edit, create, defaultValue }: CreateFormProps) {
+export const InputField = ({ products, edit, create, defaultValue }: CreateFormProps) => {
   const { id } = useParams()
   const router = useRouter()
 

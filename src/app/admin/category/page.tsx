@@ -1,6 +1,5 @@
 import { ICategory } from '@/types'
-import CategoryList from './CategoryList'
-import { del, get } from '@/lib'
+import { Category, del, get } from '@/lib'
 
 async function fetchCategories(): Promise<ICategory[] | undefined> {
   try {
@@ -22,5 +21,5 @@ export default async function CategoriesPage() {
     return response
   }
 
-  return <CategoryList initialCategories={categories} deleteCategory={deleteCategory} />
+  return <Category.List initialCategories={categories} deleteCategory={deleteCategory} />
 }

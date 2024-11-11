@@ -1,5 +1,4 @@
-import { patch } from '@/lib'
-import CategoryInput from '../CategoryInput'
+import { Category, patch } from '@/lib'
 import { auth } from '@/auth'
 import { ICategory } from '@/types'
 
@@ -15,5 +14,5 @@ export default async function CategoriesPageEdit({ params, searchParams }) {
     return response
   }
 
-  return <CategoryInput edit={editCategories} defaultValue={searchParams} />
+  return <Category.InputField edit={editCategories} defaultValue={searchParams} />
 }

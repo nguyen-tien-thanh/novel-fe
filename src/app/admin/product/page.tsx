@@ -1,6 +1,6 @@
 import { IProduct } from '@/types'
-import ProductList from './ProductList'
 import { auth } from '@/auth'
+import { Product } from '@/lib'
 
 async function fetchProducts() {
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/product`)
@@ -26,5 +26,5 @@ export default async function ProductsPage() {
     })
     return response.json()
   }
-  return <ProductList initialProducts={products} deleteProduct={deleteCategory} />
+  return <Product.List initialProducts={products} deleteProduct={deleteCategory} />
 }

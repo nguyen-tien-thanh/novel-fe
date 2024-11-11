@@ -1,7 +1,5 @@
 import { IChapter, IProduct } from '@/types'
-import ChapterInput from '../ChapterInput'
-import { auth } from '@/auth'
-import { get, patch } from '@/lib'
+import { Chapter, get, patch } from '@/lib'
 
 export default async function ChaptersPageEdit({ params, searchParams }) {
   const { id } = params || {}
@@ -28,5 +26,5 @@ export default async function ChaptersPageEdit({ params, searchParams }) {
   const products: IProduct[] = await fetchProducts()
   const defaultValue: IChapter | undefined = await fetchChapterDetail()
 
-  return <ChapterInput edit={editChapters} defaultValue={defaultValue} products={products} />
+  return <Chapter.InputField edit={editChapters} defaultValue={defaultValue} products={products} />
 }

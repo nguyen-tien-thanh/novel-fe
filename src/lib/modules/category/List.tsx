@@ -23,7 +23,7 @@ import { toast } from 'react-toastify'
 import EditIcon from '@mui/icons-material/Edit'
 import Link from 'next/link'
 
-export default function CategoryList({ initialCategories, deleteCategory }) {
+export const List = ({ initialCategories, deleteCategory }) => {
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(5)
   const router = useRouter()
