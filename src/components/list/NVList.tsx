@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { ReactElement, ReactNode, useState } from 'react'
 import {
   Button,
   IconButton,
@@ -19,12 +19,19 @@ import AddIcon from '@mui/icons-material/Add'
 import TablePaginationActions from '@mui/material/TablePagination/TablePaginationActions'
 import EditIcon from '@mui/icons-material/Edit'
 import Link from 'next/link'
+import { ICategory, IChapter, IProduct } from '@/types'
+
+interface NVListColumnProps {
+  headerName: string
+  name: string
+  render?: (value: any, row: IProduct | ICategory | IChapter) => ReactNode
+}
 
 interface NVListProps {
-  data: any[]
+  data: IProduct[] | ICategory[] | IChapter[]
   title: string
   onAdd: () => void
-  children: any
+  children: ReactElement<NVListColumnProps>[]
   onDel?: (id: number) => void
   isEdit?: boolean
   resource: string
