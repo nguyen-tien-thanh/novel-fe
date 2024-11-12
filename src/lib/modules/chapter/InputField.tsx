@@ -6,9 +6,8 @@ import { IChapter, IProduct } from '@/types'
 import { useParams } from 'next/navigation'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
-import Form from '@/components/form/Form'
-import { AutoCompleteInput, Input } from '@/components/form'
 import { isEmpty } from '@/lib'
+import { AutoCompleteInput, Form, Input } from '@/components'
 
 interface CreateFormProps {
   edit?: (body: IChapter) => Promise<IChapter | undefined>

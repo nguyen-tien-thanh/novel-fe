@@ -1,8 +1,8 @@
 import React from 'react'
-import { Autocomplete, TextField, TextFieldProps } from '@mui/material'
+import { Autocomplete, TextField } from '@mui/material'
 import { Controller, useFormContext } from 'react-hook-form'
 
-export function Input({ name, label, type = 'text', validation = {}, style = {}, ...rest }) {
+export const Input = ({ name, label, type = 'text', validation = {}, style = {}, ...rest }) => {
   const {
     register,
     formState: { errors },
@@ -23,7 +23,7 @@ export function Input({ name, label, type = 'text', validation = {}, style = {},
   )
 }
 
-export function AutoCompleteInput({
+export const AutoCompleteInput = ({
   name,
   label,
   options,
@@ -34,7 +34,7 @@ export function AutoCompleteInput({
   style = {},
   defaultValue,
   ...rest
-}) {
+}) => {
   const {
     control,
     formState: { errors },

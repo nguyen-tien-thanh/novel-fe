@@ -1,14 +1,11 @@
 'use client'
-// import { PaymentElement, LinkAuthenticationElement } from '@stripe/react-stripe-js'
-// import { useStripe, useElements } from '@stripe/react-stripe-js'
-import { Box, Button, TextField } from '@mui/material'
+import { Button } from '@mui/material'
 import React from 'react'
 import { toast } from 'react-toastify'
-import { useParams, useRouter, useSearchParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import { ICategory } from '@/types'
-import Form from '@/components/form/Form'
-import { Input } from '@/components/form'
 import { isEmpty } from '@/lib'
+import { Form, Input } from '@/components'
 
 interface CategoryProps {
   create?: (body: ICategory) => Promise<ICategory | undefined>

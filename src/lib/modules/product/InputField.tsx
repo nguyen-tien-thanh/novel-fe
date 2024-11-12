@@ -4,9 +4,8 @@ import { Button } from '@mui/material'
 import React from 'react'
 import { toast } from 'react-toastify'
 import { useParams, useRouter } from 'next/navigation'
-import Form from '@/components/form/Form'
-import { AutoCompleteInput, Input } from '@/components/form'
 import { isEmpty } from '@/lib'
+import { AutoCompleteInput, Form, Input } from '@/components'
 
 interface CreateFormProps {
   create?: (body: IProduct) => Promise<IProduct | undefined>
