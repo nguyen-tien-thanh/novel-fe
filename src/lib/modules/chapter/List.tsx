@@ -45,9 +45,19 @@ export const List = ({ initialChapters, deleteChapter, products }) => {
       <NVCell
         name="content"
         headerName="Nội dung"
-        render={value => (value.length > 50 ? `${value.slice(0, 50)} ...` : value)}
+        render={(value: unknown) => {
+          const _value = value as string
+          return _value.length > 50 ? `${_value.slice(0, 50)} ...` : _value
+        }}
       />
-      <NVCell name="createdAt" headerName="Thời gian tạo" render={createdAt => formatDatetime(createdAt)} />
+      <NVCell
+        name="createdAt"
+        headerName="Thời gian tạo"
+        render={(createdAt: unknown) => {
+          const _createdAt = createdAt as string
+          return formatDatetime(_createdAt)
+        }}
+      />
       <NVCell name="state" headerName="Công khai" render={value => (value ? 'Công khai' : 'Không công khai')} />
     </NVList>
   )

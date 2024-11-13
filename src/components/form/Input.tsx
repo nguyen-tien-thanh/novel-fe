@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 import { Autocomplete, TextField } from '@mui/material'
 import { Controller, useFormContext } from 'react-hook-form'

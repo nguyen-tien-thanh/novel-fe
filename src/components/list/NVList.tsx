@@ -21,17 +21,17 @@ import EditIcon from '@mui/icons-material/Edit'
 import Link from 'next/link'
 import { ICategory, IChapter, IProduct } from '@/types'
 
-interface NVListColumnProps {
+interface NVListColumnProps<T extends IProduct | ICategory | IChapter> {
   headerName: string
-  name: string
-  render?: (value: any, row: IProduct | ICategory | IChapter) => ReactNode
+  name: keyof T
+  render?: (value: T[keyof T], row: T) => ReactNode
 }
 
 interface NVListProps {
   data: IProduct[] | ICategory[] | IChapter[]
   title: string
   onAdd: () => void
-  children: ReactElement<NVListColumnProps>[]
+  children: ReactElement<NVListColumnProps<IProduct | ICategory | IChapter>>[]
   onDel?: (id: number) => void
   isEdit?: boolean
   resource: string

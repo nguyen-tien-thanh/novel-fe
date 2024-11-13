@@ -5,6 +5,7 @@ import React from 'react'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
 import { NVCell, NVList } from '@/components'
+import { IProduct } from '@/types'
 
 export const List = ({ initialProducts, deleteProduct }) => {
   const router = useRouter()
@@ -33,14 +34,23 @@ export const List = ({ initialProducts, deleteProduct }) => {
       <NVCell
         name="description"
         headerName="Mô tả"
-        render={value => (value.length > 50 ? `${value.slice(0, 50)} ...` : value)}
+        render={(value: unknown) => {
+          const stringValue = value as string | undefined
+          if (typeof stringValue === 'string') {
+            return stringValue.length > 50 ? `${stringValue.slice(0, 50)} ...` : stringValue
+          }
+          return ''
+        }}
       />
       <NVCell name="createdAt" headerName="Ngày tạo" />
       <NVCell name="viewCount" headerName="Lượt xem" />
       <NVCell
         name="image"
         headerName="Hình ảnh"
-        render={value => <img src={value} height={100} width={300} alt="" />}
+        render={(value: unknown) => {
+          const stringValue = value as string
+          return value ? <img src={stringValue} height={100} width={300} alt="" /> : <div></div>
+        }}
       />
 
       <NVCell name="state" headerName="Công khai" render={value => (value ? 'Công khai' : 'Không công khai')} />
