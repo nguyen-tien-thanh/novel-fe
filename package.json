@@ -10,10 +10,6 @@
     "format": "prettier --write \"src/**/*.{ts,tsx,css}\""
   },
   "dependencies": {
-    "@emotion/react": "^11.13.3",
-    "@emotion/styled": "^11.13.0",
-    "@mui/icons-material": "^6.1.1",
-    "@mui/material": "^6.1.1",
     "autoprefixer": "^10.4.20",
     "date-fns": "^4.1.0",
     "file-saver": "^2.0.5",
