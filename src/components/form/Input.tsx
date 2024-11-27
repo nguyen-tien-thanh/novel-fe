@@ -1,8 +1,12 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import { Autocomplete, TextField } from '@mui/material'
 import { Controller, useFormContext } from 'react-hook-form'
+import { toolbarOptions } from '@/constants'
+import 'react-quill/dist/quill.snow.css'
+import dynamic from 'next/dynamic'
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false })
 
 export const Input = ({ name, label, type = 'text', validation = {}, style = {}, ...rest }) => {
   const {
@@ -80,6 +84,35 @@ export const AutoCompleteInput = ({
               helperText={typeof errorMessage === 'string' ? errorMessage : ''}
             />
           )}
+        />
+      )}
+    />
+  )
+}
+
+export const EditorInput = ({ name, label, validation = {}, defaultValue, style = {}, ...rest }) => {
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext()
+
+  return (
+    <Controller
+      name={name}
+      control={control}
+      rules={validation}
+      defaultValue={defaultValue}
+      render={({ field }) => (
+        <ReactQuill
+          {...field}
+          {...rest}
+          theme="snow"
+          value={field.value || ''}
+          onChange={field.onChange}
+          modules={{
+            toolbar: toolbarOptions,
+          }}
+          style={{ height: 500, ...style }}
         />
       )}
     />

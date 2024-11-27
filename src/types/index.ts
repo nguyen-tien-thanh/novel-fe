@@ -33,7 +33,7 @@ export interface ICategory {
 }
 
 export interface IChapter {
-  id?: number
+  id: number
   productId: number | IProduct
   chapterName: string
   content: string

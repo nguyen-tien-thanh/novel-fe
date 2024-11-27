@@ -53,8 +53,8 @@ export const NVList = ({ data, title, onAdd, children, onDel, isEdit, resource }
   return (
     <div style={{ alignSelf: 'center' }}>
       <main className="relative mt-28 px-[30px] flex flex-col items-center justify-center">
-        <div className="w-full lg:max-w-[1200px] lg:px-6 flex flex-col justify-center">
-          <TableContainer sx={{ boxShadow: 'none' }} component={Paper}>
+        <div className="w-full lg:max-w-[1200px] lg:px-6 flex flex-col justify-center ">
+          <TableContainer component={Paper} className="p-[20px]">
             <div className="flex justify-between">
               <Typography variant="h6">{title}</Typography>
               {onAdd && (
@@ -81,7 +81,7 @@ export const NVList = ({ data, title, onAdd, children, onDel, isEdit, resource }
               </TableHead>
               <TableBody>
                 {(rowsPerPage > 0 ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : data).map(
-                  (row, index) => (
+                  (row: IProduct | ICategory | IChapter, index: number) => (
                     <TableRow key={index}>
                       {React.Children.map(children, child => (
                         <TableCell>
@@ -110,7 +110,7 @@ export const NVList = ({ data, title, onAdd, children, onDel, isEdit, resource }
               <TableFooter>
                 <TableRow>
                   <TablePagination
-                    rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+                    rowsPerPageOptions={[5, 10, 25, { label: 'Tất cả', value: -1 }]}
                     count={data.length}
                     rowsPerPage={rowsPerPage}
                     page={page}

@@ -7,7 +7,7 @@ import { useParams } from 'next/navigation'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
 import { isEmpty } from '@/lib'
-import { AutoCompleteInput, Form, Input } from '@/components'
+import { AutoCompleteInput, EditorInput, Form, Input } from '@/components'
 
 interface CreateFormProps {
   edit?: (body: IChapter) => Promise<IChapter | undefined>
@@ -31,7 +31,6 @@ export const InputField = ({ products, edit, create, defaultValue }: CreateFormP
       users: defaultValue?.users || [],
     }
 
-    console.log('body=========>', body)
     let result
     if (!isEmpty(id)) {
       result = await edit!(body)
@@ -52,7 +51,7 @@ export const InputField = ({ products, edit, create, defaultValue }: CreateFormP
         onSubmit={handleSubmit}
         style={{
           width: '100%',
-          maxWidth: '500px',
+          maxWidth: '900px',
           padding: '20px',
           backgroundColor: '#fff',
           boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
@@ -103,15 +102,11 @@ export const InputField = ({ products, edit, create, defaultValue }: CreateFormP
           defaultValue={defaultValue?.chapterName}
           style={{ marginBottom: '16px' }}
         />
-        <Input
-          fullWidth
+        <EditorInput
           validation={{ required: 'Vui lòng điền nội dung' }}
-          label="Nội dung"
           name="content"
-          rows={4}
-          multiline
+          label="Nội dung"
           defaultValue={defaultValue?.content}
-          style={{ marginBottom: '16px' }}
         />
 
         <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2, width: '100%' }}>

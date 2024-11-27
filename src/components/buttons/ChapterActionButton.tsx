@@ -19,6 +19,7 @@ import {
 import SettingsIcon from '@mui/icons-material/Settings'
 import { useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
+import { fontOptions } from '@/constants'
 
 export interface IChapterActionButton {
   chapter: IChapter
@@ -27,16 +28,6 @@ export interface IChapterActionButton {
   textStyle: ITextStyle
   handleChangeTextStyle: (state: Partial<ITextStyle>) => void
 }
-
-const fontOptions = [
-  { label: 'Arial', fontFamily: 'Arial, sans-serif' },
-  { label: 'Times New Roman', fontFamily: '"Times New Roman", serif' },
-  { label: 'Georgia', fontFamily: 'Georgia, serif' },
-  { label: 'Verdana', fontFamily: 'Verdana, sans-serif' },
-  { label: 'Roboto', fontFamily: 'Roboto, sans-serif' },
-  { label: 'Open Sans', fontFamily: 'Open Sans, sans-serif' },
-  { label: 'Merriweather', fontFamily: 'Merriweather, serif' },
-]
 
 export const ChapterActionButton: FC<IChapterActionButton> = ({
   chapter,
