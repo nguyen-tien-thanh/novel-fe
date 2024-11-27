@@ -4,5 +4,3 @@ services:
     container_name: web
     restart: unless-stopped
     build: .
-    ports:
-      - '3333:3333'
