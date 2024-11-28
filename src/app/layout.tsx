@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import { Footer, Header, ScrollToTopButton } from '@/components'
-import { ThemeClientProvider } from '@/providers'
 import { auth } from '@/auth'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -21,8 +20,7 @@ export default async function RootLayout({
 
   return (
     <SessionProvider session={session}>
-      {/* <ThemeClientProvider> */}
-      <html lang="en" suppressHydrationWarning>
+      <html lang="en" suppressHydrationWarning data-theme="cupcake">
         <body>
           <Header />
 
@@ -36,7 +34,6 @@ export default async function RootLayout({
           <Footer />
         </body>
       </html>
-      {/* </ThemeClientProvider> */}
     </SessionProvider>
   )
 }

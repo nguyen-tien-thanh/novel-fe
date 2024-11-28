@@ -2,21 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* :root {
-  --background: 23 38% 99%;
-  --foreground: 23 68% 1%;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: 0% 0% 4%;
-    --foreground: 0% 0% 93%;
-  }
-} */
-
 body {
-  /* color: var(--foreground); */
-  /* background: var(--background); */
   font-family:
     ui-sans-serif,
     system-ui,

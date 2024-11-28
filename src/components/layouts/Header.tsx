@@ -1,25 +1,11 @@
 'use client'
 
 import * as React from 'react'
-// import Box from '@mui/material/Box'
-// import AppBar from '@mui/material/AppBar'
-// import Toolbar from '@mui/material/Toolbar'
-// import Button from '@mui/material/Button'
-// import Divider from '@mui/material/Divider'
-// import Typography from '@mui/material/Typography'
-// import MenuItem from '@mui/material/MenuItem'
-// import Drawer from '@mui/material/Drawer'
-// import MenuIcon from '@mui/icons-material/Menu'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-// import FavoriteIcon from '@mui/icons-material/Favorite'
-// import Link from 'next/link'
-// import IconButton from '@mui/material/IconButton'
-import { ProfileButton, ThemeModeButton } from '@/components'
-// import PersonIcon from '@mui/icons-material/Person'
-import { signOut, useSession } from 'next-auth/react'
+import { Button, HeartIcon, ProfileButton, ThemeModeButton, Tooltip } from '@/components'
+import { useSession } from 'next-auth/react'
 import Link from 'next/link'
-// import { Settings } from '@mui/icons-material'
 
 const pages = [
   { name: 'Danh sách', href: '/' },
@@ -40,31 +26,13 @@ export const Header = () => {
   const { data } = useSession()
   const user = data?.user
   const router = useRouter()
-  const [open, setOpen] = React.useState(false)
-  const toggleDrawer = (newOpen: boolean) => () => {
-    setOpen(newOpen)
-  }
-
-  // const scrollToSection = (sectionId: string) => {
-  //   const sectionElement = document.getElementById(sectionId)
-  //   const offset = 128
-  //   if (sectionElement) {
-  //     const targetScroll = sectionElement.offsetTop - offset
-  //     sectionElement.scrollIntoView({ behavior: 'smooth' })
-  //     window.scrollTo({
-  //       top: targetScroll,
-  //       behavior: 'smooth',
-  //     })
-  //     setOpen(false)
-  //   }
-  // }
 
   return (
     <div className="navbar bg-base-100">
       {/* Mobile */}
       <div className="navbar-start">
         <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
+          <div tabIndex={0} role="Button" className="btn btn-ghost lg:hidden">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
@@ -100,7 +68,7 @@ export const Header = () => {
             alt="logo"
             priority
           />
-          AiTruyen
+          <span className="hidden md:block text-xl">AiTruyen</span>
         </Link>
       </div>
       {/* PC */}
@@ -129,90 +97,34 @@ export const Header = () => {
         </ul>
       </div>
       <div className="navbar-end">
-        {!user ? (
-          <div className="space-x-2">
-            <Link href="/register">
-              <button className="btn btn-outline">Đăng kí</button>
-            </Link>
-            <Link href="/login">
-              <button className="btn">Đăng nhập</button>
-            </Link>
+        <div className="flex items-center space-x-1">
+          <div className="dropdown dropdown-end">
+            <ThemeModeButton />
           </div>
-        ) : (
-          <div className="flex items-center">
-            <div className="dropdown dropdown-end">
-              {/* <div className="lg:tooltip lg:tooltip-bottom" data-tip="hello">
-                <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
-                  <div className="indicator">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                      />
-                    </svg>
-                    <span className="badge badge-sm indicator-item">8</span>
-                  </div>
-                </div>
-              </div>
-              <div tabIndex={0} className="card card-compact dropdown-content bg-base-100 z-[1] mt-3 w-52 shadow">
-                <div className="card-body">
-                  <span className="text-lg font-bold">8 Items</span>
-                  <span className="text-info">Subtotal: $999</span>
-                  <div className="card-actions">
-                    <button className="btn btn-primary btn-block">View cart</button>
-                  </div>
-                </div>
-              </div> */}
-              <ThemeModeButton />
+          {!user ? (
+            <div>
+              {/* <Link href="/register">
+              <Button className="btn btn-outline">Đăng kí</Button>
+            </Link> */}
+              <Link href="/login">
+                <Button>Đăng nhập</Button>
+              </Link>
             </div>
-            <div className="dropdown dropdown-end">
-              {/* <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-                <div className="w-10 rounded-full">
-                  <img
-                    alt="Tailwind CSS Navbar component"
-                    src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-                  />
-                </div>
+          ) : (
+            <>
+              <div className="dropdown dropdown-end">
+                <Tooltip title="Yêu thích">
+                  <Button className="btn-ghost btn-circle">
+                    <HeartIcon />
+                  </Button>
+                </Tooltip>
               </div>
-              <ul
-                tabIndex={0}
-                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-max p-2 shadow"
-              >
-                <li>
-                  <Link className="p-2" href="/profile">
-                    Trang cá nhân
-                  </Link>
-                </li>
-                <li>
-                  <Link className="p-2" href="/setting">
-                    Cài đặt
-                  </Link>
-                </li>
-                <li>
-                  <a className="p-2" onClick={() => signOut({ callbackUrl: '/', redirect: true })}>
-                    Đăng xuất
-                  </a>
-                </li>
-              </ul> */}
-              <ProfileButton />
-            </div>
-
-            {/* <IconButton aria-label="delete" color="error" disabled>
-              <FavoriteIcon />
-            </IconButton>
-            
-
-            <ProfileButton /> */}
-          </div>
-        )}
+              <div className="dropdown dropdown-end">
+                <ProfileButton />
+              </div>
+            </>
+          )}
+        </div>
       </div>
     </div>
   )
