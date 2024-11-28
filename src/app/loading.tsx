@@ -1,12 +1,11 @@
-// import { Box } from '@mui/material'
-// import CircularProgress from '@mui/material/CircularProgress'
 import React from 'react'
 
 const Loading = () => {
-  return 'loading'
-  // <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-  // <CircularProgress />
-  // </Box>
+  return (
+    <div className="flex flex-1 pb-20 justify-center items-center">
+      <span className="loading loading-dots w-[60px]" />
+    </div>
+  )
 }
 
 export default Loading

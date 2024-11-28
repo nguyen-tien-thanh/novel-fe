@@ -1,9 +1,8 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import { ThemeIcon } from '../icons'
-import { themeChange } from 'theme-change'
 import { cn } from '@/lib'
+import { useTheme } from '@/providers/Theme/ThemeProvider'
 
 const themes = [
   { name: 'Mặc Định', value: 'default', icon: '' },
@@ -42,17 +41,7 @@ const themes = [
 ]
 
 export const ThemeModeButton = () => {
-  const [currentTheme, setCurrentTheme] = useState('')
-
-  const setThemeFromLocalStorage = () => {
-    const theme = localStorage.getItem('theme') || ''
-    setCurrentTheme(theme)
-  }
-
-  useEffect(() => {
-    themeChange(false)
-    setThemeFromLocalStorage()
-  }, [])
+  const { theme, changeTheme } = useTheme()
 
   return (
     <div>
@@ -63,20 +52,19 @@ export const ThemeModeButton = () => {
       </div>
       <div tabIndex={0} className="card card-compact dropdown-content z-[1] mt-3 w-52 shadow-lg rounded-lg">
         <div className="join join-vertical max-h-[200px] overflow-auto no-scrollbar rounded-lg">
-          {themes.map((theme, i) => (
+          {themes.map((t, i) => (
             <input
               key={i}
               type="radio"
               name="theme-buttons"
               className={cn(
                 'btn theme-controller join-item no-animation rounded-lg relative',
-                theme.value == currentTheme && "before:content-['✓'] before:text-3xl before:absolute before:left-2",
+                t.value == theme && "before:content-['✓'] before:text-3xl before:absolute before:left-2",
               )}
-              aria-label={theme.name}
-              value={theme.value}
-              data-theme={theme.value}
-              data-set-theme={theme.value}
-              onChange={() => setThemeFromLocalStorage()}
+              aria-label={t.name}
+              value={t.value}
+              data-theme={t.value}
+              onChange={() => changeTheme(t.value)}
             />
           ))}
         </div>
