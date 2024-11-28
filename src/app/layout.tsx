@@ -21,22 +21,22 @@ export default async function RootLayout({
 
   return (
     <SessionProvider session={session}>
-      <ThemeClientProvider>
-        <html lang="en" suppressHydrationWarning>
-          <body>
-            <Header />
+      {/* <ThemeClientProvider> */}
+      <html lang="en" suppressHydrationWarning>
+        <body>
+          <Header />
 
-            <ToastContainer />
-            <main className="relative mt-28 min-h-[calc(100dvh-112px-90px)] flex flex-col">
-              {children}
+          <ToastContainer />
+          <main className="relative mt-28 min-h-[calc(100dvh-112px-90px)] flex flex-col">
+            {children}
 
-              <ScrollToTopButton />
-            </main>
+            <ScrollToTopButton />
+          </main>
 
-            <Footer />
-          </body>
-        </html>
-      </ThemeClientProvider>
+          <Footer />
+        </body>
+      </html>
+      {/* </ThemeClientProvider> */}
     </SessionProvider>
   )
 }

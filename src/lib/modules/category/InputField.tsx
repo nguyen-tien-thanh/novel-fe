@@ -1,11 +1,11 @@
 'use client'
-import { Button } from '@mui/material'
+// import { Button } from '@mui/material'
 import React from 'react'
 import { toast } from 'react-toastify'
 import { useParams, useRouter } from 'next/navigation'
 import { ICategory } from '@/types'
 import { isEmpty } from '@/lib'
-import { Form, Input } from '@/components'
+// import { Form, Input } from '@/components'
 
 interface CategoryProps {
   create?: (body: ICategory) => Promise<ICategory | undefined>
@@ -41,42 +41,41 @@ export const InputField = ({ create, edit, defaultValue }: CategoryProps) => {
       console.error('Submission error:', error)
     }
   }
-  return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px' }}>
-      <Form
-        onSubmit={handleSubmit}
-        style={{
-          width: '100%',
-          maxWidth: '500px',
-          padding: '20px',
-          backgroundColor: '#fff',
-          boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
-          borderRadius: '8px',
-        }}
-      >
-        <Input
-          fullWidth
-          validation={{ required: 'Vui lòng điền tên' }}
-          label="Tên danh mục"
-          name="name"
-          style={{ marginBottom: '16px' }}
-          autoFocus
-          defaultValue={defaultValue?.name}
-        />
-        <Input
-          fullWidth
-          validation={{ required: 'Vui lòng điền mô tả' }}
-          label="Mô tả"
-          name="description"
-          style={{ marginBottom: '16px' }}
-          rows={4}
-          multiline
-          defaultValue={defaultValue?.description}
-        />
-        <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
-          Gửi
-        </Button>
-      </Form>
-    </div>
-  )
+  return 'inputfield'
+  // <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px' }}>
+  //   <Form
+  //     onSubmit={handleSubmit}
+  //     style={{
+  //       width: '100%',
+  //       maxWidth: '500px',
+  //       padding: '20px',
+  //       backgroundColor: '#fff',
+  //       boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+  //       borderRadius: '8px',
+  //     }}
+  //   >
+  //     <Input
+  //       fullWidth
+  //       validation={{ required: 'Vui lòng điền tên' }}
+  //       label="Tên danh mục"
+  //       name="name"
+  //       style={{ marginBottom: '16px' }}
+  //       autoFocus
+  //       defaultValue={defaultValue?.name}
+  //     />
+  //     <Input
+  //       fullWidth
+  //       validation={{ required: 'Vui lòng điền mô tả' }}
+  //       label="Mô tả"
+  //       name="description"
+  //       style={{ marginBottom: '16px' }}
+  //       rows={4}
+  //       multiline
+  //       defaultValue={defaultValue?.description}
+  //     />
+  //     <Button type="submit" variant="contained" sx={{ mt: 3, mb: 2 }}>
+  //       Gửi
+  //     </Button>
+  //   </Form>
+  // </div>
 }

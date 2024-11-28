@@ -22,10 +22,19 @@ const _stringToColor = (string: string) => {
 
 export const stringAvatar = (name: string) => {
   return {
-    sx: {
-      bgcolor: _stringToColor(name),
-      width: 28,
-      height: 28,
+    // sx: {
+    //   bgcolor: _stringToColor(name),
+    //   width: 28,
+    //   height: 28,
+    // },
+    // className: 'w-7 h-7',
+    style: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: 40,
+      width: 40,
+      backgroundColor: _stringToColor(name),
     },
     children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
   }

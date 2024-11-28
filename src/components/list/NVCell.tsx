@@ -1,11 +1,11 @@
 import React from 'react'
-import { TableCell } from '@mui/material'
+// import { TableCell } from '@mui/material'
 import { ICategory, IChapter, IProduct } from '@/types'
 
 interface CustomTableCellProps<T extends IProduct | ICategory | IChapter> {
   name: string
   headerName: string
-  render?: (value: T[keyof T] | unknown, row: T) => React.ReactNode | React.ReactElement
+  render?: (value: T[keyof T], row: T) => React.ReactNode | React.ReactElement
   rowData?: T
 }
 
@@ -19,5 +19,6 @@ export const NVCell: React.FC<CustomTableCellProps<IProduct | ICategory | IChapt
 
   const cellContent = render ? render(rowData[name], rowData) : rowData[name]
 
-  return <TableCell>{cellContent}</TableCell>
+  return <></>
+  //   return <TableCell>{cellContent}</TableCell>
 }
