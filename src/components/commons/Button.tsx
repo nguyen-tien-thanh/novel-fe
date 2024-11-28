@@ -1,7 +1,7 @@
 import { cn } from '@/lib'
-import React, { FC, ReactNode } from 'react'
+import React, { ButtonHTMLAttributes, FC, ReactNode } from 'react'
 
-export interface IButtonProps {
+export interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   color?: 'primary' | 'secondary' | 'accent' | 'info' | 'success' | 'warning' | 'error'
   className?: string
   children: ReactNode
