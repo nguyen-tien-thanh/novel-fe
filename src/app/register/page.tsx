@@ -1,38 +1,21 @@
 'use client'
 
 import React, { useState } from 'react'
-// import Avatar from '@mui/material/Avatar'
-// import Button from '@mui/material/Button'
-// import TextField from '@mui/material/TextField'
-// import FormControlLabel from '@mui/material/FormControlLabel'
-// import Checkbox from '@mui/material/Checkbox'
-// import Link from '@mui/material/Link'
-// import Grid from '@mui/material/Grid2'
-// import Box from '@mui/material/Box'
-// import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
-// import Typography from '@mui/material/Typography'
 import { useRouter } from 'next/navigation'
-import { Container } from '@/components'
+import { Form, Input } from '@/components'
 import { useSession } from 'next-auth/react'
+import { IRegister } from '@/types'
 
 const Register = () => {
   const router = useRouter()
   const { data: session } = useSession()
-  const [submit, setSubmit] = useState(false)
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
   const [checked, setChecked] = useState(false)
   const [errorText, setErrorText] = useState('')
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    setSubmit(true)
+  const handleSubmit = async (event: IRegister) => {
+    const { firstName, lastName, email, password } = event
 
-    if (!firstName || !lastName || !email || !password) return
-
-    if (checked === false) return setErrorText('Please accept the terms and conditions')
+    if (checked === false) return setErrorText('Vui lòng chấp nhận các điều khoản và điều kiện')
 
     return fetch('api/auth/register', {
       method: 'POST',
@@ -47,117 +30,42 @@ const Register = () => {
       .catch((err: Error) => setErrorText(err.message))
   }
 
+  const handleClick = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const isChecked = event.target.checked
+    setChecked(isChecked)
+  }
+
   if (session) return router.push('/')
 
-  return 'register'
-  // <Container component="main" maxWidth="xs" className="flex justify-center items-center">
-  //   <Box
-  //     sx={{
-  //       marginTop: 8,
-  //       display: 'flex',
-  //       flexDirection: 'column',
-  //       alignItems: 'center',
-  //     }}
-  //   >
-  //     <Avatar sx={{ m: 1 }}>
-  //       <LockOutlinedIcon />
-  //     </Avatar>
-  //     <Typography component="h1" variant="h5">
-  //       Đăng kí
-  //     </Typography>
-  //     <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-  //       <Grid container spacing={2}>
-  //         <Grid size={6}>
-  //           <TextField
-  //             autoComplete="given-name"
-  //             name="firstName"
-  //             required
-  //             fullWidth
-  //             id="firstName"
-  //             label="Tên"
-  //             autoFocus
-  //             onChange={e => {
-  //               setFirstName(e.target.value)
-  //             }}
-  //             error={submit && !firstName}
-  //             helperText={submit && !firstName ? 'Vui lòng nhập Tên' : ''}
-  //           />
-  //         </Grid>
-  //         <Grid size={6}>
-  //           <TextField
-  //             required
-  //             fullWidth
-  //             id="lastName"
-  //             label="Họ"
-  //             name="lastName"
-  //             autoComplete="family-name"
-  //             onChange={e => {
-  //               setLastName(e.target.value)
-  //             }}
-  //             error={submit && !lastName}
-  //             helperText={submit && !lastName ? 'Vui lòng nhập Họ' : ''}
-  //           />
-  //         </Grid>
-  //         <Grid size={12}>
-  //           <TextField
-  //             required
-  //             fullWidth
-  //             id="email"
-  //             label="Email"
-  //             name="email"
-  //             autoComplete="email"
-  //             onChange={e => {
-  //               setEmail(e.target.value)
-  //             }}
-  //             error={submit && !email}
-  //             helperText={submit && !email ? 'Vui lòng nhập Email' : ''}
-  //           />
-  //         </Grid>
-  //         <Grid size={12}>
-  //           <TextField
-  //             required
-  //             fullWidth
-  //             name="password"
-  //             label="Mật khẩu"
-  //             type="password"
-  //             id="password"
-  //             autoComplete="new-password"
-  //             onChange={e => {
-  //               setPassword(e.target.value)
-  //             }}
-  //             error={submit && !password}
-  //             helperText={submit && !password ? 'Vui lòng nhập Mật khẩu' : ''}
-  //           />
-  //         </Grid>
-  //         <Grid size={12}>
-  //           <FormControlLabel
-  //             control={
-  //               <Checkbox
-  //                 value={checked}
-  //                 onChange={() => {
-  //                   setChecked(!checked)
-  //                 }}
-  //                 color="primary"
-  //               />
-  //             }
-  //             label="Tôi đồng ý với các điều khoản"
-  //           />
-  //         </Grid>
-  //       </Grid>
-  //       <span className={`text-[#d32f2f] ${errorText && submit ? 'block' : 'hidden'}`}>{errorText}</span>
-  //       <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-  //         Đăng kí
-  //       </Button>
-  //       <Grid container justifyContent="flex-end">
-  //         <Grid>
-  //           <Link href="/login" variant="body2">
-  //             Đã có tài khoản? Đăng nhập
-  //           </Link>
-  //         </Grid>
-  //       </Grid>
-  //     </Box>
-  //   </Box>
-  // </Container>
+  return (
+    <div className=" flex flex-col justify-center items-center gap-5">
+      <div className="prose">
+        <h1>Đăng kí</h1>
+      </div>
+      <Form onSubmit={handleSubmit} className="w-[500px]">
+        <Input name="firstName" validation={{ required: 'Vui lòng nhập tên' }} label="Tên" placeholder="Tên" />
+        <Input name="lastName" validation={{ required: 'Vui lòng nhập họ' }} label="Họ" placeholder="Họ" />
+        <Input
+          type="email"
+          placeholder="aitruyen@gmail.com"
+          name="email"
+          validation={{ required: 'Vui lòng nhập email' }}
+          label="Email"
+        />
+        <Input name="password" type="password" validation={{ required: 'Vui lòng nhập mật khẩu' }} label="Mật khẩu" />
+        {typeof errorText === 'string' && <p className="text-red-500 text-xs">{errorText}</p>}
+        <div className="form-control flex flex-row items-center">
+          <input type="checkbox" className="checkbox " onChange={handleClick} />
+          <label className="cursor-pointer label">
+            <span className="label-text"> Tôi đồng ý với các điều khoản</span>
+          </label>
+        </div>
+        <button type="submit" className="btn">
+          Gửi
+        </button>
+      </Form>
+    </div>
+  )
 }
 
 export default Register
