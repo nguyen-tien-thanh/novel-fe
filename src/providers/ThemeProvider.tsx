@@ -2,10 +2,12 @@
 
 import { createContext, useContext, useLayoutEffect, useState } from 'react'
 
-export const ThemeContext = createContext({ theme: 'cupcake', changeTheme: (theme: string) => {} })
+const defaultTheme = 'cupcake'
+
+export const ThemeContext = createContext({ theme: defaultTheme, changeTheme: (theme: string) => {} })
 
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
-  const [theme, setTheme] = useState('cupcake')
+  const [theme, setTheme] = useState(defaultTheme)
 
   const changeTheme = (theme: string) => {
     setTheme(theme)
@@ -19,9 +21,11 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   useLayoutEffect(() => {
-    const current = getCookie('theme') || 'cupcake'
+    const current = getCookie('theme') || defaultTheme
     setTheme(current)
-  }, [])
+
+    document.documentElement.setAttribute('data-theme', current)
+  }, [theme, setTheme])
 
   return (
     <ThemeContext.Provider value={{ theme, changeTheme }} data-theme={theme}>
