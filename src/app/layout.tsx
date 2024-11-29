@@ -29,7 +29,7 @@ export default async function RootLayout({
             <Header />
 
             <ToastContainer />
-            <main className="relative min-h-[calc(100dvh-64px-52px)] lg:min-h-[calc(100dvh-68px-52px)] flex flex-col">
+            <main className="relative min-h-[calc(100dvh-64px-52px)] lg:min-h-[calc(100dvh-68px-52px)]">
               {children}
 
               <ScrollToTopButton />

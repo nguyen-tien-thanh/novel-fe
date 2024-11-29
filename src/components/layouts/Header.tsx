@@ -1,6 +1,5 @@
 'use client'
 
-import * as React from 'react'
 import Image from 'next/image'
 import { Button, HamburgerIcon, HeartIcon, ProfileButton, ThemeModeButton, Tooltip } from '@/components'
 import { useSession } from 'next-auth/react'
@@ -60,7 +59,7 @@ export const Header = () => {
           <span className="hidden md:block text-xl">AiTruyen</span>
         </Link>
       </div>
-      <div className="navbar-center hidden lg:flex">
+      <div className="navbar-center hidden lg:flex lg:z-[1]">
         <ul className="menu menu-horizontal px-1">
           {pages.map((page, i) => (
             <li key={i}>
@@ -72,7 +71,7 @@ export const Header = () => {
                   <ul className="p-2">
                     {page.children.map((child, i) => (
                       <li key={i}>
-                        <Link href={child.href} className="w-max">
+                        <Link href={child.href} className="min-w-[150px]">
                           {child.name}
                         </Link>
                       </li>
@@ -90,12 +89,12 @@ export const Header = () => {
             <ThemeModeButton />
           </div>
           {!user ? (
-            <div>
+            <div className="space-x-1">
               <Link href="/register" className="hidden md:inline-flex">
-                <Button className="btn btn-outline">Đăng kí</Button>
+                <Button className="btn-ghost">Đăng kí</Button>
               </Link>
               <Link href="/login">
-                <Button>Đăng nhập</Button>
+                <Button className="btn-outline">Đăng nhập</Button>
               </Link>
             </div>
           ) : (
