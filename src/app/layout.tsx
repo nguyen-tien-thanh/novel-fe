@@ -5,7 +5,8 @@ import { auth } from '@/auth'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { SessionProvider } from 'next-auth/react'
-import { ThemeProvider, ThemeWrapper } from '@/providers'
+import { ThemeProvider } from '@/providers'
+import { cookies } from 'next/headers'
 
 export const metadata: Metadata = {
   title: 'AiTruyen',
@@ -18,27 +19,26 @@ export default async function RootLayout({
   children: React.ReactNode
 }>) {
   const session = await auth()
+  const theme = cookies().get('theme')
 
   return (
     <SessionProvider session={session}>
-      <html lang="en" suppressHydrationWarning>
-        <body>
-          <ThemeProvider>
-            <ThemeWrapper>
-              <Header />
+      <ThemeProvider>
+        <html lang="en" suppressHydrationWarning data-theme={theme?.value || 'cupcake'}>
+          <body>
+            <Header />
 
-              <ToastContainer />
-              <main className="relative min-h-[calc(100dvh-64px-52px)] lg:min-h-[calc(100dvh-68px-52px)] flex flex-col">
-                {children}
+            <ToastContainer />
+            <main className="relative min-h-[calc(100dvh-64px-52px)] lg:min-h-[calc(100dvh-68px-52px)] flex flex-col">
+              {children}
 
-                <ScrollToTopButton />
-              </main>
+              <ScrollToTopButton />
+            </main>
 
-              <Footer />
-            </ThemeWrapper>
-          </ThemeProvider>
-        </body>
-      </html>
+            <Footer />
+          </body>
+        </html>
+      </ThemeProvider>
     </SessionProvider>
   )
 }

@@ -2,7 +2,7 @@
 
 import { ThemeIcon } from '../icons'
 import { cn } from '@/lib'
-import { useTheme } from '@/providers/Theme/ThemeProvider'
+import { useTheme } from '@/providers'
 
 const themes = [
   { name: 'Mặc Định', value: 'default', icon: '' },

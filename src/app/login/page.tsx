@@ -14,7 +14,9 @@
 // import { useSession } from 'next-auth/react'
 // import { useRouter } from 'next/navigation'
 
-// const Login = () => {
+const Login = () => {
+  return <>login</>
+}
 //   const { data: session } = useSession()
 //   const router = useRouter()
 //   const [submit, setSubmit] = useState(false)
@@ -110,4 +112,4 @@
 //   )
 // }
 
-// export default Login
+export default Login
