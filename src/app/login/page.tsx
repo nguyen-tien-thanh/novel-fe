@@ -28,7 +28,7 @@ const Login = () => {
 
   return (
     <section className="bg-base-200 flex items-center justify-center min-h-[calc(100dvh-68px-52px)]">
-      <div className="card w-80 md:w-96 bg-base-100 shadow-xl">
+      <div className="card min-w-80 md:w-96 bg-base-100 shadow-xl">
         <div className="card-body p-6 sm:p-8">
           <h2 className="card-title text-2xl font-bold mb-3 sm:mb-6 justify-center">Đăng nhập</h2>
           <Form onSubmit={handleSubmit}>
@@ -70,7 +70,7 @@ const Login = () => {
             </div>
           </Form>
 
-          <Divider>HOẶC</Divider>
+          <Divider className="opacity-50">HOẶC</Divider>
 
           <div className="text-center">
             <p>Bạn chưa có tài khoản?</p>

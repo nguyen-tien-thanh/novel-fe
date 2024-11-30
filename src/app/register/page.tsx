@@ -22,13 +22,14 @@ const Register = () => {
       method: 'POST',
       body: JSON.stringify({ name: lastName.trim() + ' ' + firstName.trim(), email, password }),
     })
-      .then(async res => {
-        const json = await res.json()
-        if (!res.ok) throw new Error(json.message)
-
+      .then(res => res.json())
+      .then(json => {
+        if (json.error) throw new Error(json.message)
         return router.push('/login')
       })
-      .catch(err => toast(err.message, { type: 'error' }))
+      .catch(err => {
+        toast(err.message, { type: 'error' })
+      })
   }
 
   const handleClick = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,7 +41,7 @@ const Register = () => {
 
   return (
     <section className="bg-base-200 flex items-center justify-center min-h-[calc(100dvh-68px-52px)]">
-      <div className="card min-w-80 md:w-96 bg-base-100 shadow-xl">
+      <div className="card min-w-80 md:w-[480px] bg-base-100 shadow-xl">
         <div className="card-body p-6 sm:p-8">
           <h2 className="card-title text-2xl font-bold mb-3 sm:mb-6 justify-center">Đăng kí</h2>
           <Form onSubmit={handleSubmit}>
@@ -103,7 +104,7 @@ const Register = () => {
             </div>
           </Form>
 
-          <Divider>HOẶC</Divider>
+          <Divider className="opacity-50">HOẶC</Divider>
 
           <div className="text-center">
             <p>Bạn đã có tài khoản?</p>
