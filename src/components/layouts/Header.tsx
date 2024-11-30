@@ -86,7 +86,9 @@ export const Header = () => {
       <nav className="navbar-end">
         <div className="flex items-center space-x-1">
           <div className="dropdown dropdown-end">
-            <ThemeModeButton />
+            <Tooltip title="Giao diện">
+              <ThemeModeButton />
+            </Tooltip>
           </div>
           {!user ? (
             <div className="space-x-1">

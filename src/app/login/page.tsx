@@ -38,7 +38,7 @@ const Login = () => {
               </label>
               <Input
                 placeholder="johndoe@example.com"
-                name="username"
+                name="email"
                 icon={<MailIcon className="opacity-70" />}
                 iconPosition="start"
                 validation={{ required: 'Vui lòng nhập tài khoản' }}

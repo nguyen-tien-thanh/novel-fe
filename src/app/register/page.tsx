@@ -50,13 +50,23 @@ const Register = () => {
                 <label className="label">
                   <span className="label-text">Tên</span>
                 </label>
-                <Input name="firstName" validation={{ required: 'Vui lòng nhập tên' }} placeholder="John" />
+                <Input
+                  name="firstName"
+                  validation={{ required: 'Vui lòng nhập tên' }}
+                  placeholder="John"
+                  autoComplete="family-name"
+                />
               </div>
               <div className="form-control">
                 <label className="label">
                   <span className="label-text">Họ</span>
                 </label>
-                <Input name="lastName" validation={{ required: 'Vui lòng nhập họ' }} placeholder="Doe" />
+                <Input
+                  name="lastName"
+                  validation={{ required: 'Vui lòng nhập họ' }}
+                  placeholder="Doe"
+                  autoComplete="given-name"
+                />
               </div>
             </div>
 
@@ -93,7 +103,7 @@ const Register = () => {
                 <span className="label-text">
                   Tôi đồng ý với các{' '}
                   <Link href="#" className="link link-primary">
-                    điều khoản
+                    điều khoản và chính sách
                   </Link>
                 </span>
               </label>
