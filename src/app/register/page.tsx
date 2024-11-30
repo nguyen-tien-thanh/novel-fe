@@ -2,24 +2,25 @@
 
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Form, Input } from '@/components'
+import { Button, Divider, Form, Input, KeyIcon, MailIcon } from '@/components'
 import { useSession } from 'next-auth/react'
 import { IRegister } from '@/types'
+import Link from 'next/link'
+import { toast } from 'react-toastify'
 
 const Register = () => {
   const router = useRouter()
   const { data: session } = useSession()
   const [checked, setChecked] = useState(false)
-  const [errorText, setErrorText] = useState('')
 
   const handleSubmit = async (event: IRegister) => {
     const { firstName, lastName, email, password } = event
 
-    if (checked === false) return setErrorText('Vui lòng chấp nhận các điều khoản và điều kiện')
+    if (checked === false) return toast('Vui lòng chấp nhận các điều khoản và điều kiện', { type: 'error' })
 
     return fetch('api/auth/register', {
       method: 'POST',
-      body: JSON.stringify({ name: lastName + ' ' + firstName, email, password }),
+      body: JSON.stringify({ name: lastName.trim() + ' ' + firstName.trim(), email, password }),
     })
       .then(async res => {
         const json = await res.json()
@@ -27,7 +28,7 @@ const Register = () => {
 
         return router.push('/login')
       })
-      .catch((err: Error) => setErrorText(err.message))
+      .catch(err => toast(err.message, { type: 'error' }))
   }
 
   const handleClick = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,33 +39,81 @@ const Register = () => {
   if (session) return router.push('/')
 
   return (
-    <div className=" flex flex-col justify-center items-center gap-5">
-      <div className="prose">
-        <h1>Đăng kí</h1>
-      </div>
-      <Form onSubmit={handleSubmit} className="w-[500px]">
-        <Input name="firstName" validation={{ required: 'Vui lòng nhập tên' }} label="Tên" placeholder="Tên" />
-        <Input name="lastName" validation={{ required: 'Vui lòng nhập họ' }} label="Họ" placeholder="Họ" />
-        <Input
-          type="email"
-          placeholder="aitruyen@gmail.com"
-          name="email"
-          validation={{ required: 'Vui lòng nhập email' }}
-          label="Email"
-        />
-        <Input name="password" type="password" validation={{ required: 'Vui lòng nhập mật khẩu' }} label="Mật khẩu" />
-        {typeof errorText === 'string' && <p className="text-red-500 text-xs">{errorText}</p>}
-        <div className="form-control flex flex-row items-center">
-          <input type="checkbox" className="checkbox " onChange={handleClick} />
-          <label className="cursor-pointer label">
-            <span className="label-text"> Tôi đồng ý với các điều khoản</span>
-          </label>
+    <section className="bg-base-200 flex items-center justify-center min-h-[calc(100dvh-68px-52px)]">
+      <div className="card min-w-80 md:w-96 bg-base-100 shadow-xl">
+        <div className="card-body p-6 sm:p-8">
+          <h2 className="card-title text-2xl font-bold mb-3 sm:mb-6 justify-center">Đăng kí</h2>
+          <Form onSubmit={handleSubmit}>
+            <div className="flex gap-4">
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Tên</span>
+                </label>
+                <Input name="firstName" validation={{ required: 'Vui lòng nhập tên' }} placeholder="John" />
+              </div>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Họ</span>
+                </label>
+                <Input name="lastName" validation={{ required: 'Vui lòng nhập họ' }} placeholder="Doe" />
+              </div>
+            </div>
+
+            <div className="form-control mt-4">
+              <label className="label">
+                <span className="label-text">Tài khoản</span>
+              </label>
+              <Input
+                placeholder="johndoe@example.com"
+                name="email"
+                icon={<MailIcon className="opacity-70" />}
+                iconPosition="start"
+                validation={{ required: 'Vui lòng nhập tài khoản' }}
+              />
+            </div>
+
+            <div className="form-control mt-4">
+              <label className="label">
+                <span className="label-text">Mật khẩu</span>
+              </label>
+              <Input
+                placeholder="********"
+                name="password"
+                icon={<KeyIcon className="opacity-70" />}
+                type="password"
+                iconPosition="start"
+                validation={{ required: 'Vui lòng nhập mật khẩu' }}
+              />
+            </div>
+
+            <div className="form-control flex flex-row items-center gap-1 mt-4">
+              <input type="checkbox" className="checkbox" onChange={handleClick} />
+              <label className="cursor-pointer label">
+                <span className="label-text">
+                  Tôi đồng ý với các{' '}
+                  <Link href="#" className="link link-primary">
+                    điều khoản
+                  </Link>
+                </span>
+              </label>
+            </div>
+
+            <div className="form-control mt-6">
+              <Button className="btn-primary">Đăng kí</Button>
+            </div>
+          </Form>
+
+          <Divider>HOẶC</Divider>
+
+          <div className="text-center">
+            <p>Bạn đã có tài khoản?</p>
+            <Link href="/login" className="link link-primary">
+              Đăng nhập
+            </Link>
+          </div>
         </div>
-        <button type="submit" className="btn">
-          Gửi
-        </button>
-      </Form>
-    </div>
+      </div>
+    </section>
   )
 }
 

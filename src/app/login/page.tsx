@@ -1,15 +1,15 @@
 'use client'
 
-import React, { useState } from 'react'
-import { Form, Input } from '@/components'
+import { Button, Divider, Form, Input, KeyIcon, MailIcon } from '@/components'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { LoginRequest } from '@/types'
+import Link from 'next/link'
+import { toast } from 'react-toastify'
 
 const Login = () => {
   const { data: session } = useSession()
   const router = useRouter()
-  const [errorText, setErrorText] = useState('')
 
   const handleSubmit = async (data: LoginRequest) => {
     const { email, password } = data
@@ -18,7 +18,7 @@ const Login = () => {
       body: JSON.stringify({ email, password }),
     })
     if (user.status !== 200) {
-      setErrorText('Sai tài khoản hoặc Mật khẩu')
+      toast('Sai tài khoản hoặc mật khẩu', { type: 'error' })
     } else {
       window.location.href = '/'
     }
@@ -27,29 +27,60 @@ const Login = () => {
   if (session) return router.push('/')
 
   return (
-    <div className=" flex flex-col justify-center items-center gap-5">
-      <div className="prose">
-        <h1>Đăng nhập</h1>
-      </div>
-      <Form onSubmit={handleSubmit} className="w-[500px]">
-        <Input name="username" validation={{ required: 'Vui lòng nhập tài khoản' }} label="Tài khoản" />
-        <Input name="password" type="password" validation={{ required: 'Vui lòng nhập mật khẩu' }} label="Mật khẩu" />
-        {errorText && typeof errorText === 'string' && <p className="text-red-500 text-xs">{errorText}</p>}
-        <button type="submit" className="btn">
-          Gửi
-        </button>
+    <section className="bg-base-200 flex items-center justify-center min-h-[calc(100dvh-68px-52px)]">
+      <div className="card w-80 md:w-96 bg-base-100 shadow-xl">
+        <div className="card-body p-6 sm:p-8">
+          <h2 className="card-title text-2xl font-bold mb-3 sm:mb-6 justify-center">Đăng nhập</h2>
+          <Form onSubmit={handleSubmit}>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Tài khoản</span>
+              </label>
+              <Input
+                placeholder="johndoe@example.com"
+                name="username"
+                icon={<MailIcon className="opacity-70" />}
+                iconPosition="start"
+                validation={{ required: 'Vui lòng nhập tài khoản' }}
+              />
+            </div>
 
-        <div className="flex justify-between">
-          <a href="#" className="link link-info">
-            Quên mật khâủ
-          </a>
+            <div className="form-control mt-4">
+              <label className="label">
+                <span className="label-text">Mật khẩu</span>
+              </label>
+              <Input
+                placeholder="********"
+                name="password"
+                icon={<KeyIcon className="opacity-70" />}
+                type="password"
+                iconPosition="start"
+                validation={{ required: 'Vui lòng nhập mật khẩu' }}
+              />
 
-          <a href="/register" className="link link-info">
-            Bạn chưa có tài khoản? Đăng ký
-          </a>
+              <label className="label">
+                <Link href="#" className="label-text-alt link link-hover">
+                  Quên mật khâủ
+                </Link>
+              </label>
+            </div>
+
+            <div className="form-control mt-6">
+              <Button className="btn-primary">Đăng nhập</Button>
+            </div>
+          </Form>
+
+          <Divider>HOẶC</Divider>
+
+          <div className="text-center">
+            <p>Bạn chưa có tài khoản?</p>
+            <Link href="/register" className="link link-primary">
+              Đăng ký
+            </Link>
+          </div>
         </div>
-      </Form>
-    </div>
+      </div>
+    </section>
   )
 }
 

@@ -25,8 +25,8 @@ export const Header = () => {
   const user = data?.user
 
   return (
-    <div className="navbar bg-base-100">
-      <div className="navbar-start">
+    <header className="navbar bg-base-100 h-[68px]">
+      <nav className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="Button" className="btn btn-ghost lg:hidden">
             <HamburgerIcon />
@@ -49,17 +49,17 @@ export const Header = () => {
         </div>
         <Link className="btn btn-ghost text-xl" href="/">
           <Image
-            className="h-10 sm:h-12 w-auto cursor-pointer"
+            className="hidden md:block h-10 sm:h-12 w-auto cursor-pointer"
             src={'/logo.png'}
             width={457}
             height={175}
             alt="logo"
             priority
           />
-          <span className="hidden md:block text-xl">AiTruyen</span>
+          <span className="text-xl">AiTruyen</span>
         </Link>
-      </div>
-      <div className="navbar-center hidden lg:flex lg:z-[1]">
+      </nav>
+      <nav className="navbar-center hidden lg:flex lg:z-[1]">
         <ul className="menu menu-horizontal px-1">
           {pages.map((page, i) => (
             <li key={i}>
@@ -82,8 +82,8 @@ export const Header = () => {
             </li>
           ))}
         </ul>
-      </div>
-      <div className="navbar-end">
+      </nav>
+      <nav className="navbar-end">
         <div className="flex items-center space-x-1">
           <div className="dropdown dropdown-end">
             <ThemeModeButton />
@@ -112,7 +112,7 @@ export const Header = () => {
             </>
           )}
         </div>
-      </div>
-    </div>
+      </nav>
+    </header>
   )
 }

@@ -14,17 +14,18 @@ export interface InputPropsBase extends React.InputHTMLAttributes<HTMLInputEleme
   name: string
   color?: 'primary' | 'secondary' | 'accent' | 'info' | 'success' | 'warning' | 'error'
   className?: string
-  validation?: any
-  iconPosition?: 'start' | 'end'
+  validation?: Record<string, any>
 }
 
 export type IconOnly = {
-  icon: React.ReactNode
+  icon?: React.ReactNode
+  iconPosition?: 'start' | 'end'
   label?: never
 }
 
 export type LabelOnly = {
-  label: string
+  label?: string
+  iconPosition?: never
   icon?: never
 }
 
@@ -55,12 +56,14 @@ export const Input: FC<InputProps> = ({
         <input
           {...register(name, { ...validation })}
           type={type}
-          className={cn('grow', errorMessage && 'input-error', className)}
+          className={cn('w-full', errorMessage && 'input-error', className)}
           {...props}
         />
         {iconPosition === 'end' && icon}
       </label>
-      {typeof errorMessage === 'string' && <p className="text-red-500 text-xs">{errorMessage}</p>}
+      {errorMessage && typeof errorMessage === 'string' && (
+        <p className="pt-1.5 px-1 text-error text-xs">{errorMessage}</p>
+      )}
     </>
   )
 }
