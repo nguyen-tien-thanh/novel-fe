@@ -13,7 +13,7 @@ export const Tooltip: FC<ITooltipProps> = ({ position = 'bottom', title, childre
   return (
     <div
       className={cn(
-        'tooltip',
+        'tooltip z-[5]',
         position === 'top' && 'tooltip-top',
         position === 'bottom' && 'tooltip-bottom',
         position === 'left' && 'tooltip-left',

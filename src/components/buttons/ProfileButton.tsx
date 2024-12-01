@@ -25,14 +25,19 @@ export const ProfileButton = () => {
           </Link>
         </li>
         <li>
+          <Link className="p-2" href="/#!">
+            Yêu thích
+          </Link>
+        </li>
+        <li>
           <Link className="p-2" href="/setting">
             Cài đặt
           </Link>
         </li>
         <li>
-          <a className="p-2" onClick={() => signOut({ callbackUrl: '/', redirect: true })}>
+          <Link href="#!" className="p-2" onClick={() => signOut({ callbackUrl: '/', redirect: true })}>
             Đăng xuất
-          </a>
+          </Link>
         </li>
       </ul>
     </>

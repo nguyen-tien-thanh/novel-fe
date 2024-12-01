@@ -3,11 +3,11 @@
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import React from 'react'
-import { formatTimeAgo } from '@/lib/utils'
-import Link from 'next/link'
 // import { CardPaper, Container } from '@/components'
 import { ICategory, IProduct, PRODUCT_STATUS } from '@/types'
 import { Book } from '@/components/book'
+import { ProductTable } from '@/components/tables'
+import { Carousel, CarouselItem, Hero } from '@/components'
 
 export interface DashboardProps {
   products: IProduct[]
@@ -24,7 +24,37 @@ export default function Dashboard({ products, categories }: DashboardProps) {
     }
   }, [products, categories])
 
-  return 'hello'
+  return (
+    <div>
+      <section>
+        <Hero
+          title="Welcome"
+          subtitle="Chúc các bạn đọc truyện vui vẻ"
+          className="min-h-[40vh]"
+          image="https://img.daisyui.com/images/stock/photo-1507358522600-9f71e620c44e.webp"
+          buttonText="Khám phá ngay"
+          href="#product-section"
+        />
+      </section>
+
+      <section className="container mx-auto">
+        <Carousel>
+          {products &&
+            products.slice(0, 10).map(product => (
+              <CarouselItem key={product.id} className="py-10 w-1/6">
+                <Book.Cover product={product} href={`/product/${product.id}`} />
+              </CarouselItem>
+            ))}
+        </Carousel>
+      </section>
+
+      {/* <section className="container mx-auto">
+        <div id="product-section">
+          <ProductTable products={products} />
+        </div>
+      </section> */}
+    </div>
+  )
   // <Container>
   //   <Grid container spacing={2}>
   //     <Grid size={{ xs: 12, lg: 9 }}>

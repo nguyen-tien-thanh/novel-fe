@@ -24,7 +24,7 @@ export default async function RootLayout({
   return (
     <SessionProvider session={session}>
       <ThemeProvider>
-        <html lang="en" suppressHydrationWarning data-theme={theme?.value || 'cupcake'}>
+        <html lang="vi" suppressHydrationWarning data-theme={theme?.value || 'cupcake'}>
           <body>
             <Header />
 
