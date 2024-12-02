@@ -3,11 +3,11 @@
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import React from 'react'
-// import { CardPaper, Container } from '@/components'
 import { ICategory, IProduct, PRODUCT_STATUS } from '@/types'
 import { Book } from '@/components/book'
 import { ProductTable } from '@/components/tables'
 import { Carousel, CarouselItem, Hero } from '@/components'
+import Link from 'next/link'
 
 export interface DashboardProps {
   products: IProduct[]
@@ -37,22 +37,26 @@ export default function Dashboard({ products, categories }: DashboardProps) {
         />
       </section>
 
-      <section className="container mx-auto">
+      {/* <section className="">
         <Carousel>
           {products &&
             products.slice(0, 10).map(product => (
-              <CarouselItem key={product.id} className="py-10 w-1/6">
+              <CarouselItem key={product.id} className="py-10 w-full md:w-1/2 lg:w-1/4 xl:w-1/5 2xl:w-1/6  ">
                 <Book.Cover product={product} href={`/product/${product.id}`} />
               </CarouselItem>
             ))}
         </Carousel>
+      </section> */}
+
+      <section className="container mx-auto">
+        <Book.Swiper items={products.slice(0, 10)} />
       </section>
 
-      {/* <section className="container mx-auto">
+      <section className="container mx-auto">
         <div id="product-section">
           <ProductTable products={products} />
         </div>
-      </section> */}
+      </section>
     </div>
   )
   // <Container>

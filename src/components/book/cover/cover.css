@@ -76,10 +76,10 @@
   opacity: 0.8;
   background-color: rgba(0, 0, 0, 0.4);
   color: white;
-  height: 15%;
+  height: min-content;
   padding-top: 10px;
+  padding-bottom: 10px;
   padding-left: 20px;
-  /* padding: 10px 30px 30px 30px; */
 }
 
 .book-cover .book-container .front > div {

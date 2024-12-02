@@ -5,14 +5,21 @@ import { cn } from '@/lib'
 import Image from 'next/image'
 import './cover.css'
 
-interface ICoverProps {
+export interface ICoverProps {
   product: IProduct
   href?: string
   height?: number
   width?: number
 }
 
-export const Cover: FC<ICoverProps> = ({ product, href, height = 320, width = 240 }) => {
+/**
+ * `Width` should be equal 2/3 `Height`
+ * @example
+ * - 240 x 360
+ * - 180 x 240
+ * - 120 x 180
+ */
+export const Cover: FC<ICoverProps> = ({ product, href, height = 360, width = 240 }) => {
   const router = useRouter()
   const { authorName, image, name, createdAt } = product
 
@@ -28,7 +35,7 @@ export const Cover: FC<ICoverProps> = ({ product, href, height = 320, width = 24
           <div className="front">
             <div className="cover" style={{ height, width }}>
               {image && <Image className="image" height={height} width={width} alt={name} src={image} />}
-              <p className="book-name">{name}</p>
+              <p className="book-name truncate">{name}</p>
             </div>
           </div>
           <div className="left-side" style={{ height }}>
