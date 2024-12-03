@@ -52,7 +52,7 @@ export const ThemeModeButton = () => {
       </div>
       <div
         tabIndex={0}
-        className="dropdown-content bg-base-200 text-base-content rounded-box top-px h-[25rem] max-h-[calc(100vh-10rem)] w-56 overflow-y-auto border border-white/5 shadow-2xl outline outline-1 outline-black/5 mt-16 z-50"
+        className="dropdown-content bg-base-200 text-base-content rounded-box top-px h-[25rem] max-h-[calc(100vh-10rem)] w-56 overflow-y-auto border border-white/5 shadow-2xl outline outline-1 outline-black/5 mt-16 z-10"
       >
         <div className="grid grid-cols-1 gap-3 p-3">
           {themes.map((t, i) => (

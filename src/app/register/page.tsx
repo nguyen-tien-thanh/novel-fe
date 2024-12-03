@@ -42,8 +42,8 @@ const Register = () => {
   return (
     <section className="bg-base-200 flex items-center justify-center min-h-[calc(100dvh-68px-52px)]">
       <div className="card min-w-80 md:w-[480px] bg-base-100 shadow-xl">
-        <div className="card-body p-6 sm:p-8">
-          <h2 className="card-title text-2xl font-bold mb-3 sm:mb-6 justify-center">Đăng kí</h2>
+        <div className="card-body p-6">
+          <h2 className="card-title text-2xl font-bold mb-3 justify-center">Đăng kí</h2>
           <Form onSubmit={handleSubmit}>
             <div className="flex gap-4">
               <div className="form-control">

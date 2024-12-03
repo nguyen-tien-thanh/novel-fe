@@ -80,6 +80,14 @@
   padding-top: 10px;
   padding-bottom: 10px;
   padding-left: 20px;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+.book-cover:hover .book-name {
+  background-color: transparent;
+  opacity: 1;
 }
 
 .book-cover .book-container .front > div {

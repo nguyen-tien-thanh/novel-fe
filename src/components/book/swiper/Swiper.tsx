@@ -34,7 +34,7 @@ export const Swiper: FC<ISwiperProps> = ({ items, slidesPerView = 2, itemsProps,
           slidesPerView: 7,
         },
         1536: {
-          slidesPerView: 9,
+          slidesPerView: 8,
         },
       }}
       spaceBetween={10}

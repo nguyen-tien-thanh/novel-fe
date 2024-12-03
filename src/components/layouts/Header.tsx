@@ -28,10 +28,10 @@ export const Header = () => {
     <header className="navbar bg-base-100 h-[68px]">
       <nav className="navbar-start">
         <div className="dropdown">
-          <div tabIndex={0} role="Button" className="btn btn-ghost lg:hidden px-3">
+          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden px-3">
             <HamburgerIcon />
           </div>
-          <ul tabIndex={0} className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+          <ul tabIndex={0} className="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow">
             {pages.map((page, i) => (
               <li key={i}>
                 <Link href={page.href}>{page.name}</Link>
@@ -49,7 +49,7 @@ export const Header = () => {
         </div>
         <Link className="btn btn-ghost text-xl px-0 md:px-3" href="/">
           <Image
-            className="hidden md:block h-10 sm:h-12 w-auto cursor-pointer"
+            className="hidden md:block h-10 w-auto cursor-pointer"
             src={'/logo.png'}
             width={457}
             height={175}
