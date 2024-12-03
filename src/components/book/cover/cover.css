@@ -66,6 +66,7 @@
   -webkit-transform: rotate3d(0, 1, 0, -90deg);
   -moz-transform: rotate3d(0, 1, 0, -90deg);
   transform: rotate3d(0, 1, 0, -90deg);
+  overflow: hidden;
 }
 
 .book-cover .book-name {

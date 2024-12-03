@@ -1,15 +1,19 @@
-import { FC } from 'react'
+import { ComponentType, createElement, FC, ReactNode } from 'react'
 import { IProduct } from '@/types'
 import { useRouter } from 'next/navigation'
 import { cn } from '@/lib'
 import Image from 'next/image'
 import './cover.css'
 
+export type TCoverShowOptions = 'overlay'
+
 export interface ICoverProps {
   product: IProduct
   href?: string
   height?: number
   width?: number
+  component?: ComponentType<any> | ReactNode
+  show?: TCoverShowOptions[]
 }
 
 /**
@@ -19,7 +23,7 @@ export interface ICoverProps {
  * - 180 x 240
  * - 120 x 180
  */
-export const Cover: FC<ICoverProps> = ({ product, href, height = 360, width = 240 }) => {
+export const Cover: FC<ICoverProps> = ({ product, href, height = 360, width = 240, component, show = ['overlay'] }) => {
   const router = useRouter()
   const { authorName, image, name, createdAt } = product
 
@@ -34,8 +38,9 @@ export const Cover: FC<ICoverProps> = ({ product, href, height = 360, width = 24
         <div className="book" style={{ height, width }}>
           <div className="front">
             <div className="cover" style={{ height, width }}>
+              {component && (typeof component === 'function' ? createElement(component) : component)}
               {image && <Image className="image" height={height} width={width} alt={name} src={image} />}
-              <p className="book-name truncate">{name}</p>
+              {show.includes('overlay') && <p className="book-name truncate">{name}</p>}
             </div>
           </div>
           <div className="left-side" style={{ height }}>

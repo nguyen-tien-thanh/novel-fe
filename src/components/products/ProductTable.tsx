@@ -1,3 +1,5 @@
+'use client'
+
 import { formatTimeAgo } from '@/lib'
 import { IProduct, PRODUCT_STATUS } from '@/types'
 import { useRouter } from 'next/navigation'
