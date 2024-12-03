@@ -64,11 +64,13 @@ export default function Dashboard({ products, categories }: DashboardProps) {
               <div className="flex flex-wrap gap-2">
                 {categories.map(category => {
                   const colors = [
-                    'text-primary hover:bg-primary',
-                    'text-secondary hover:bg-secondary',
-                    'text-accent hover:bg-accent',
+                    'text-success hover:bg-success hover:border-success',
+                    'text-default hover:bg-neutral',
+                    'text-info hover:bg-info hover:border-info',
+                    'text-default hover:bg-neutral',
                   ]
-                  const randomColor = colors[Math.floor(Math.random() * colors.length)]
+                  const index = category.id % colors.length
+                  const randomColor = colors[index]
                   return (
                     <Link
                       href={`/category/${category.id}`}

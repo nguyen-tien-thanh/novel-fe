@@ -1,12 +1,12 @@
-import { format, parse } from 'date-fns'
+import { format as fnsFormat, parse } from 'date-fns'
 
-export const formatDatetime = (value: string) => {
+export const formatDatetime = (value: string, format?: string) => {
   if (!value) return
 
   const date = parse(value, "yyyy-MM-dd'T'HH:mm:ss.SSSX", new Date())
-  const formatDate = 'dd/MM/yyyy'
+  const formatDate = format ?? 'dd/MM/yyyy'
   const formatTime = ''
-  return format(new Date(date), `${formatDate} ${formatTime}`)
+  return fnsFormat(new Date(date), `${formatDate} ${formatTime}`)
 }
 
 export const formatTimeAgo = (date: Date | string): string => {

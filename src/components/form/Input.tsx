@@ -10,11 +10,19 @@ import { cn } from '@/lib'
 import { Tooltip } from '../commons'
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false })
 
+export interface InputValidationRules {
+  required?: boolean | string
+  minLength?: number | { value: number; message: string }
+  maxLength?: number | { value: number; message: string }
+  pattern?: RegExp | { value: RegExp; message: string }
+  [key: string]: unknown
+}
+
 export interface InputPropsBase extends React.InputHTMLAttributes<HTMLInputElement> {
   name: string
   color?: 'primary' | 'secondary' | 'accent' | 'info' | 'success' | 'warning' | 'error'
   className?: string
-  validation?: Record<string, any>
+  validation?: InputValidationRules
 }
 
 export type IconOnly = {

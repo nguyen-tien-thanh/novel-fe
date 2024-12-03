@@ -9,7 +9,7 @@ export interface IProductRateProps {
   products: IProduct[]
 }
 
-export const BadgeTop = ({ text }: { text: string | number }) => (
+const BadgeTop = ({ text }: { text: string | number }) => (
   <div className="z-[4] absolute bg-secondary size-10 [clip-path:polygon(0%_0%,_0%_100%,_100%_0%)]">
     <span className="p-2 text-white font-semibold">{text}</span>
   </div>
@@ -40,7 +40,7 @@ export const ProductRate: FC<IProductRateProps> = ({ products }) => {
                   >
                     {product.name}
                   </Link>
-                  <Link href="#!" className="hover:underline underline-offset-4 text-primary">
+                  <Link href="#!" className="hover:underline underline-offset-4 text-primary opacity-80">
                     {product.authorName}
                   </Link>
                   <p className="line-clamp-2 text-sm">{product.description}</p>
@@ -49,12 +49,12 @@ export const ProductRate: FC<IProductRateProps> = ({ products }) => {
             ) : (
               <>
                 <div className="flex">
-                  <span className="text-primary font-semibold p-1 w-6">{++idx}</span>
-                  <Link href={`/product/${product.id}`} className="p-1 truncate hover:underline underline-offset-4">
+                  <span className="text-primary font-semibold p-1 w-6 opacity-80">{++idx}</span>
+                  <Link href={`/product/${product.id}`} className="p-1 truncate hover:underline underline-offset-4 ">
                     {product.name}
                   </Link>
                 </div>
-                <Link href="#!" className="p-1 truncate hover:underline underline-offset-4 text-primary">
+                <Link href="#!" className="p-1 truncate hover:underline underline-offset-4 text-primary opacity-80">
                   {product.authorName}
                 </Link>
               </>

@@ -11,9 +11,9 @@ export interface IProductListProps {
   badgeText?: string
 }
 
-export const BadgeTop = ({ text }: { text: string | number | undefined }) =>
+const BadgeTop = ({ text }: { text: string | number | undefined }) =>
   text && (
-    <div className="z-[4] top-1 right-0 absolute bg-primary">
+    <div className="z-[4] top-1 right-0 absolute bg-primary bg-opacity-40">
       <span className="p-1 text-white font-semibold">{text}</span>
     </div>
   )
@@ -43,7 +43,7 @@ export const ProductList: FC<IProductListProps> = ({ products, badgeText }) => {
           {/* TODO */}
           <Link
             href="#!"
-            className="truncate hover:underline underline-offset-4 text-primary text-right float-right w-[30%]"
+            className="truncate hover:underline underline-offset-4 text-primary text-right float-right w-[30%] opacity-80"
           >
             {product.authorName}
           </Link>

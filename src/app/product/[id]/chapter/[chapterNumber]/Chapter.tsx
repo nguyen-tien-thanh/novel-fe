@@ -1,17 +1,17 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
-import { Box, Skeleton, Typography } from '@mui/material'
+import { ChapterActionButton } from '@/components'
+import { useBlockCopy } from '@/hooks'
+import { formatDatetime } from '@/lib'
 import { IChapter, ITextStyle } from '@/types'
-import { ArraySkeleton, ChapterActionButton, Container } from '@/components'
-import { useBlockCopy } from '@/hooks/useBlockCopy'
+import { useEffect, useState } from 'react'
 
-interface IPageParams {
+export interface IChapterParams {
   chapters: IChapter[]
   chapter: IChapter
 }
 
-export const Chapter = ({ chapter, chapters }: IPageParams) => {
+export const Chapter = ({ chapter, chapters }: IChapterParams) => {
   const [loading, setLoading] = useState(true)
   const [textStyle, setTextStyle] = useState<ITextStyle>({
     fontFamily: '',
@@ -51,49 +51,32 @@ export const Chapter = ({ chapter, chapters }: IPageParams) => {
   useBlockCopy()
 
   return (
-    <Container sx={{ position: 'relative' }}>
-      <Box className="flex flex-col justify-center">
-        {!chapter || loading ? (
-          <Skeleton variant="text" sx={{ display: 'flex', alignSelf: 'center', fontSize: '28px' }} width="300px" />
-        ) : (
-          <Typography variant="h4" className="font-bold text-center">
-            Chap {chapter.chapterNumber} - {chapter.chapterName}
-          </Typography>
-        )}
+    <div className="container mx-auto relative py-5 lg:py-10">
+      <div className="flex flex-col justify-center">
+        <p className="text-3xl font-semibold text-center">
+          Chap {chapter.chapterNumber} - {chapter.chapterName}
+        </p>
 
-        {chapter && (
-          <ChapterActionButton
-            textStyle={textStyle}
-            handleChangeTextStyle={handleChangeTextStyle}
-            className="mt-6 hidden lg:flex justify-center gap-2 sticky top-[90px]"
-            chapter={chapter}
-            count={chapters.length}
-          />
-        )}
+        <p className="text-right italic">{formatDatetime(chapter.createdAt, 'HH:mm - dd/MM/yyyy')}</p>
 
         {!chapter || loading ? (
-          <Box>
-            <ArraySkeleton sx={{ my: 2 }} variant="text" height="20px" />
-          </Box>
+          <div>{/* <ArraySkeleton sx={{ my: 2 }} variant="text" height="20px" /> */}</div>
         ) : (
-          <Box sx={{ py: 3 }}>
-            <Typography
-              variant="body1"
-              sx={{
-                textAlign: 'justify',
+          <div className="py-3">
+            <p
+              className="text-justify select-none pointer-events-none"
+              style={{
                 fontFamily: textStyle.fontFamily,
                 fontWeight: textStyle.fontWeight,
                 fontSize: textStyle.fontSize + 'em',
                 lineHeight: textStyle.lineHeight + 'em',
                 letterSpacing: textStyle.letterSpacing + 'em',
-                userSelect: 'none',
-                pointerEvents: 'none',
               }}
               dangerouslySetInnerHTML={{ __html: chapter.content }}
             />
-          </Box>
+          </div>
         )}
-      </Box>
+      </div>
 
       {chapter && (
         <ChapterActionButton
@@ -101,9 +84,8 @@ export const Chapter = ({ chapter, chapters }: IPageParams) => {
           handleChangeTextStyle={handleChangeTextStyle}
           chapter={chapter}
           count={chapters.length}
-          className="gap-2 "
         />
       )}
-    </Container>
+    </div>
   )
 }

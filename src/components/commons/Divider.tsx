@@ -18,7 +18,7 @@ export const Divider: FC<IDividerProps> = ({
   return (
     <div
       className={cn(
-        'divider before:h-[1px] after:h-[1px]',
+        'divider before:h-[1px] after:h-[1px] after:bg-opacity-30 before:bg-opacity-30',
         direction === 'vertical' && 'divider-vertical',
         direction === 'horizontal' && 'divider-horizontal',
         position === 'default' && 'divider-default',

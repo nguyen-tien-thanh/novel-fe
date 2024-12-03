@@ -12,7 +12,7 @@ export interface ICoverProps {
   href?: string
   height?: number
   width?: number
-  component?: ComponentType<any> | ReactNode
+  component?: ComponentType<unknown> | ReactNode
   show?: TCoverShowOptions[]
 }
 

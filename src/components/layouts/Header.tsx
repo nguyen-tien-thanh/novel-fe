@@ -28,7 +28,7 @@ export const Header = () => {
     <header className="navbar bg-base-100 h-[68px]">
       <nav className="navbar-start">
         <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden px-3">
+          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden pl-0 sm:px-3">
             <HamburgerIcon />
           </div>
           <ul tabIndex={0} className="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow">
