@@ -24,18 +24,10 @@ export const Swiper: FC<ISwiperProps> = ({ items, slidesPerView = 2, itemsProps,
       slidesPerView={slidesPerView}
       speed={1000}
       breakpoints={{
-        768: {
-          slidesPerView: 4,
-        },
-        1024: {
-          slidesPerView: 5,
-        },
-        1280: {
-          slidesPerView: 7,
-        },
-        1536: {
-          slidesPerView: 8,
-        },
+        390: { slidesPerView: 2 },
+        480: { slidesPerView: 3 },
+        1024: { slidesPerView: 6 },
+        1536: { slidesPerView: 6 },
       }}
       spaceBetween={10}
       autoplay={{

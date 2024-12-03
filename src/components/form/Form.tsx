@@ -27,7 +27,7 @@ export const Form = <TFormValues extends FieldValues>({
         style={style}
         className={cn(
           // 'max-w-[500px] mx-auto',
-          // 'flex flex-col gap-y-2 p-6 md:p-8 lg:p-10',
+          // 'flex flex-col gap-y-2 p-6 lg:p-8 lg:p-10',
           // 'rounded-lg border-2 border-base-300',
           // 'shadow-md hover:shadow-lg transition-shadow duration-300',
           // 'focus-within:ring-2 focus-within:ring-base-500',

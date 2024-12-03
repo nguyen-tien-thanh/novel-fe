@@ -13,18 +13,18 @@ export const Tooltip: FC<ITooltipProps> = ({ position = 'bottom', title, childre
   return (
     <div
       className={cn(
-        'tooltip z-[5]',
-        position === 'top' && 'tooltip-top',
-        position === 'bottom' && 'tooltip-bottom',
-        position === 'left' && 'tooltip-left',
-        position === 'right' && 'tooltip-right',
-        color === 'primary' && 'tooltip-primary',
-        color === 'secondary' && 'tooltip-secondary',
-        color === 'accent' && 'tooltip-accent',
-        color === 'info' && 'tooltip-info',
-        color === 'success' && 'tooltip-success',
-        color === 'warning' && 'tooltip-warning',
-        color === 'error' && 'tooltip-error',
+        'lg:tooltip z-[5]',
+        position === 'top' && 'lg:tooltip-top',
+        position === 'bottom' && 'lg:tooltip-bottom',
+        position === 'left' && 'lg:tooltip-left',
+        position === 'right' && 'lg:tooltip-right',
+        color === 'primary' && 'lg:tooltip-primary',
+        color === 'secondary' && 'lg:tooltip-secondary',
+        color === 'accent' && 'lg:tooltip-accent',
+        color === 'info' && 'lg:tooltip-info',
+        color === 'success' && 'lg:tooltip-success',
+        color === 'warning' && 'lg:tooltip-warning',
+        color === 'error' && 'lg:tooltip-error',
         className,
       )}
       data-tip={title}

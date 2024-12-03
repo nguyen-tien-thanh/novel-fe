@@ -65,7 +65,7 @@ export const Chapter = ({ chapter, chapters }: IPageParams) => {
           <ChapterActionButton
             textStyle={textStyle}
             handleChangeTextStyle={handleChangeTextStyle}
-            className="mt-6 hidden md:flex justify-center gap-2 sticky top-[90px]"
+            className="mt-6 hidden lg:flex justify-center gap-2 sticky top-[90px]"
             chapter={chapter}
             count={chapters.length}
           />

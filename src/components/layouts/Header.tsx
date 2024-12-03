@@ -47,9 +47,9 @@ export const Header = () => {
             ))}
           </ul>
         </div>
-        <Link className="btn btn-ghost text-xl px-0 md:px-3" href="/">
+        <Link className="btn btn-ghost text-xl px-0 lg:px-3" href="/">
           <Image
-            className="hidden md:block h-10 w-auto cursor-pointer"
+            className="hidden lg:block h-10 w-auto cursor-pointer"
             src={'/logo.png'}
             width={457}
             height={175}
@@ -86,13 +86,11 @@ export const Header = () => {
       <nav className="navbar-end">
         <div className="flex items-center space-x-1">
           <div className="dropdown dropdown-end">
-            <Tooltip title="Giao diện">
-              <ThemeModeButton />
-            </Tooltip>
+            <ThemeModeButton />
           </div>
           {!user ? (
             <div className="space-x-1">
-              <Link href="/register" className="hidden md:inline-flex">
+              <Link href="/register" className="hidden lg:inline-flex">
                 <Button className="btn-ghost">Đăng kí</Button>
               </Link>
               <Link href="/login">

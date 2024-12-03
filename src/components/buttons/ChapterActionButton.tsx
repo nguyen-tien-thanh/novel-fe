@@ -56,7 +56,7 @@ export const ChapterActionButton: FC<IChapterActionButton> = ({
   }
 
   return 'chapteractionbutton'
-  // <Box className={cn('w-full flex md:hidden justify-between sticky bottom-[10px]', className)}>
+  // <Box className={cn('w-full flex lg:hidden justify-between sticky bottom-[10px]', className)}>
   //   <Button
   //     variant="contained"
   //     startIcon={<ArrowBack />}

@@ -25,7 +25,7 @@ export default function Dashboard({ products, categories }: DashboardProps) {
   }, [products, categories])
 
   return (
-    <div className="pb-10 md:pb-20">
+    <div className="pb-10 lg:pb-20">
       <section className="container mx-auto">
         <Hero
           title="Welcome"
@@ -44,17 +44,17 @@ export default function Dashboard({ products, categories }: DashboardProps) {
       </section>
 
       <section className="container mx-auto mt-10">
-        <div className="flex flex-col md:flex-row gap-8">
+        <div className="flex flex-col lg:flex-row gap-8">
           <div id="product-section" className="space-y-10">
             <CardPaper title="Mới cập nhật">
-              <ul className="md:flex md:flex-wrap md:gap-x-2 lg:gap-x-3 xl:gap-x-4">
+              <ul className="lg:flex lg:flex-wrap lg:gap-x-2 lg:gap-x-3 xl:gap-x-4">
                 {products.slice(0, 20).map(product => (
-                  <li key={product.id} className="border-b border-b-base flex justify-between gap-2 py-1 md:w-[49%]">
+                  <li key={product.id} className="border-b border-b-base flex justify-between gap-2 py-1 lg:w-[49%]">
                     <Link href={`/product/${product.id}`} className="truncate hover:underline underline-offset-4">
                       ({`C${product.chapterCount}`}) {product.name}
                     </Link>
                     {/* TODO */}
-                    <Link href="#!" className="truncate hover:underline underline-offset-4 text-secondary">
+                    <Link href="#!" className="truncate hover:underline underline-offset-4 text-secondary max-w-32">
                       {product.authorName}
                     </Link>
                   </li>
@@ -63,15 +63,14 @@ export default function Dashboard({ products, categories }: DashboardProps) {
             </CardPaper>
 
             <CardPaper title="Đánh giá cao">
-              <ul className="md:flex md:flex-wrap md:gap-x-2 lg:gap-x-3 xl:gap-x-4">
+              <ul className="lg:flex lg:flex-wrap lg:gap-x-2 lg:gap-x-3 xl:gap-x-4">
                 {products.slice(0, 20).map(product => (
-                  <li key={product.id} className="border-b border-b-base flex justify-between gap-2 py-1 md:w-[49%]">
+                  <li key={product.id} className="border-b border-b-base flex justify-between gap-2 py-1 lg:w-[49%]">
                     <Link href={`/product/${product.id}`} className="truncate hover:underline underline-offset-4">
                       {product.name}
-                      {/* ({`${product.averageRate}★`}) */}
                     </Link>
                     {/* TODO */}
-                    <Link href="#!" className="truncate hover:underline underline-offset-4 text-secondary">
+                    <Link href="#!" className="truncate hover:underline underline-offset-4 text-secondary max-w-32">
                       {product.authorName}
                     </Link>
                   </li>
@@ -80,14 +79,14 @@ export default function Dashboard({ products, categories }: DashboardProps) {
             </CardPaper>
 
             <CardPaper title="Đã hoàn thành">
-              <ul className="md:flex md:flex-wrap md:gap-x-2 lg:gap-x-3 xl:gap-x-4">
+              <ul className="lg:flex lg:flex-wrap lg:gap-x-2 lg:gap-x-3 xl:gap-x-4">
                 {products.slice(0, 20).map(product => (
-                  <li key={product.id} className="border-b border-b-base flex justify-between gap-2 py-1 md:w-[49%]">
+                  <li key={product.id} className="border-b border-b-base flex justify-between gap-2 py-1 lg:w-[49%]">
                     <Link href={`/product/${product.id}`} className="truncate hover:underline underline-offset-4">
                       {product.name}
                     </Link>
                     {/* TODO */}
-                    <Link href="#!" className="truncate hover:underline underline-offset-4 text-secondary">
+                    <Link href="#!" className="truncate hover:underline underline-offset-4 text-secondary max-w-32">
                       {product.authorName}
                     </Link>
                   </li>
@@ -101,12 +100,13 @@ export default function Dashboard({ products, categories }: DashboardProps) {
               <div className="flex flex-wrap gap-2">
                 {categories.map(category => {
                   const colors = ['btn-primary', 'btn-secondary', 'btn-accent']
-                  const randomColor = colors[Math.floor(Math.random() * colors.length)]
+                  const colorIndex = category.id % colors.length
+                  const colorClass = colors[colorIndex]
                   return (
                     <Link
                       href={`/category/${category.id}`}
                       key={category.id}
-                      className={cn('btn btn-outline btn-sm', randomColor)}
+                      className={cn('btn btn-outline btn-sm', colorClass)}
                     >
                       {category.name}
                     </Link>
@@ -116,11 +116,11 @@ export default function Dashboard({ products, categories }: DashboardProps) {
             </CardPaper>
 
             <CardPaper title="Top tuần">
-              <ul className="md:flex md:flex-wrap md:gap-x-2 lg:gap-x-3 xl:gap-x-4">
+              <ul className="lg:flex lg:flex-wrap lg:gap-x-2 lg:gap-x-3 xl:gap-x-4">
                 {products.slice(0, 10).map((product, idx) => (
-                  <li key={product.id} className="border-b border-b-base flex justify-between gap-2 py-1">
-                    <div>
-                      <span className="text-secondary font-semibold p-1">{++idx}</span>
+                  <li key={product.id} className="border-b border-b-base flex items-center gap-2 py-1 w-full">
+                    <div className="flex">
+                      <span className="text-secondary font-semibold p-1 w-6">{++idx}</span>
                       <Link
                         href={`/product/${product.id}`}
                         className="p-1 w-[200px] truncate hover:underline underline-offset-4"
@@ -141,9 +141,9 @@ export default function Dashboard({ products, categories }: DashboardProps) {
             </CardPaper>
 
             <CardPaper title="Top tháng">
-              <ul className="md:flex md:flex-wrap md:gap-x-2 lg:gap-x-3 xl:gap-x-4">
+              <ul className="lg:flex lg:flex-wrap lg:gap-x-2 lg:gap-x-3 xl:gap-x-4">
                 {products.slice(0, 10).map((product, idx) => (
-                  <li key={product.id} className="border-b border-b-base flex justify-between gap-2 py-1">
+                  <li key={product.id} className="border-b border-b-base flex justify-between items-center gap-2 py-1">
                     <div>
                       <span className="text-secondary font-semibold p-1">{++idx}</span>
                       <Link

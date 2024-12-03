@@ -31,7 +31,7 @@ export const Hero: FC<IHeroProps> = ({
             children
           ) : (
             <>
-              {title && <h1 className="mb-5 text-3xl md:text-5xl font-bold">{title}</h1>}
+              {title && <h1 className="mb-5 text-3xl lg:text-5xl font-bold">{title}</h1>}
               {subtitle && <p className="mb-5">{subtitle}</p>}
               {buttonText && (
                 <Link href={href}>
