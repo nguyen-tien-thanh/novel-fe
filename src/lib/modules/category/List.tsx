@@ -3,7 +3,13 @@
 // import { useRouter } from 'next/navigation'
 // import { toast } from 'react-toastify'
 // import { NVCell, NVList } from '@/components'
+import React from 'react'
 
+const List = () => {
+  return <div>List</div>
+}
+
+export default List
 // export const List = ({ initialCategories, deleteCategory }) => {
 //   const router = useRouter()
 

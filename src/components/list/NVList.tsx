@@ -1,54 +1,39 @@
-// 'use client'
-// import React, { ReactElement, ReactNode, useState } from 'react'
-// import {
-//   Button,
-//   IconButton,
-//   Paper,
-//   Table,
-//   TableBody,
-//   TableCell,
-//   TableContainer,
-//   TableFooter,
-//   TableHead,
-//   TablePagination,
-//   TableRow,
-//   Typography,
-// } from '@mui/material'
-// import DeleteIcon from '@mui/icons-material/Delete'
-// import AddIcon from '@mui/icons-material/Add'
-// import TablePaginationActions from '@mui/material/TablePagination/TablePaginationActions'
-// import EditIcon from '@mui/icons-material/Edit'
-// import Link from 'next/link'
-// import { ICategory, IChapter, IProduct } from '@/types'
+'use client'
+import React, { ReactElement, ReactNode, useState } from 'react'
+import Link from 'next/link'
+import { ICategory, IChapter, IProduct } from '@/types'
 
-// interface NVListColumnProps<T extends IProduct | ICategory | IChapter> {
-//   headerName: string
-//   name: keyof T
-//   render?: (value: T[keyof T], row: T) => ReactNode
-// }
+interface NVListColumnProps<T extends IProduct | ICategory | IChapter> {
+  headerName: string
+  name: keyof T
+  render?: (value: T[keyof T], row: T) => ReactNode
+}
 
-// interface NVListProps {
-//   data: IProduct[] | ICategory[] | IChapter[]
-//   title: string
-//   onAdd: () => void
-//   children: ReactElement<NVListColumnProps<IProduct | ICategory | IChapter>>[]
-//   onDel?: (id: number) => void
-//   isEdit?: boolean
-//   resource: string
-// }
+interface NVListProps {
+  data: IProduct[] | ICategory[] | IChapter[]
+  title: string
+  onAdd: () => void
+  children: ReactElement<NVListColumnProps<IProduct | ICategory | IChapter>>[]
+  onDel?: (id: number) => void
+  isEdit?: boolean
+  resource: string
+}
 
-// export const NVList = ({ data, title, onAdd, children, onDel, isEdit, resource }: NVListProps) => {
-//   const [page, setPage] = useState(0)
-//   const [rowsPerPage, setRowsPerPage] = useState(5)
+export const NVList = ({ data, title, onAdd, children, onDel, isEdit, resource }: NVListProps) => {
+  const [page, setPage] = useState(0)
+  const [rowsPerPage, setRowsPerPage] = useState(5)
 
-//   const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
-//     setPage(newPage)
-//   }
+  const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
+    setPage(newPage)
+  }
 
-//   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-//     setRowsPerPage(parseInt(event.target.value, 10))
-//     setPage(0)
-//   }
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setRowsPerPage(parseInt(event.target.value, 10))
+    setPage(0)
+  }
+
+  return ``
+}
 
 //   return (
 //     <div style={{ alignSelf: 'center' }}>
