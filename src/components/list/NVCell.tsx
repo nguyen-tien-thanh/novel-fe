@@ -15,10 +15,9 @@ export const NVCell: React.FC<CustomTableCellProps<IProduct | ICategory | IChapt
   render,
   rowData,
 }) => {
-  if (!rowData || !name || !rowData[name]) return
+  if (!rowData || !name || !rowData[name]) return <td></td>
 
   const cellContent = render ? render(rowData[name], rowData) : rowData[name]
 
-  return <></>
-  //   return <TableCell>{cellContent}</TableCell>
+  return <td>{cellContent}</td>
 }
