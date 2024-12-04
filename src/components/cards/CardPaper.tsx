@@ -1,20 +1,19 @@
-// // import { Box, Paper, SxProps, Typography } from '@mui/material'
-// import React from 'react'
+import React from 'react'
+import { Divider } from '../commons'
 
-// export interface ICardPaper {
-//   children: React.ReactNode
-//   title: string
-//   sx?: SxProps<typeof Paper>
-// }
+export interface ICardPaper {
+  title: string
+  children: React.ReactNode
+}
 
-// export const CardPaper = ({ children, title, sx = {} }) => {
-//   return (
-//     <Paper elevation={6} sx={{ borderRadius: 2, ...sx }}>
-//       <Box sx={{ px: 2, pt: 2 }}>
-//         <Typography sx={{ fontSize: { xs: '1.5rem', sm: '2rem' } }}>{title}</Typography>
-//       </Box>
+export const CardPaper = ({ children, title }) => {
+  return (
+    <div>
+      <h2 className="text-2xl font-semibold">{title}</h2>
 
-//       {children}
-//     </Paper>
-//   )
-// }
+      <Divider className="w-full divider-primary mb-2 mt-0 lg:mt-1" />
+
+      {children}
+    </div>
+  )
+}

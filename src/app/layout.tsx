@@ -24,12 +24,12 @@ export default async function RootLayout({
   return (
     <SessionProvider session={session}>
       <ThemeProvider>
-        <html lang="en" suppressHydrationWarning data-theme={theme?.value || 'cupcake'}>
+        <html lang="vi" suppressHydrationWarning data-theme={theme?.value || 'cupcake'}>
           <body>
             <Header />
 
             <ToastContainer />
-            <main className="relative min-h-[calc(100dvh-52px)] pt-16 lg:pt-[68px] lg:min-h-[calc(100dvh-52px)]">
+            <main className="relative min-h-[calc(100dvh-68px-52px)]">
               {children}
 
               <ScrollToTopButton />

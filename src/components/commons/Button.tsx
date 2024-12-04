@@ -9,7 +9,7 @@ export interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 export const Button: FC<IButtonProps> = ({ color, className, children, ...props }) => {
   return (
-    <button className={cn('btn', className)} {...props}>
+    <button className={cn('btn', className)} {...props} aria-label="button">
       {children}
     </button>
   )

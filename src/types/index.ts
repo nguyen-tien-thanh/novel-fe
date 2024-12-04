@@ -19,7 +19,7 @@ export interface IProduct {
   image?: string
   viewCount?: number
   description?: string
-  createdAt?: string
+  createdAt: string
   updatedAt?: string
   averageRate?: number
   chapterCount?: number

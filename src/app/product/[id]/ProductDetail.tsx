@@ -1,30 +1,16 @@
 'use client'
-import {
-  Box,
-  Chip,
-  Divider,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableFooter,
-  TableHead,
-  TablePagination,
-  TableRow,
-  Typography,
-} from '@mui/material'
-import TablePaginationActions from '@mui/material/TablePagination/TablePaginationActions'
-import React, { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
-import Rating from '@mui/material/Rating'
-import { IChapter, IProduct, IRate, PRODUCT_STATUS } from '@/types'
-import { formatCurrency, formatDatetime } from '@/lib/utils'
-import { Container } from '@/components'
-import { useSession } from 'next-auth/react'
-import { Book } from '@/components/book'
 
-export interface ProductDetailProps {
+import { CardPaper, Divider, Rating } from '@/components'
+import { Book } from '@/components/book'
+import { cn, formatCurrency, formatDatetime } from '@/lib'
+import { IChapter, IProduct, IRate, PRODUCT_STATUS } from '@/types'
+import { useSession } from 'next-auth/react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { FC, useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
+
+export interface IProductDetailProps {
   id: number
   product: IProduct
   products?: IProduct[]
@@ -32,14 +18,14 @@ export interface ProductDetailProps {
   rates?: IRate[]
 }
 
-export default function ProductDetail({ id, products, product, chapters, rates }: ProductDetailProps) {
+export default function ProductDetail({ id, products, product, chapters, rates }: IProductDetailProps) {
   const router = useRouter()
   const session = useSession()
   const user = session?.data?.user
 
   const [flag, setFlag] = useState(false)
-  const [page, setPage] = React.useState(0)
-  const [rowsPerPage, setChaptersPerPage] = React.useState(5)
+  // const [page, setPage] = useState(0)
+  // const [rowsPerPage, setChaptersPerPage] = useState(5)
   const [relatedProduct, setRelatedProduct] = useState<IProduct[]>([])
 
   const handleChapterClick = (chap: IChapter) => {
@@ -62,20 +48,21 @@ export default function ProductDetail({ id, products, product, chapters, rates }
     }
   }, [products, id])
 
-  const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
-    setPage(newPage)
-  }
+  // const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
+  //   setPage(newPage)
+  // }
 
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setChaptersPerPage(parseInt(event.target.value, 10))
-    setPage(0)
-  }
-
-  if (!product) return null
+  // const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  //   setChaptersPerPage(parseInt(event.target.value, 10))
+  //   setPage(0)
+  // }
 
   const handleRating = (rating: number | null) => {
     // TODO: Remove rate api
-    if (!user) return router.push('/login')
+    if (!user) {
+      toast('Bạn cần đăng nhập để thực hiện', { type: 'warning' })
+      return router.push('/login')
+    }
     if (!rating || !rates) return
 
     const existingRate = rates.find(rate => rate.createdBy === +user.id)
@@ -96,157 +83,116 @@ export default function ProductDetail({ id, products, product, chapters, rates }
     }
   }
 
+  if (!product) return null
+
   return (
-    <Container>
-      <Box component={'section'} className="grid lg:grid-cols-7 gap-8 place-items-center lg:place-items-start">
-        <Box className="relative h-full w-full lg:col-span-2">
-          <Book.Cover product={product} />
-        </Box>
-        <Box className="lg:col-span-5">
-          <Box className="lg:px-5 pb-0 lg:pt-5 rounded-md">
-            <Box className="flex flex-col justify-center items-center">
-              <Typography variant="h4" className="font-bold text-center">
-                {product.name}
-              </Typography>
-              <Box className="flex flex-col items-center">
+    <div className="container mx-auto">
+      <section className="grid lg:grid-cols-7 gap-4 lg:gap-8 place-items-center lg:place-items-start">
+        <div className="relative h-full w-full lg:col-span-2 lg:pt-5">
+          <Book.Cover product={product} show={[]} height={390} width={260} />
+        </div>
+        <div className="lg:col-span-5">
+          <div className="lg:px-5 pb-0 lg:pt-5 rounded-md">
+            <div className="flex flex-col justify-center items-center">
+              <p className="font-bold text-center text-3xl">{product.name}</p>
+              <div className="flex flex-col items-center">
                 <Rating
-                  name="simple-controlled"
+                  name="rating"
                   value={product.averageRate || 0}
-                  size="small"
+                  size="sm"
                   onChange={(e, val) => handleRating(val)}
                 />
 
-                {rates && (
-                  <Typography variant="body2" color="textSecondary">
-                    ({rates.length} lượt đánh giá)
-                  </Typography>
-                )}
-              </Box>
-            </Box>
+                {rates && <p className="text-sm opacity-65">({rates.length} lượt đánh giá)</p>}
+              </div>
+            </div>
 
-            <Box className="mt-6 flex flex-col gap-2">
-              <Box className="flex">
-                <Typography width={100} color="textSecondary">
-                  Author
-                </Typography>
-                <Typography>{product.authorName}</Typography>
-              </Box>
-              <Box className="flex items-center">
-                <Typography width={100} color="textSecondary">
-                  Status
-                </Typography>
-                <Chip
-                  label={product.status}
-                  color={product.status === PRODUCT_STATUS.DONE ? 'primary' : 'warning'}
-                  size="small"
-                />
-              </Box>
-              <Box className="flex">
-                <Typography width={100} color="textSecondary">
-                  View
-                </Typography>
-                <Typography>{product.viewCount}</Typography>
-              </Box>
-              <Box className="flex">
-                <Typography width={100} color="textSecondary">
-                  Published
-                </Typography>
-                <Typography>{product.createdAt && formatDatetime(product.createdAt)}</Typography>
-              </Box>
-            </Box>
+            <div className="mt-6 flex flex-col gap-2">
+              <div className="flex">
+                <p className="min-w-24 opacity-65">Tác giả</p>
+                <p>{product.authorName}</p>
+              </div>
+              <div className="flex items-center">
+                <p className="min-w-24 opacity-65">Trạng thái</p>
+                <div
+                  className={cn('badge', product.status === PRODUCT_STATUS.DONE ? 'badge-success' : 'badge-warning')}
+                >
+                  {product.status}
+                </div>
+              </div>
+              <div className="flex">
+                <p className="min-w-24 opacity-65">Lượt xem</p>
+                <p>{product.viewCount}</p>
+              </div>
+              <div className="flex">
+                <p className="min-w-24 opacity-65">Ngày đăng</p>
+                <p>{product.createdAt && formatDatetime(product.createdAt)}</p>
+              </div>
+            </div>
             {product.categories && (
-              <Box className="my-4 flex flex-wrap gap-2">
+              <div className="my-4 flex flex-wrap gap-2">
                 {product.categories.map(cate => (
-                  <Chip key={cate.id} label={cate.name} />
+                  <Link key={cate.id} href={`/category/${cate.id}`} className="btn btn-sm font-normal">
+                    {cate.name}
+                  </Link>
                 ))}
-              </Box>
+              </div>
             )}
-            <Typography variant="body1" color="textSecondary" className="mt-6">
-              {product.description}
-            </Typography>
-          </Box>
-        </Box>
-      </Box>
+            <p className="mt-6 opacity-65">{product.description}</p>
+          </div>
+        </div>
+      </section>
 
-      <Divider className="w-full !my-10" />
+      <Divider />
 
-      {chapters && (
-        <Box component={'section'}>
-          <TableContainer sx={{ boxShadow: 'none' }} component={Paper}>
-            <Typography variant="h5" className="p-2">
-              Chương ({chapters.length})
-            </Typography>
-            <Table aria-label="simple table">
-              <TableHead>
-                <TableRow className="[&>*]:font-bold">
-                  <TableCell>Tập</TableCell>
-                  <TableCell>Tên</TableCell>
-                  <TableCell>Ngày đăng</TableCell>
-                  {user && <TableCell>Giá</TableCell>}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {(rowsPerPage > 0
-                  ? chapters.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  : chapters
-                ).map(chap => (
-                  <TableRow key={chap.id} role="button" hover onClick={() => handleChapterClick(chap)}>
-                    <TableCell>{chap.chapterNumber}</TableCell>
-                    <TableCell component="th" scope="row">
-                      {chap.chapterName}
-                    </TableCell>
-                    <TableCell>{formatDatetime(chap.createdAt)}</TableCell>
+      <section>
+        <CardPaper title={`Chương (${product.chapterCount})`}>
+          <div className="overflow-x-auto">
+            <table className="table table-sm">
+              <thead>
+                <tr>
+                  <th>Chương</th>
+                  <th>Tên</th>
+                  <th>Ngày đăng</th>
+                  {/* <th>Giá</th> */}
+                </tr>
+              </thead>
+              <tbody>
+                {chapters &&
+                  chapters.map(chapter => (
+                    <tr
+                      key={chapter.id}
+                      className="hover:bg-base-200"
+                      role="button"
+                      onClick={() => handleChapterClick(chapter)}
+                    >
+                      <td>{chapter.chapterNumber}</td>
+                      <td>{chapter.chapterName}</td>
+                      <td>{formatDatetime(chapter.createdAt)}</td>
+                      {/* <td>
                     {user && (
-                      <TableCell
-                        className={`${chap.price > 0 && user && !chap.users.includes(+user.id) ? 'text-red-600' : ''}`}
+                      <span
+                        className={`${chapter.price > 0 && user && !chapter.users.includes(+user.id) ? 'text-red-600' : ''}`}
                       >
-                        {chap.price > 0 ? formatCurrency(chap.price) : ''}
-                      </TableCell>
-                    )}
-                  </TableRow>
-                ))}
-              </TableBody>
-              <TableFooter>
-                <TableRow>
-                  <TablePagination
-                    rowsPerPageOptions={[5, 10, 25, { label: 'Tất cả', value: -1 }]}
-                    count={chapters.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    slotProps={{
-                      select: {
-                        inputProps: {
-                          'aria-label': 'rows per page',
-                        },
-                        native: true,
-                      },
-                    }}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                    ActionsComponent={TablePaginationActions}
-                    labelRowsPerPage="Số hàng"
-                  />
-                </TableRow>
-              </TableFooter>
-            </Table>
-          </TableContainer>
-        </Box>
-      )}
+                        {chapter.price > 0 ? formatCurrency(chapter.price) : ''}
+                      </span>
+                    )}  
+                  </td> */}
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </div>
+        </CardPaper>
+      </section>
 
-      {relatedProduct && (
-        <Box component={'section'} className="relative mt-20">
-          <Typography variant="h5">Truyện liên quan</Typography>
-
-          <Box sx={{ py: 2 }}>
-            <Book.Swiper items={relatedProduct.slice(0, 10)} slidesPerView={5} />
-          </Box>
-        </Box>
+      {products && relatedProduct && (
+        <section className="mt-10 lg:mt-20">
+          <CardPaper title="Truyện liên quan">
+            <Book.Swiper items={relatedProduct.slice(0, 10)} />
+          </CardPaper>
+        </section>
       )}
-      {/* <StripePaymentForm
-          open={openPopup}
-          handleClose={handleClosePopup}
-          chapter={chapter}
-        /> */}
-    </Container>
+    </div>
   )
 }

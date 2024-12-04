@@ -3,6 +3,7 @@
 import { CheckIcon, ThemeIcon } from '../icons'
 import { cn } from '@/lib'
 import { useTheme } from '@/providers'
+import { Tooltip } from '../commons'
 
 const themes = [
   // { name: 'Mặc Định', value: 'default', icon: '' },
@@ -13,7 +14,7 @@ const themes = [
   { name: 'Ngọc Bích', value: 'emerald', icon: '' },
   { name: 'Sóng Điện', value: 'synthwave', icon: '' },
   { name: 'Cổ Điển', value: 'retro', icon: '' },
-  { name: 'Tương Lai', value: 'cyberpunk', icon: '' },
+  // { name: 'Tương Lai', value: 'cyberpunk', icon: '' },
   { name: 'Lãng Mạn', value: 'valentine', icon: '' },
   { name: 'Ma Quái', value: 'halloween', icon: '' },
   { name: 'Khu Vườn', value: 'garden', icon: '' },
@@ -45,14 +46,14 @@ export const ThemeModeButton = () => {
 
   return (
     <>
-      <div className="lg:tooltip lg:tooltip-bottom" data-tip="Theme">
+      <Tooltip title="Giao diện">
         <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
           <ThemeIcon />
         </div>
-      </div>
+      </Tooltip>
       <div
         tabIndex={0}
-        className="dropdown-content bg-base-200 text-base-content rounded-box top-px h-[25rem] max-h-[calc(100vh-10rem)] w-56 overflow-y-auto border border-white/5 shadow-2xl outline outline-1 outline-black/5 mt-16 z-50"
+        className="dropdown-content bg-base-200 text-base-content rounded-box top-px h-[25rem] max-h-[calc(100vh-10rem)] w-52 lg:w-56 overflow-y-auto border border-white/5 shadow-2xl outline outline-1 outline-black/5 mt-16 z-10"
       >
         <div className="grid grid-cols-1 gap-3 p-3">
           {themes.map((t, i) => (
