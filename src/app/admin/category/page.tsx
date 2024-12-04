@@ -20,6 +20,5 @@ export default async function CategoriesPage() {
     const response = await del(`/category/${id}`)
     return response
   }
-  return ``
-  // return <Category.List initialCategories={categories} deleteCategory={deleteCategory} />
+  return <Category.List initialCategories={categories} deleteCategory={deleteCategory} />
 }

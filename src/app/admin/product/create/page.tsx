@@ -6,6 +6,7 @@ export default async function CategoriesPageCreate() {
     'use server'
 
     const response = await post<IProduct | undefined>('/product', body)
+    console.log('response======>x', response)
 
     return response
   }

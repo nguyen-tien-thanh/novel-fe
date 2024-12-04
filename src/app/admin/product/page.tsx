@@ -14,7 +14,6 @@ export default async function ProductsPage() {
 
   const deleteProduct = async (id: number) => {
     'use server'
-
     const response = await del(`/product/${id}`)
     return response
   }

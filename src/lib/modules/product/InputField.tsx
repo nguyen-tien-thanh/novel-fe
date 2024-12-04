@@ -1,11 +1,10 @@
 'use client'
 import { ICategory, IProduct, PRODUCT_STATUS } from '@/types'
-// import { Button } from '@mui/material'
 import React from 'react'
 import { toast } from 'react-toastify'
 import { useParams, useRouter } from 'next/navigation'
 import { isEmpty } from '@/lib'
-// import { AutoCompleteInput, Form, Input } from '@/components'
+import { AutoCompleteInput, Button, EditorInput, Form, Input } from '@/components'
 
 interface CreateFormProps {
   create?: (body: IProduct) => Promise<IProduct | undefined>
@@ -43,60 +42,74 @@ export const InputField = ({ create, edit, defaultValue, categories }: CreateFor
     }
   }
 
-  return 'inputfield'
-  // <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '20px' }}>
-  //   <Form
-  //     onSubmit={handleSubmit}
-  //     style={{
-  //       width: '100%',
-  //       maxWidth: '500px',
-  //       padding: '20px',
-  //       backgroundColor: '#fff',
-  //       boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
-  //       borderRadius: '8px',
-  //     }}
-  //   >
-  //     <Input
-  //       fullWidth
-  //       validation={{ required: 'Vui lòng điền tên' }}
-  //       label="Tên truyện"
-  //       name="name"
-  //       autoFocus
-  //       style={{ marginBottom: '16px' }}
-  //       defaultValue={defaultValue?.name}
-  //     />
-  //     <AutoCompleteInput
-  //       name="categories"
-  //       label="Danh mục"
-  //       fullWidth
-  //       multiple
-  //       validation={{
-  //         validate: val => {
-  //           if (!val) {
-  //             return 'Vui lòng chọn ít nhất 1 danh mục'
-  //           }
-  //         },
-  //       }}
-  //       options={categories}
-  //       defaultValue={defaultValue?.categories}
-  //       style={{ marginBottom: '16px' }}
-  //     />
-  //     <Input
-  //       fullWidth
-  //       label="Mô tả"
-  //       name="description"
-  //       style={{ marginBottom: '16px' }}
-  //       defaultValue={defaultValue?.description}
-  //     />
-  //     <Input
-  //       fullWidth
-  //       label="Tác giả"
-  //       name="authorName"
-  //       style={{ marginBottom: '16px' }}
-  //       defaultValue={defaultValue?.authorName}
-  //     />
-  //     <Input fullWidth label="Ảnh" name="image" style={{ marginBottom: '16px' }} defaultValue={defaultValue?.image} />
-  //     <Button type="submit">Gửi</Button>
-  //   </Form>
-  // </div>
+  return (
+    <div className="flex flex-col justify-center items-center p-[20px]">
+      <h2 className="text-2xl font-bold mb-3 justify-center">{defaultValue ? 'Cập nhật truyện' : 'Tạo mới truyện'}</h2>
+      <Form
+        onSubmit={handleSubmit}
+        style={{
+          width: '100%',
+          maxWidth: '900px',
+          padding: '20px',
+          backgroundColor: '#fff',
+          boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+          borderRadius: '8px',
+        }}
+      >
+        <AutoCompleteInput
+          name="categories"
+          multiple
+          label="Danh mục"
+          validation={{
+            validate: val => {
+              if (!val) {
+                return 'Vui lòng chọn ít nhất 1 danh mục'
+              }
+            },
+          }}
+          options={categories}
+          defaultValue={defaultValue?.categories}
+        />
+        <div className="form-control mt-4">
+          <label className="label">
+            <span className="label-text">Tên truyện</span>
+          </label>
+          <Input
+            validation={{ required: 'Vui lòng điền tên' }}
+            name="name"
+            autoFocus
+            defaultValue={defaultValue?.name}
+          />
+        </div>
+        <div className="form-control mt-4">
+          <label className="label">
+            <span className="label-text">Tác giả</span>
+          </label>
+          <Input name="authorName" defaultValue={defaultValue?.authorName} />
+        </div>
+        <div className="form-control mt-4">
+          <label className="label">
+            <span className="label-text">Ảnh</span>
+          </label>
+          <Input name="image" defaultValue={defaultValue?.image} />
+        </div>
+
+        <div className="form-control mt-4">
+          <label className="label">
+            <span className="label-text">Mô tả</span>
+          </label>
+          <EditorInput
+            validation={{ required: 'Vui lòng điền nội dung' }}
+            name="description"
+            label="Nội dung"
+            defaultValue={defaultValue?.description}
+          />
+        </div>
+
+        <div className="form-control mt-[90px]">
+          <Button className="btn-primary">Gửi</Button>
+        </div>
+      </Form>
+    </div>
+  )
 }

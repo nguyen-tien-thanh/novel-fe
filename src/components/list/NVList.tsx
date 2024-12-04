@@ -35,24 +35,24 @@ export const NVList = ({ data, title, onAdd, children, onDel, isEdit, resource }
     setPage(0)
   }
 
-  const paginatedData = rowsPerPage > 0 ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : data
+  const paginatedData = data.length > 0 ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : data
 
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto shadow-2xl p-5 rounded-lg">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-2xl font-bold">{title}</h2>
         <button className="btn btn-primary" onClick={onAdd}>
-          Add New
+          Thêm mới
         </button>
       </div>
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto mb-2">
         <table className="table table-zebra w-full">
           <thead>
             <tr>
               {React.Children.map(children, child => (
                 <th>{child.props.headerName}</th>
               ))}
-              <th>Actions</th>
+              <th>Hành động</th>
             </tr>
           </thead>
           <tbody>
@@ -80,15 +80,13 @@ export const NVList = ({ data, title, onAdd, children, onDel, isEdit, resource }
           </tbody>
         </table>
       </div>
-      <div className="flex items-center justify-center w-full">
-        <Pagination
-          count={data.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          handleChangeRowsPerPage={handleChangeRowsPerPage}
-        />
-      </div>
+      <Pagination
+        count={data.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        handleChangeRowsPerPage={handleChangeRowsPerPage}
+      />
     </div>
   )
 }
