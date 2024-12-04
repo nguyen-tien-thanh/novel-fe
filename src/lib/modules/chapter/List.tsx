@@ -6,18 +6,7 @@ import { useRouter } from 'next/navigation'
 import { NVCell, NVList } from '@/components'
 
 export const List = ({ initialChapters, deleteChapter, products }) => {
-  const [page, setPage] = React.useState(0)
-  const [rowsPerPage, setRowsPerPage] = React.useState(5)
   const router = useRouter()
-
-  const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
-    setPage(newPage)
-  }
-
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setRowsPerPage(parseInt(event.target.value, 10))
-    setPage(0)
-  }
 
   const deleteChap = async (id: number) => {
     const result = await deleteChapter(id)

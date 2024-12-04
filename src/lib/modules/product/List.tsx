@@ -6,6 +6,7 @@ import { toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
 import { NVCell, NVList } from '@/components'
 import { IProduct } from '@/types'
+import { formatDatetime } from '@/lib/utils'
 
 export const List = ({ initialProducts, deleteProduct }) => {
   const router = useRouter()
@@ -42,14 +43,30 @@ export const List = ({ initialProducts, deleteProduct }) => {
           return ''
         }}
       />
-      <NVCell name="createdAt" headerName="Ngày tạo" />
+      <NVCell
+        name="createdAt"
+        headerName="Ngày tạo"
+        render={(createdAt: unknown) => formatDatetime(createdAt as string)}
+      />
       <NVCell name="viewCount" headerName="Lượt xem" />
       <NVCell
         name="image"
         headerName="Hình ảnh"
         render={(value: unknown) => {
           const stringValue = value as string
-          return value ? <img src={stringValue} height={100} width={300} alt="" /> : <div></div>
+          return value ? (
+            <img
+              src={stringValue || '/assets/notfound.webp'}
+              onError={e => {
+                const target = e.target as HTMLImageElement
+                target.src = '/assets/notfound.webp'
+              }}
+              className="max-h-[100px] max-w-[100px]"
+              alt="Image preview"
+            />
+          ) : (
+            <div></div>
+          )
         }}
       />
 
