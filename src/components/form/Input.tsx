@@ -6,8 +6,25 @@ import { toolbarOptions } from '@/constants'
 import 'react-quill/dist/quill.snow.css'
 import dynamic from 'next/dynamic'
 import { cn } from '@/lib'
-import { Tooltip } from '../commons'
+import { ICategory, IChapter, IProduct } from '@/types'
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false })
+
+interface Option {
+  [key: string]: string | number | undefined
+}
+
+interface AutoCompleteInputProps {
+  name: string
+  label: string
+  options: Option[]
+  optionName?: string
+  optionValue?: string | number | undefined
+  getOptionLabel?: (option: Option) => string
+  validation?: InputValidationRules
+  style?: object
+  defaultValue?: ICategory | IChapter | IProduct | undefined
+  multiple?: boolean
+}
 
 export interface InputValidationRules {
   required?: boolean | string
@@ -75,23 +92,6 @@ export const Input: FC<InputProps> = ({
   )
 }
 
-interface Option {
-  [key: string]: any
-}
-
-interface AutoCompleteInputProps {
-  name: string
-  label: string
-  options: Option[]
-  optionName?: string
-  optionValue?: string
-  getOptionLabel?: (option: Option) => string
-  validation?: any
-  style?: object
-  defaultValue?: any
-  multiple?: boolean
-}
-
 export const AutoCompleteInput: React.FC<AutoCompleteInputProps> = ({
   name,
   label,
@@ -139,7 +139,7 @@ export const AutoCompleteInput: React.FC<AutoCompleteInputProps> = ({
             >
               {_options.map((option, index) => (
                 <option key={index} value={option[optionValue]}>
-                  {getOptionLabel(option)}
+                  {getOptionLabel(option) as React.ReactNode}
                 </option>
               ))}
             </select>
