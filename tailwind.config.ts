@@ -8,7 +8,7 @@ const config: Config = {
     },
     screens: { lg: '1024px' },
     container: {
-      padding: { DEFAULT: '4px', lg: '0px' },
+      padding: { DEFAULT: '8px', lg: '0px' },
     },
   },
   daisyui: {

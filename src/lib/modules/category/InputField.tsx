@@ -47,11 +47,11 @@ export const InputField = ({ create, edit, defaultValue }: CategoryProps) => {
       </h2>
       <Form
         onSubmit={handleSubmit}
+        className="bg-base-200 text-base-content"
         style={{
           width: '100%',
           maxWidth: '900px',
           padding: '20px',
-          backgroundColor: '#fff',
           boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
           borderRadius: '8px',
         }}

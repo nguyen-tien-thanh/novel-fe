@@ -133,3 +133,5 @@ export interface IRegister {
   firstName: string
   lastName: string
 }
+
+export type Entity = ICategory | IChapter | IProduct

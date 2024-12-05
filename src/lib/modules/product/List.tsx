@@ -5,8 +5,8 @@ import React from 'react'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
 import { NVCell, NVList } from '@/components'
-import { IProduct } from '@/types'
 import { formatDatetime } from '@/lib/utils'
+import Image from 'next/image'
 
 export const List = ({ initialProducts, deleteProduct }) => {
   const router = useRouter()
@@ -55,13 +55,15 @@ export const List = ({ initialProducts, deleteProduct }) => {
         render={(value: unknown) => {
           const stringValue = value as string
           return value ? (
-            <img
+            <Image
+              width={100}
+              height={100}
               src={stringValue || '/assets/notfound.webp'}
               onError={e => {
                 const target = e.target as HTMLImageElement
                 target.src = '/assets/notfound.webp'
               }}
-              className="max-h-[100px] max-w-[100px]"
+              className="h-[100px] w-[100px] object-cover"
               alt="Image preview"
             />
           ) : (
