@@ -4,11 +4,11 @@ import { Button } from '@/components'
 
 const NotFound = () => {
   return (
-    <div className="flex flex-col justify-center items-center flex-1">
+    <div className="flex flex-col justify-center items-center min-h-[calc(100dvh-68px-52px)]">
       <h1 className="text-5xl">404</h1>
-      <h6 className="text-3xl text-center">Trang bạn đang tìm kiếm không tồn tại.</h6>
-      <Link href="/">
-        <Button className="mt-3 mb-2 btn-primary">Quay lại trang chủ</Button>
+      <h6 className="text-center">Trang bạn đang tìm kiếm không tồn tại.</h6>
+      <Link href="/" className="mt-10">
+        <Button className="btn-primary">Quay lại trang chủ</Button>
       </Link>
     </div>
   )

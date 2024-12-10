@@ -18,7 +18,7 @@ const Login = () => {
       body: JSON.stringify({ email, password }),
     })
     if (user.status !== 200) {
-      toast('Sai tài khoản hoặc mật khẩu', { type: 'error' })
+      toast.error('Sai tài khoản hoặc mật khẩu')
     } else {
       window.location.href = '/'
     }

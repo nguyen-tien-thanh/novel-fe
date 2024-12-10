@@ -60,7 +60,7 @@ export default function ProductDetail({ id, products, product, chapters, rates }
   const handleRating = (rating: number | null) => {
     // TODO: Remove rate api
     if (!user) {
-      toast('Bạn cần đăng nhập để thực hiện', { type: 'warning' })
+      toast.warn('Bạn cần đăng nhập để thực hiện')
       return router.push('/login')
     }
     if (!rating || !rates) return
@@ -89,9 +89,9 @@ export default function ProductDetail({ id, products, product, chapters, rates }
     <div className="container mx-auto">
       <section className="grid lg:grid-cols-7 gap-4 lg:gap-8 place-items-center lg:place-items-start">
         <div className="relative h-full w-full lg:col-span-2 lg:pt-5">
-          <Book.Cover product={product} show={[]} height={390} width={260} />
+          <Book.Cover product={product} show={[]} height={330} width={220} />
         </div>
-        <div className="lg:col-span-5">
+        <div className="lg:col-span-5 w-full">
           <div className="lg:px-5 pb-0 lg:pt-5 rounded-md">
             <div className="flex flex-col justify-center items-center">
               <p className="font-bold text-center text-3xl">{product.name}</p>
@@ -117,7 +117,7 @@ export default function ProductDetail({ id, products, product, chapters, rates }
                 <div
                   className={cn('badge', product.status === PRODUCT_STATUS.DONE ? 'badge-success' : 'badge-warning')}
                 >
-                  {product.status}
+                  {product.status === PRODUCT_STATUS.DONE ? 'Hoàn thành' : 'Cập nhật'}
                 </div>
               </div>
               <div className="flex">
@@ -138,38 +138,35 @@ export default function ProductDetail({ id, products, product, chapters, rates }
                 ))}
               </div>
             )}
-            <p className="mt-6 opacity-65">{product.description}</p>
+            <div className="mt-6 opacity-65" dangerouslySetInnerHTML={{ __html: product.description || '' }} />
           </div>
         </div>
       </section>
 
-      <Divider />
-
-      <section>
-        <CardPaper title={`Chương (${product.chapterCount})`}>
-          <div className="overflow-x-auto">
-            <table className="table table-sm">
-              <thead>
-                <tr>
-                  <th>Chương</th>
-                  <th>Tên</th>
-                  <th>Ngày đăng</th>
-                  {/* <th>Giá</th> */}
-                </tr>
-              </thead>
-              <tbody>
-                {chapters &&
-                  chapters.map(chapter => (
-                    <tr
-                      key={chapter.id}
-                      className="hover:bg-base-200"
-                      role="button"
-                      onClick={() => handleChapterClick(chapter)}
-                    >
-                      <td>{chapter.chapterNumber}</td>
-                      <td>{chapter.chapterName}</td>
-                      <td>{formatDatetime(chapter.createdAt)}</td>
-                      {/* <td>
+      <section className="mt-8">
+        <div className="overflow-x-auto">
+          <table className="table table-sm">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Tên</th>
+                <th>Ngày đăng</th>
+                {/* <th>Giá</th> */}
+              </tr>
+            </thead>
+            <tbody>
+              {chapters &&
+                chapters.map(chapter => (
+                  <tr
+                    key={chapter.id}
+                    className="hover:bg-base-200"
+                    role="button"
+                    onClick={() => handleChapterClick(chapter)}
+                  >
+                    <td>{chapter.chapterNumber}</td>
+                    <td>{chapter.chapterName}</td>
+                    <td>{formatDatetime(chapter.createdAt)}</td>
+                    {/* <td>
                     {user && (
                       <span
                         className={`${chapter.price > 0 && user && !chapter.users.includes(+user.id) ? 'text-red-600' : ''}`}
@@ -178,12 +175,11 @@ export default function ProductDetail({ id, products, product, chapters, rates }
                       </span>
                     )}  
                   </td> */}
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-          </div>
-        </CardPaper>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </div>
       </section>
 
       {products && relatedProduct && (

@@ -14,7 +14,7 @@ export const List = ({ initialChapters, deleteChapter, products }) => {
       toast.error(result?.message)
     } else {
       router.push('/admin/chapter')
-      toast.success('Xóa thành công danh mục')
+      toast.success('Xóa thành công chương')
     }
   }
 
@@ -22,7 +22,7 @@ export const List = ({ initialChapters, deleteChapter, products }) => {
     <NVList
       data={initialChapters}
       resource="chapter"
-      title="Danh sách danh mục"
+      title="Danh sách chương"
       isEdit
       onDel={deleteChap}
       onAdd={() => router.push('/admin/chapter/create')}

@@ -4,18 +4,20 @@ import Image from 'next/image'
 import { Button, HamburgerIcon, HeartIcon, ProfileButton, ThemeModeButton, Tooltip } from '@/components'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { cn } from '@/lib'
 
 const pages = [
   { name: 'Danh sách', href: '/' },
-  { name: 'Thể loại', href: '/' },
-  { name: 'Phân loại', href: '/' },
+  { name: 'Thể loại', href: '/category' },
+  { name: 'Phân loại', href: '' },
   {
     name: 'Quản lý',
     href: '/admin',
     children: [
-      { name: 'Quản lý Truyện', href: '/admin/product', role: 'ADMIN' },
-      { name: 'Quản lý Danh mục', href: '/admin/category', role: 'ADMIN' },
-      { name: 'Quản lý Chương', href: '/admin/chapter', role: 'ADMIN' },
+      { name: 'Truyện', href: '/admin/product', role: 'ADMIN' },
+      { name: 'Danh mục', href: '/admin/category', role: 'ADMIN' },
+      { name: 'Chương', href: '/admin/chapter', role: 'ADMIN' },
     ],
   },
 ]
@@ -23,22 +25,25 @@ const pages = [
 export const Header = () => {
   const { data } = useSession()
   const user = data?.user
+  const pathname = usePathname()
 
   return (
     <header className="navbar bg-base-100 h-[68px]">
       <nav className="navbar-start">
         <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden pl-0 sm:px-3">
+          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden px-3">
             <HamburgerIcon />
           </div>
           <ul tabIndex={0} className="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow">
             {pages.map((page, i) => (
               <li key={i}>
-                <Link href={page.href}>{page.name}</Link>
+                <Link href={page.href} className={cn('', pathname === page.href && 'bg-primary pointer-events-none')}>
+                  {page.name}
+                </Link>
                 <ul className="p-2">
                   {page.children &&
                     page.children.map((child, i) => (
-                      <li key={i}>
+                      <li key={i} className={cn('', pathname === child.href && 'bg-primary pointer-events-none')}>
                         <Link href={child.href}>{child.name}</Link>
                       </li>
                     ))}
@@ -64,14 +69,21 @@ export const Header = () => {
           {pages.map((page, i) => (
             <li key={i}>
               {!page.children ? (
-                <Link href={page.href}>{page.name}</Link>
+                <Link href={page.href} className={cn('', pathname === page.href && 'bg-primary pointer-events-none')}>
+                  {page.name}
+                </Link>
               ) : (
                 <details>
-                  <summary>{page.name}</summary>
+                  <summary className={cn('font-normal', pathname.includes(page.href) && 'btn btn-primary btn-sm')}>
+                    {page.name}
+                  </summary>
                   <ul className="p-2">
                     {page.children.map((child, i) => (
                       <li key={i}>
-                        <Link href={child.href} className="min-w-[150px]">
+                        <Link
+                          href={child.href}
+                          className={cn('min-w-24', pathname === child.href && 'bg-primary pointer-events-none')}
+                        >
                           {child.name}
                         </Link>
                       </li>

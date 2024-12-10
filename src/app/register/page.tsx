@@ -16,7 +16,7 @@ const Register = () => {
   const handleSubmit = async (event: IRegister) => {
     const { firstName, lastName, email, password } = event
 
-    if (checked === false) return toast('Vui lòng chấp nhận các điều khoản và điều kiện', { type: 'error' })
+    if (checked === false) return toast.error('Vui lòng chấp nhận các điều khoản và điều kiện')
 
     return fetch('api/auth/register', {
       method: 'POST',
@@ -27,9 +27,7 @@ const Register = () => {
         if (json.error) throw new Error(json.message)
         return router.push('/login')
       })
-      .catch(err => {
-        toast(err.message, { type: 'error' })
-      })
+      .catch(err => toast.error(err.message))
   }
 
   const handleClick = (event: React.ChangeEvent<HTMLInputElement>) => {

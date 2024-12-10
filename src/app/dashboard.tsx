@@ -44,7 +44,7 @@ export default function Dashboard({ products, categories }: DashboardProps) {
       </section>
 
       <section className="container mx-auto mt-5">
-        <div className="flex flex-col lg:flex-row gap-5">
+        <div className="flex flex-col lg:flex-row gap-10 lg:gap-5">
           <div id="product-section" className="space-y-20">
             <CardPaper title="Mới cập nhật">
               <ProductList badgeText="New" products={products.slice(0, 20)} />
