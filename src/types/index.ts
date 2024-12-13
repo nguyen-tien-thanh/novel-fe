@@ -16,7 +16,7 @@ export interface IProduct {
   name: string
   source?: string
   status?: PRODUCT_STATUS
-  image?: string
+  image?: string | File
   viewCount?: number
   description?: string
   createdAt: string

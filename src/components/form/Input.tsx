@@ -1,6 +1,6 @@
 'use client'
 
-import React, { FC, useState } from 'react'
+import React, { CSSProperties, FC, forwardRef, useState, useRef, useEffect } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { toolbarOptions } from '@/constants'
 import 'react-quill/dist/quill.snow.css'
@@ -9,6 +9,8 @@ import { cn } from '@/lib'
 import { Entity, ICategory, IChapter, IProduct } from '@/types'
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
 import { Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOptions } from '@headlessui/react'
+import { ReactQuillProps } from 'react-quill'
+import Image from 'next/image'
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false })
 
 interface Option {
@@ -101,7 +103,6 @@ export const AutoCompleteInput: React.FC<AutoCompleteInputProps> = ({
   optionName = 'name',
   validation = {},
   multiple = false,
-  defaultValue = multiple ? [] : null,
 }) => {
   const {
     control,
@@ -123,8 +124,7 @@ export const AutoCompleteInput: React.FC<AutoCompleteInputProps> = ({
           control={control}
           rules={validation}
           render={({ field }) => {
-            const { value = defaultValue, onChange } = field
-
+            const { value, onChange } = field
             const filteredOptions = options.filter(option =>
               option[optionName].toLowerCase().includes(query.toLowerCase()),
             )
@@ -134,7 +134,7 @@ export const AutoCompleteInput: React.FC<AutoCompleteInputProps> = ({
             }
 
             return (
-              <Combobox value={value ?? defaultValue} onChange={handleSelect} multiple={multiple}>
+              <Combobox value={value} onChange={handleSelect} multiple={multiple}>
                 <div className="relative py-1.5">
                   <ComboboxInput
                     className="w-full rounded-lg border-none py-1.5 pr-8 pl-3 text-sm focus:outline-none"
@@ -142,7 +142,7 @@ export const AutoCompleteInput: React.FC<AutoCompleteInputProps> = ({
                       return multiple && Array.isArray(items)
                         ? items.map(item => item[optionName]).join(', ')
                         : typeof items !== 'number'
-                          ? items[optionName]?.toString()
+                          ? items?.[optionName]?.toString()
                           : filteredOptions.find(opt => opt.id === (items as number))?.[optionName]?.toString() || ''
                     }}
                     onChange={event => {
@@ -187,32 +187,139 @@ export const AutoCompleteInput: React.FC<AutoCompleteInputProps> = ({
   )
 }
 
-export const EditorInput = ({ name, label, validation = {}, defaultValue, style = {}, ...rest }) => {
+interface EditorInputProps extends Partial<ReactQuillProps> {
+  name: string
+  label?: string
+  validation?: InputValidationRules
+  // defaultValue?: Entity[] | Entity
+  style?: CSSProperties
+}
+
+const ReactQuillWrapper = forwardRef<unknown, ReactQuillProps>((props, ref) => (
+  // @ts-expect-error: ref forwarding is handled here
+  <ReactQuill {...props} ref={ref} />
+))
+
+ReactQuillWrapper.displayName = 'ReactQuillWrapper'
+
+export const EditorInput: React.FC<EditorInputProps> = ({
+  name,
+  label,
+  validation = {},
+  defaultValue,
+  style = {},
+  ...rest
+}) => {
   const {
     control,
     formState: { errors },
   } = useFormContext()
 
   return (
-    <Controller
-      name={name}
-      control={control}
-      rules={validation}
-      defaultValue={defaultValue}
-      render={({ field }) => (
-        <ReactQuill
-          {...field}
-          {...rest}
-          className="[&>*]:textarea [&>.ql-container]:rounded-t-none [&>.ql-toolbar]:rounded-b-none [&>*]:!stroke-blue-900 [&>*]:!fill-blue-900"
-          // theme="snow"
-          value={field.value || ''}
-          onChange={field.onChange}
-          modules={{
-            toolbar: toolbarOptions,
-          }}
-          style={{ height: 200, ...style }}
-        />
+    <>
+      <Controller
+        name={name}
+        control={control}
+        rules={validation}
+        render={({ field }) => (
+          <ReactQuillWrapper
+            {...field}
+            {...rest}
+            className="[&>*]:textarea [&>.ql-container]:rounded-t-none [&>.ql-toolbar]:rounded-b-none [&>*]:!stroke-blue-900 [&>*]:!fill-blue-900"
+            // theme="snow"
+            value={field.value || ''}
+            onChange={field.onChange}
+            modules={{
+              toolbar: toolbarOptions,
+            }}
+            style={{ height: 200, ...style }}
+          />
+        )}
+      />
+      {errors[name]?.message && typeof errors[name].message === 'string' && (
+        <span className="label-text-alt text-red-500">{errors[name].message}</span>
       )}
-    />
+    </>
+  )
+}
+
+export const FileInput: FC<InputProps> = ({
+  label,
+  iconPosition = 'end',
+  icon,
+  name,
+  validation = {},
+  className,
+  ...props
+}) => {
+  const {
+    register,
+    setValue,
+    formState: { errors, defaultValues },
+  } = useFormContext()
+  const [fileBlob, setFileBlob] = useState<Blob | null>(null)
+
+  const errorMessage = errors[name]?.message ?? ''
+
+  const fileInputRef = useRef<HTMLInputElement | null>(null)
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      const updatedBlob = new Blob([file], { type: file.type })
+      setValue(name, file)
+      setFileBlob(updatedBlob)
+    }
+  }
+
+  const handleDelete = () => {
+    if (fileInputRef.current) {
+      setValue(name, undefined)
+      fileInputRef.current.value = ''
+    }
+    setFileBlob(null)
+  }
+
+  const defaultImage = defaultValues?.[name] as string
+
+  useEffect(() => {
+    if (defaultImage) {
+      setValue(name, defaultImage)
+    }
+  }, [defaultImage, setValue, name])
+
+  return (
+    <>
+      <input
+        {...register(name, { ...validation })}
+        ref={fileInputRef}
+        accept="image/*"
+        onChange={handleFileChange}
+        className={cn('w-full', errorMessage && 'input-error', 'file-input file-input-bordered w-full', className)}
+        {...props}
+        type="file"
+      />
+      {(defaultImage || fileBlob) && (
+        <div className="mt-4 relative">
+          <div className="relative">
+            <Image
+              width={300}
+              height={300}
+              src={
+                (fileBlob && fileBlob.type.startsWith('image/') && URL.createObjectURL(fileBlob)) || defaultImage || ''
+              }
+              alt="Preview"
+              className="mt-2 max-w-xs border"
+            />
+            <button onClick={handleDelete} type="button" className="absolute top-2 right-2" aria-label="Delete image">
+              ✖
+            </button>
+          </div>
+        </div>
+      )}
+      {errorMessage && typeof errorMessage === 'string' && (
+        <p className="pt-1.5 px-1 text-error text-xs">{errorMessage}</p>
+      )}
+    </>
   )
 }

@@ -20,16 +20,18 @@ export async function _fetchWithAuth(endpoint: string, options: RequestInit = {}
   return fetch(baseUrl.replace(/\/\//g, '/'), { ...options, headers })
 }
 
-export async function uploadFile<T>(endpoint: string, options: RequestInit = {}): Promise<Response> {
+export async function uploadFile(endpoint: string, body: BodyInit): Promise<Response> {
   const token = await getToken()
-  const headers: HeadersInit = {
-    'Content-Type': 'multipart/form-data',
-    Authorization: `Bearer ${token}`,
-    ...options.headers,
-  }
+
   const baseUrl = `${process.env.NEXT_PUBLIC_API_URL}${endpoint}`
 
-  return fetch(baseUrl.replace(/\/\//g, '/'), { ...options, headers })
+  return fetch(baseUrl.replace(/\/\//g, '/'), {
+    method: 'POST',
+    body,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
 }
 
 export async function get<T>(endpoint: string, options: RequestInit = {}): Promise<T | undefined> {

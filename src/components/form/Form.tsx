@@ -1,14 +1,16 @@
 'use client'
 
 import { cn } from '@/lib'
-import React from 'react'
-import { FieldValues, FormProvider, SubmitHandler, useForm } from 'react-hook-form'
+import { Entity } from '@/types'
+import React, { useMemo } from 'react'
+import { FieldValues, FormProvider, SubmitHandler, useForm, DefaultValues } from 'react-hook-form'
 
 type FormProps<TFormValues extends FieldValues> = {
   onSubmit: SubmitHandler<TFormValues>
   children: React.ReactNode
   style?: React.CSSProperties
   className?: string
+  defaultValues?: DefaultValues<TFormValues>
 }
 
 export const Form = <TFormValues extends FieldValues>({
@@ -16,8 +18,9 @@ export const Form = <TFormValues extends FieldValues>({
   children,
   style,
   className,
+  defaultValues,
 }: FormProps<TFormValues>) => {
-  const methods = useForm<TFormValues>()
+  const methods = useForm<TFormValues>({ defaultValues: useMemo(() => defaultValues, [defaultValues]) })
   const { handleSubmit } = methods
 
   return (

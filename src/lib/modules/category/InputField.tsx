@@ -47,6 +47,7 @@ export const InputField = ({ create, edit, defaultValue }: CategoryProps) => {
       </h2>
       <Form
         onSubmit={handleSubmit}
+        defaultValues={defaultValue}
         className="bg-base-200 text-base-content"
         style={{
           width: '100%',
@@ -64,7 +65,7 @@ export const InputField = ({ create, edit, defaultValue }: CategoryProps) => {
             validation={{ required: 'Vui lòng điền tên' }}
             name="name"
             autoFocus
-            defaultValue={defaultValue?.name}
+            // defaultValue={defaultValue?.name}
           />
         </div>
         <div className="form-control mt-4">
@@ -75,7 +76,7 @@ export const InputField = ({ create, edit, defaultValue }: CategoryProps) => {
             validation={{ required: 'Vui lòng điền nội dung' }}
             name="description"
             label="Nội dung"
-            defaultValue={defaultValue?.description}
+            // defaultValue={defaultValue?.description}
           />
         </div>
 

@@ -47,3 +47,19 @@ export const isEmpty = (value: string | number | Array<unknown> | object | null 
 
   return false
 }
+
+export const sanitizeFileName = (fileName: string): string => {
+  return fileName.replace(/[^a-z0-9]/gi, '_').replace(/_{2,}/g, '_')
+}
+
+export const pick = <T extends object, K extends keyof T>(obj: T, keys: K[]): Pick<T, K> => {
+  return keys.reduce(
+    (result, key) => {
+      if (key in obj) {
+        result[key] = obj[key]
+      }
+      return result
+    },
+    {} as Pick<T, K>,
+  )
+}

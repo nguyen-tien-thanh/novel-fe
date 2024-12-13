@@ -8,6 +8,7 @@ const nextConfig = {
         hostname: '**',
       },
     ],
+    domains: ['minio.thanhsonnguyen.io.vn', 'thanhsonnguyen.io.vn'],
   },
   reactStrictMode: false,
   env: {

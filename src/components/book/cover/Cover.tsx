@@ -39,12 +39,14 @@ export const Cover: FC<ICoverProps> = ({ product, href, height = 360, width = 24
           <div className="front">
             <div className="cover" style={{ height, width }}>
               {component && (typeof component === 'function' ? createElement(component) : component)}
-              {image && <Image className="image" height={height} width={width} alt={name} src={image} />}
+              {image && typeof image === 'string' && (
+                <Image className="image" height={height} width={width} alt={name} src={image} />
+              )}
               {show.includes('overlay') && <p className="book-name truncate">{name}</p>}
             </div>
           </div>
           <div className="left-side" style={{ height }}>
-            {image && <Image className="object-cover" fill alt={name} src={image} />}
+            {image && typeof image === 'string' && <Image className="object-cover" fill alt={name} src={image} />}
             <h2 style={{ width: height }} className="backdrop-blur-md">
               <span>{authorName}</span>
               <span>{new Date(createdAt).getFullYear()}</span>

@@ -49,6 +49,7 @@ export const InputField = ({ products, edit, create, defaultValue }: CreateFormP
     <div className="flex flex-col justify-center items-center p-[20px]">
       <h2 className="text-2xl font-bold mb-3 justify-center">{defaultValue ? 'Cập nhật chương' : 'Tạo mới chương'}</h2>
       <Form
+        defaultValues={defaultValue}
         onSubmit={handleSubmit}
         style={{
           width: '100%',
@@ -69,43 +70,25 @@ export const InputField = ({ products, edit, create, defaultValue }: CreateFormP
             },
           }}
           options={products}
-          defaultValue={defaultValue?.productId}
           label="Truyện"
         />
         <div className="form-control mt-4">
           <label className="label">
             <span className="label-text">Chương số</span>
           </label>
-          <Input
-            validation={{ required: 'Vui lòng chương mấy' }}
-            name="chapterNumber"
-            type="number"
-            autoFocus
-            defaultValue={defaultValue?.chapterNumber}
-          />
+          <Input validation={{ required: 'Vui lòng chương mấy' }} name="chapterNumber" type="number" autoFocus />
         </div>
         <div className="form-control mt-4">
           <label className="label">
             <span className="label-text">Giá</span>
           </label>
-          <Input
-            validation={{ required: 'Vui lòng giá' }}
-            name="price"
-            type="number"
-            autoFocus
-            defaultValue={defaultValue?.price}
-          />
+          <Input validation={{ required: 'Vui lòng giá' }} name="price" type="number" autoFocus />
         </div>
         <div className="form-control mt-4">
           <label className="label">
             <span className="label-text">Tên chương</span>
           </label>
-          <Input
-            validation={{ required: 'Vui lòng tên chương' }}
-            name="chapterName"
-            autoFocus
-            defaultValue={defaultValue?.chapterName}
-          />
+          <Input validation={{ required: 'Vui lòng tên chương' }} name="chapterName" autoFocus />
         </div>
 
         <div className="form-control mt-4">

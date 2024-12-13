@@ -25,7 +25,7 @@ export const List = ({ initialProducts, deleteProduct }) => {
     <NVList
       data={initialProducts}
       resource="product"
-      title="Danh sách danh mục"
+      title="Danh sách truyện"
       isEdit
       onDel={deleteRow}
       onAdd={() => router.push('/admin/product/create')}
