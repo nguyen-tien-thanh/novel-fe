@@ -1,11 +1,12 @@
 'use client'
 
-import Image from 'next/image'
-import { Button, HamburgerIcon, HeartIcon, ProfileButton, ThemeModeButton, Tooltip } from '@/components'
+import { Image } from '@/components'
+import { Button, Drawer, HamburgerIcon, HeartIcon, ProfileButton, ThemeModeButton, Tooltip } from '@/components'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib'
+import { useEffect, useState } from 'react'
 
 const pages = [
   { name: 'Danh sách', href: '/' },
@@ -26,33 +27,57 @@ export const Header = () => {
   const { data } = useSession()
   const user = data?.user
   const pathname = usePathname()
+  const [openDrawer, setOpenDrawer] = useState(false)
+
+  const handleOpenDrawer = () => setOpenDrawer(!openDrawer)
+
+  const hideDropdownDaisy = (e: MouseEvent, forceClose?: boolean) => {
+    document.querySelectorAll<HTMLDetailsElement>('.dropdown').forEach(dropdown => {
+      if (!dropdown.contains(e.target as Node) || forceClose) dropdown.open = false
+    })
+  }
+  useEffect(() => {
+    window.addEventListener('click', hideDropdownDaisy)
+    return () => window.removeEventListener('click', hideDropdownDaisy)
+  }, [])
 
   return (
-    <header className="navbar bg-base-100 h-[68px]">
+    <header className="navbar bg-base-200 h-[68px]">
       <nav className="navbar-start">
         <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden px-3">
+          <Button onClick={handleOpenDrawer} className="btn-ghost btn-circle lg:hidden">
             <HamburgerIcon />
-          </div>
-          <ul tabIndex={0} className="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow">
+          </Button>
+          <Drawer open={openDrawer} setOpen={setOpenDrawer}>
             {pages.map((page, i) => (
               <li key={i}>
-                <Link href={page.href} className={cn('', pathname === page.href && 'bg-primary pointer-events-none')}>
+                <Link
+                  href={page.href}
+                  onClick={handleOpenDrawer}
+                  className={cn(pathname === page.href && 'bg-primary text-primary-content pointer-events-none')}
+                >
                   {page.name}
                 </Link>
-                <ul className="p-2">
+                <ul>
                   {page.children &&
                     page.children.map((child, i) => (
-                      <li key={i} className={cn('', pathname === child.href && 'bg-primary pointer-events-none')}>
-                        <Link href={child.href}>{child.name}</Link>
+                      <li
+                        key={i}
+                        className={cn(
+                          pathname === child.href && 'rounded-lg bg-primary text-primary-content pointer-events-none',
+                        )}
+                      >
+                        <Link onClick={handleOpenDrawer} href={child.href}>
+                          {child.name}
+                        </Link>
                       </li>
                     ))}
                 </ul>
               </li>
             ))}
-          </ul>
+          </Drawer>
         </div>
-        <Link className="btn btn-ghost text-xl px-0 lg:px-3" href="/">
+        <Link className="btn btn-sm lg:btn-md btn-ghost text-xl px-0 lg:px-3" href="/">
           <Image
             className="hidden lg:block h-10 w-auto cursor-pointer"
             src={'/logo.png'}
@@ -61,28 +86,35 @@ export const Header = () => {
             alt="logo"
             priority
           />
-          <span className="text-xl">AiTruyen</span>
+          <span className="text-lg lg:text-xl">AiTruyen</span>
         </Link>
       </nav>
-      <nav className="navbar-center hidden lg:flex lg:z-[1]">
+      <nav className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
           {pages.map((page, i) => (
             <li key={i}>
               {!page.children ? (
-                <Link href={page.href} className={cn('', pathname === page.href && 'bg-primary pointer-events-none')}>
+                <Link
+                  href={page.href}
+                  className={cn(pathname === page.href && 'bg-primary text-primary-content pointer-events-none')}
+                >
                   {page.name}
                 </Link>
               ) : (
-                <details>
+                <details className="z-10 dropdown">
                   <summary className={cn('font-normal', pathname.includes(page.href) && 'btn btn-primary btn-sm')}>
                     {page.name}
                   </summary>
-                  <ul className="p-2">
+                  <ul className="p-2 bg-base-200">
                     {page.children.map((child, i) => (
                       <li key={i}>
                         <Link
                           href={child.href}
-                          className={cn('min-w-24', pathname === child.href && 'bg-primary pointer-events-none')}
+                          onClick={e => hideDropdownDaisy(e.nativeEvent, true)}
+                          className={cn(
+                            'min-w-24',
+                            pathname === child.href && 'bg-primary text-primary-content pointer-events-none',
+                          )}
                         >
                           {child.name}
                         </Link>

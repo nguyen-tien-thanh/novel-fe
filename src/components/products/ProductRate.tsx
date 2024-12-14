@@ -62,7 +62,7 @@ export const ProductRate: FC<IProductRateProps> = ({ products }) => {
           </li>
         ))}
       </ul>
-      <Link href={'#!'} className="btn w-full mt-2">
+      <Link href={'#!'} className="btn btn-sm lg:btn-md w-full mt-2">
         Xem thêm
       </Link>
     </div>

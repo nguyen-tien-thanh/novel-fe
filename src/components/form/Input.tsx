@@ -10,7 +10,7 @@ import { Entity, ICategory, IChapter, IProduct } from '@/types'
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
 import { Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOptions } from '@headlessui/react'
 import { ReactQuillProps } from 'react-quill'
-import Image from 'next/image'
+import { Image } from '@/components'
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false })
 
 interface Option {

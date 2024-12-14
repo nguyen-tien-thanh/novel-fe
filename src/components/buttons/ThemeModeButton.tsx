@@ -3,7 +3,8 @@
 import { CheckIcon, ThemeIcon } from '../icons'
 import { cn } from '@/lib'
 import { useTheme } from '@/providers'
-import { Tooltip } from '../commons'
+import { Button, Drawer, Tooltip } from '../commons'
+import { useState } from 'react'
 
 const themes = [
   // { name: 'Mặc Định', value: 'default', icon: '' },
@@ -43,19 +44,19 @@ const themes = [
 
 export const ThemeModeButton = () => {
   const { theme, changeTheme } = useTheme()
+  const [openDrawer, setOpenDrawer] = useState(false)
+
+  const handleOpenDrawer = () => setOpenDrawer(!openDrawer)
 
   return (
     <>
       <Tooltip title="Giao diện">
-        <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
+        <Button className="btn-ghost btn-circle" onClick={handleOpenDrawer}>
           <ThemeIcon />
-        </div>
+        </Button>
       </Tooltip>
-      <div
-        tabIndex={0}
-        className="dropdown-content bg-base-200 text-base-content rounded-box top-px h-[25rem] max-h-[calc(100vh-10rem)] w-56 overflow-y-auto border border-white/5 shadow-2xl outline outline-1 outline-black/5 mt-16 z-10"
-      >
-        <div className="grid grid-cols-1 gap-3 p-3">
+      <Drawer open={openDrawer} setOpen={setOpenDrawer} position="right">
+        <div className="grid grid-cols-1 gap-3">
           {themes.map((t, i) => (
             <button
               key={i}
@@ -83,7 +84,7 @@ export const ThemeModeButton = () => {
             </button>
           ))}
         </div>
-      </div>
+      </Drawer>
     </>
   )
 }

@@ -1,6 +1,7 @@
 import { cn } from '@/lib'
 import Link from 'next/link'
 import { FC, ReactNode } from 'react'
+import { Button } from '../commons'
 
 export interface IHeroProps {
   title?: string
@@ -35,7 +36,7 @@ export const Hero: FC<IHeroProps> = ({
               {subtitle && <p className="mb-5">{subtitle}</p>}
               {buttonText && (
                 <Link href={href}>
-                  <button className="btn btn-primary">{buttonText}</button>
+                  <Button color="primary">{buttonText}</Button>
                 </Link>
               )}
             </>

@@ -2,7 +2,7 @@ import { ComponentType, createElement, FC, ReactNode } from 'react'
 import { IProduct } from '@/types'
 import { useRouter } from 'next/navigation'
 import { cn } from '@/lib'
-import Image from 'next/image'
+import { Image } from '@/components'
 import './cover.css'
 
 export type TCoverShowOptions = 'overlay'

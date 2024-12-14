@@ -1,4 +1,6 @@
-import { Dispatch, FC, useId } from 'react'
+'use client'
+
+import { Dispatch, FC, useEffect, useId } from 'react'
 import { MarkIcon } from '../icons'
 import { cn } from '@/lib'
 
@@ -11,6 +13,15 @@ export interface DrawerProps {
 
 export const Drawer: FC<DrawerProps> = ({ open = false, setOpen, position = 'left', children }) => {
   const id = useId()
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && setOpen) setOpen(false)
+    }
+    window.addEventListener('keydown', handleKeyDown)
+
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [setOpen])
 
   return (
     <div className={cn('drawer z-[9999]', position === 'right' && 'drawer-end')}>

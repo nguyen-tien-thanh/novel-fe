@@ -1,20 +1,21 @@
 import { stringAvatar } from '@/lib'
 import { signOut, useSession } from 'next-auth/react'
-import Image from 'next/image'
 import Link from 'next/link'
+import { Image } from '@/components'
 
 export const ProfileButton = () => {
   const { data } = useSession()
-  const user = data?.user
+  if (!data || !data.user) return null
+  const { name, image } = data.user
 
   return (
     <>
       <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
         <div className="w-10 rounded-full">
-          {user && user.image ? (
-            <Image width={40} height={40} src={user.image} alt={user.name ?? 'Avatar'} />
-          ) : user && user.name ? (
-            <div {...stringAvatar(user.name)} />
+          {image ? (
+            <Image width={40} height={40} src={image} alt={name ?? 'Avatar'} />
+          ) : name ? (
+            <div {...stringAvatar(name)} />
           ) : null}
         </div>
       </div>

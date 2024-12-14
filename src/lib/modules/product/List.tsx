@@ -6,7 +6,7 @@ import { toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
 import { NVCell, NVList } from '@/components'
 import { formatDatetime } from '@/lib/utils'
-import Image from 'next/image'
+import { Image } from '@/components'
 
 export const List = ({ initialProducts, deleteProduct }) => {
   const router = useRouter()
