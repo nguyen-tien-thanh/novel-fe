@@ -26,10 +26,10 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       # Bước 4: Build và Push Docker image
-      - name: Build and Push Docker image
+      - name: Build and Push Development Docker Image
         run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/novel-fe:latest .
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/novel-fe:latest
+          docker build -f Dockerfile.development -t ${{ secrets.DOCKERHUB_USERNAME }}/novel-fe:dev .
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/novel-fe:dev
 
   deploy:
     runs-on: ubuntu-latest
@@ -44,7 +44,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           password: ${{ secrets.SERVER_PASSWORD }}
           script: |
-            cd novel 
-            docker-compose down web
-            docker-compose pull web
-            docker-compose up -d web
+            cd docker 
+            cd dev
+            docker-compose pull web-dev
+            docker-compose up -d web-dev

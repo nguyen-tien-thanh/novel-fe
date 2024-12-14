@@ -27,7 +27,6 @@ export const InputField = ({ create, edit, defaultValue, categories, upFile }: C
         type: image.type,
       })
 
-      console.log('renamedFile---->>', renamedFile)
       formData.append('files', renamedFile)
       const result = await upFile!(formData)
       data.image = result.url.replace('minio.thanhsonnguyen.io.vn/media', 'thanhsonnguyen.io.vn/assets')
@@ -109,7 +108,7 @@ export const InputField = ({ create, edit, defaultValue, categories, upFile }: C
           <label className="label">
             <span className="label-text">Ảnh</span>
           </label>
-          <FileInput name="image" />
+          <FileInput name="image" validation={{ required: 'Vui lòng thêm ảnh cho truyện' }} />
         </div>
 
         <div className="form-control mt-4">

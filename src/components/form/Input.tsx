@@ -255,6 +255,7 @@ export const FileInput: FC<InputProps> = ({
   const {
     register,
     setValue,
+    reset,
     formState: { errors, defaultValues },
   } = useFormContext()
   const [fileBlob, setFileBlob] = useState<Blob | null>(null)
@@ -274,10 +275,11 @@ export const FileInput: FC<InputProps> = ({
 
   const handleDelete = () => {
     if (fileInputRef.current) {
-      setValue(name, undefined)
       fileInputRef.current.value = ''
     }
+    setValue(name, undefined)
     setFileBlob(null)
+    reset({ [name]: undefined })
   }
 
   const defaultImage = defaultValues?.[name] as string

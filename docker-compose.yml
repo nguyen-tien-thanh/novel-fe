@@ -3,4 +3,14 @@ services:
     image: son29032001/novel-fe
     container_name: web
     restart: unless-stopped
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+  dev:
+    image: son29032001/novel-fe:dev
+    container_name: web
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile.development

@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "next dev -H 0.0.0.0",
     "build": "next build",
+    "build-dev": "cp .env.development .env.local && yarn build",
+    "build-prod": "cp .env.production .env.local && yarn build",
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write \"src/**/*.{ts,tsx,css}\""
