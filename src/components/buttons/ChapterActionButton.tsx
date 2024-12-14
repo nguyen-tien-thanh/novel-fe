@@ -53,7 +53,7 @@ export const ChapterActionButton: FC<IChapterActionButton> = ({
       <div>
         <label
           htmlFor="settings-text"
-          className="btn btn-secondary no-animation hover:brightness-125 transition-all active:brightness-110"
+          className="btn btn-sm lg:btn-md btn-secondary no-animation hover:brightness-125 transition-all active:brightness-110"
         >
           Cài đặt
         </label>
