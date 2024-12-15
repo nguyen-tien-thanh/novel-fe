@@ -132,13 +132,13 @@ export default function ProductDetail({ id, products, product, chapters, rates }
             {product.categories && (
               <div className="my-4 flex flex-wrap gap-2">
                 {product.categories.map(cate => (
-                  <Link key={cate.id} href={`/category/${cate.id}`} className="btn btn-sm font-normal">
+                  <Link key={cate.id} href={`/category/${cate.id}`} className="btn btn-xs font-normal">
                     {cate.name}
                   </Link>
                 ))}
               </div>
             )}
-            <div className="mt-6 opacity-65" dangerouslySetInnerHTML={{ __html: product.description || '' }} />
+            <div className="mt-4 opacity-65" dangerouslySetInnerHTML={{ __html: product.description || '' }} />
           </div>
         </div>
       </section>
