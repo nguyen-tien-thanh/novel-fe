@@ -94,7 +94,7 @@ export default function ProductDetail({ id, products, product, chapters, rates }
         <div className="lg:col-span-5 w-full">
           <div className="lg:px-5 pb-0 lg:pt-5 rounded-md">
             <div className="flex flex-col justify-center items-center">
-              <p className="font-bold text-center text-3xl">{product.name}</p>
+              <p className="font-bold text-center text-xl lg:text-3xl">{product.name}</p>
               <div className="flex flex-col items-center">
                 <Rating
                   name="rating"

@@ -45,7 +45,7 @@ export default function Dashboard({ products, categories }: DashboardProps) {
 
       <section className="container mx-auto mt-5">
         <div className="flex flex-col lg:flex-row gap-10 lg:gap-5">
-          <div id="product-section" className="space-y-14 lg:space-y-20">
+          <div id="product-section" className="grow space-y-14 lg:space-y-20">
             <CardPaper title="Mới cập nhật">
               <ProductList badgeText="New" products={products.slice(0, 20)} />
             </CardPaper>
@@ -65,6 +65,7 @@ export default function Dashboard({ products, categories }: DashboardProps) {
                 {categories.map(category => {
                   const colors = [
                     'text-success hover:bg-success hover:border-success',
+                    'text-info hover:bg-info hover:border-info',
                     'text-default hover:bg-neutral',
                     'text-info hover:bg-info hover:border-info',
                     'text-default hover:bg-neutral',
@@ -75,7 +76,7 @@ export default function Dashboard({ products, categories }: DashboardProps) {
                     <Link
                       href={`/category/${category.id}`}
                       key={category.id}
-                      className={cn('font-semibold btn btn-sm hover:text-white', randomColor)}
+                      className={cn('font-semibold btn btn-xs hover:text-white', randomColor)}
                     >
                       {category.name}
                     </Link>

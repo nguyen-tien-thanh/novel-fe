@@ -43,7 +43,12 @@ export const ProductRate: FC<IProductRateProps> = ({ products }) => {
                   <Link href="#!" className="hover:underline underline-offset-4 text-primary opacity-80">
                     {product.authorName}
                   </Link>
-                  <p className="line-clamp-2 text-sm">{product.description}</p>
+                  {product.description && (
+                    <p
+                      className="line-clamp-2 !text-sm !text-base-content"
+                      dangerouslySetInnerHTML={{ __html: product.description }}
+                    />
+                  )}
                 </div>
               </>
             ) : (

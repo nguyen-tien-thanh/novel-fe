@@ -9,9 +9,10 @@ export interface DrawerProps {
   setOpen?: Dispatch<boolean>
   children?: React.ReactNode
   position?: 'left' | 'right'
+  className?: string
 }
 
-export const Drawer: FC<DrawerProps> = ({ open = false, setOpen, position = 'left', children }) => {
+export const Drawer: FC<DrawerProps> = ({ open = false, setOpen, position = 'left', children, className }) => {
   const id = useId()
 
   useEffect(() => {
@@ -36,7 +37,7 @@ export const Drawer: FC<DrawerProps> = ({ open = false, setOpen, position = 'lef
       <div className="drawer-side">
         <label htmlFor={id} aria-label="close sidebar" className="drawer-overlay" />
 
-        <ul className="menu bg-base-200 text-base-content min-h-full w-[80%] lg:max-w-sm p-4 pt-10">
+        <ul className={cn('menu bg-base-200 text-base-content min-h-full w-[80%] lg:max-w-xs p-4 pt-10', className)}>
           <label
             htmlFor={id}
             aria-label="close sidebar"

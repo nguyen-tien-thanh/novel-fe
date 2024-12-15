@@ -52,7 +52,7 @@ const Register = () => {
                   name="firstName"
                   validation={{ required: 'Vui lòng nhập tên' }}
                   placeholder="John"
-                  autoComplete="family-name"
+                  autoComplete="given-name"
                 />
               </div>
               <div className="form-control">
@@ -63,7 +63,7 @@ const Register = () => {
                   name="lastName"
                   validation={{ required: 'Vui lòng nhập họ' }}
                   placeholder="Doe"
-                  autoComplete="given-name"
+                  autoComplete="family-name"
                 />
               </div>
             </div>

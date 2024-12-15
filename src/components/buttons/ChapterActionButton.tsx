@@ -47,7 +47,7 @@ export const ChapterActionButton: FC<IChapterActionButton> = ({
         onClick={() => !isFirst && handleClick(chapter.chapterNumber - 1)}
       >
         <ChevronLeftIcon className="size-4" />
-        {chapter.chapterNumber - 1 === 0 ? 'Chương ' : `Chương ${chapter.chapterNumber - 1}`}
+        {chapter.chapterNumber - 1 === 0 ? 'Chương' : `Chương ${chapter.chapterNumber - 1}`}
       </Button>
 
       <div>
@@ -59,7 +59,7 @@ export const ChapterActionButton: FC<IChapterActionButton> = ({
         </label>
         <input type="checkbox" id="settings-text" className="modal-toggle" />
         <div className="modal" role="dialog">
-          <div className="modal-box">
+          <div className="modal-box max-w-fit lg:max-w-xs lg:place-items-center">
             <label htmlFor="settings-text" className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
               x
             </label>
@@ -73,7 +73,7 @@ export const ChapterActionButton: FC<IChapterActionButton> = ({
                 <div className="join">
                   <div>
                     <input
-                      className="join-item btn btn-sm"
+                      className="join-item btn"
                       type="radio"
                       name="fontSize"
                       aria-label="Giảm"
@@ -81,14 +81,14 @@ export const ChapterActionButton: FC<IChapterActionButton> = ({
                       onClick={() => handleChangeTextStyle({ fontSize: textStyle.fontSize - 0.1 })}
                     />
                     <input
-                      className="join-item btn btn-sm"
+                      className="join-item btn"
                       type="radio"
                       name="fontSize"
-                      aria-label="Khôi phục"
+                      aria-label="Mặc định"
                       onClick={() => handleChangeTextStyle({ fontSize: 1 })}
                     />
                     <input
-                      className="join-item btn btn-sm"
+                      className="join-item btn"
                       type="radio"
                       name="fontSize"
                       aria-label="Tăng"
@@ -102,21 +102,21 @@ export const ChapterActionButton: FC<IChapterActionButton> = ({
                 <div className="join">
                   <div>
                     <input
-                      className={cn('join-item btn btn-sm', textStyle.fontWeight === 300 && 'btn-primary')}
+                      className={cn('join-item btn', textStyle.fontWeight === 300 && 'btn-primary')}
                       type="radio"
                       name="fontWeight"
                       aria-label="Nhạt"
                       onClick={() => handleChangeTextStyle({ fontWeight: 300 })}
                     />
                     <input
-                      className={cn('join-item btn btn-sm', textStyle.fontWeight === 400 && 'btn-primary')}
+                      className={cn('join-item btn', textStyle.fontWeight === 400 && 'btn-primary')}
                       type="radio"
                       name="fontWeight"
-                      aria-label="Bình thường"
+                      aria-label="Mặc định"
                       onClick={() => handleChangeTextStyle({ fontWeight: 400 })}
                     />
                     <input
-                      className={cn('join-item btn btn-sm', textStyle.fontWeight === 700 && 'btn-primary')}
+                      className={cn('join-item btn', textStyle.fontWeight === 700 && 'btn-primary')}
                       type="radio"
                       name="fontWeight"
                       aria-label="Đậm"
@@ -130,7 +130,7 @@ export const ChapterActionButton: FC<IChapterActionButton> = ({
                 <div className="join">
                   <div>
                     <input
-                      className="join-item btn btn-sm"
+                      className="join-item btn"
                       type="radio"
                       name="lineHeight"
                       aria-label="Giảm"
@@ -138,14 +138,14 @@ export const ChapterActionButton: FC<IChapterActionButton> = ({
                       onClick={() => handleChangeTextStyle({ lineHeight: textStyle.lineHeight - 0.1 })}
                     />
                     <input
-                      className="join-item btn btn-sm"
+                      className="join-item btn"
                       type="radio"
                       name="lineHeight"
-                      aria-label="Khôi phục"
+                      aria-label="Mặc định"
                       onClick={() => handleChangeTextStyle({ lineHeight: 2.5 })}
                     />
                     <input
-                      className="join-item btn btn-sm"
+                      className="join-item btn"
                       type="radio"
                       name="lineHeight"
                       aria-label="Tăng"
@@ -159,7 +159,7 @@ export const ChapterActionButton: FC<IChapterActionButton> = ({
                 <div className="join">
                   <div>
                     <input
-                      className="join-item btn btn-sm"
+                      className="join-item btn"
                       type="radio"
                       name="letterSpacing"
                       aria-label="Giảm"
@@ -167,14 +167,14 @@ export const ChapterActionButton: FC<IChapterActionButton> = ({
                       onClick={() => handleChangeTextStyle({ letterSpacing: textStyle.letterSpacing - 0.01 })}
                     />
                     <input
-                      className="join-item btn btn-sm"
+                      className="join-item btn"
                       type="radio"
                       name="letterSpacing"
-                      aria-label="Khôi phục"
+                      aria-label="Mặc định"
                       onClick={() => handleChangeTextStyle({ letterSpacing: 0 })}
                     />
                     <input
-                      className="join-item btn btn-sm"
+                      className="join-item btn"
                       type="radio"
                       name="letterSpacing"
                       aria-label="Tăng"
@@ -185,11 +185,11 @@ export const ChapterActionButton: FC<IChapterActionButton> = ({
               </div>
             </div>
 
-            <div className="modal-action">
+            {/* <div className="modal-action">
               <label htmlFor="settings-text" className="btn">
                 Lưu
               </label>
-            </div>
+            </div> */}
           </div>
           <label className="modal-backdrop" htmlFor="settings-text">
             Close
