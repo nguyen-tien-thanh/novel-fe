@@ -60,13 +60,13 @@ const Login = () => {
 
               <label className="label">
                 <Link href="#" className="label-text-alt link link-hover">
-                  Quên mật khâủ
+                  Quên mật khẩu?
                 </Link>
               </label>
             </div>
 
             <div className="form-control mt-6">
-              <Button className="btn-primary">Đăng nhập</Button>
+              <Button className="btn-md btn-primary">Đăng nhập</Button>
             </div>
           </Form>
 

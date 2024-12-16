@@ -42,7 +42,7 @@ export const Cover: FC<ICoverProps> = ({ product, href, height = 360, width = 24
               {image && typeof image === 'string' && (
                 <Image className="image" height={height} width={width} alt={name} src={image} />
               )}
-              {show.includes('overlay') && <p className="book-name truncate">{name}</p>}
+              {show.includes('overlay') && <p className="book-name truncate text-xs lg:text-sm">{name}</p>}
             </div>
           </div>
           <div className="left-side" style={{ height }}>

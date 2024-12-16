@@ -1,7 +1,5 @@
 'use client'
 
-import React from 'react'
-
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
 import { Row, Table, CheckIcon } from '@/components'
@@ -56,9 +54,9 @@ export const List = ({ initialProducts, deleteProduct }) => {
           render={(value: unknown) => {
             const stringValue = value as string | undefined
             if (typeof stringValue === 'string') {
-              return stringValue.length > 50 ? `${stringValue.slice(0, 50)} ...` : stringValue
+              const html = stringValue.length > 50 ? `${stringValue.slice(0, 50)} ...` : stringValue
+              return <p dangerouslySetInnerHTML={{ __html: html }}></p>
             }
-            return ''
           }}
         />
         <Row name="createdAt" colName="Ngày tạo" render={(createdAt: unknown) => formatDatetime(createdAt as string)} />

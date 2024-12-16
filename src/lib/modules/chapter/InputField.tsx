@@ -1,13 +1,14 @@
 'use client'
 
 // import { Button } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { IChapter, IProduct } from '@/types'
 import { useParams } from 'next/navigation'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
 import { isEmpty } from '@/lib'
 import { AutoCompleteInput, Button, EditorInput, Form, Input } from '@/components'
+import { useForm, useFormContext } from 'react-hook-form'
 
 interface CreateFormProps {
   edit?: (body: IChapter) => Promise<IChapter | undefined>
@@ -76,13 +77,13 @@ export const InputField = ({ products, edit, create, defaultValue }: CreateFormP
           <label className="label">
             <span className="label-text">Chương số</span>
           </label>
-          <Input validation={{ required: 'Vui lòng chương mấy' }} name="chapterNumber" type="number" autoFocus />
+          <ChapterInput />
         </div>
         <div className="form-control mt-4">
           <label className="label">
             <span className="label-text">Giá</span>
           </label>
-          <Input validation={{ required: 'Vui lòng giá' }} name="price" type="number" autoFocus />
+          <Input defaultValue={0} validation={{ required: 'Vui lòng giá' }} name="price" type="number" autoFocus />
         </div>
         <div className="form-control mt-4">
           <label className="label">
@@ -107,5 +108,18 @@ export const InputField = ({ products, edit, create, defaultValue }: CreateFormP
         </div>
       </Form>
     </div>
+  )
+}
+
+const ChapterInput = () => {
+  const { setValue, watch } = useFormContext()
+  const chapterNumber = watch('productId')?.chapterCount + 1
+
+  useEffect(() => {
+    setValue('chapterNumber', chapterNumber)
+  }, [chapterNumber])
+
+  return (
+    <Input readOnly validation={{ required: 'Vui lòng chương mấy' }} name="chapterNumber" type="number" autoFocus />
   )
 }

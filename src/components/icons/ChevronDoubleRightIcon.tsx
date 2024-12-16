@@ -11,7 +11,7 @@ export const ChevronDoubleRightIcon: FC<SVGProps<SVGSVGElement>> = ({ className,
       className={cn('size-5 lg:size-6', className)}
       {...props}
     >
-      <path stroke-linecap="round" stroke-linejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
     </svg>
   )
 }

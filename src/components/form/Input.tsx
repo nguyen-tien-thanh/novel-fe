@@ -3,14 +3,15 @@
 import React, { CSSProperties, FC, forwardRef, useState, useRef, useEffect } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { toolbarOptions } from '@/constants'
-import 'react-quill/dist/quill.snow.css'
 import dynamic from 'next/dynamic'
 import { cn } from '@/lib'
-import { TEntity, ICategory, IChapter, IProduct } from '@/types'
+import { TEntity } from '@/types'
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
 import { Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOptions } from '@headlessui/react'
 import { ReactQuillProps } from 'react-quill'
-import { Image } from '@/components'
+import { Button, Image } from '@/components'
+import 'react-quill/dist/quill.snow.css'
+import './quill.css'
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false })
 
 interface Option {
@@ -225,14 +226,9 @@ export const EditorInput: React.FC<EditorInputProps> = ({
           <ReactQuillWrapper
             {...field}
             {...rest}
-            className="[&>*]:textarea [&>.ql-container]:rounded-t-none [&>.ql-toolbar]:rounded-b-none [&>*]:!stroke-blue-900 [&>*]:!fill-blue-900"
-            // theme="snow"
             value={field.value || ''}
             onChange={field.onChange}
-            modules={{
-              toolbar: toolbarOptions,
-            }}
-            style={{ height: 200, ...style }}
+            modules={{ toolbar: toolbarOptions }}
           />
         )}
       />
@@ -297,13 +293,18 @@ export const FileInput: FC<InputProps> = ({
         ref={fileInputRef}
         accept="image/*"
         onChange={handleFileChange}
-        className={cn('w-full', errorMessage && 'input-error', 'file-input file-input-bordered w-full', className)}
+        className={cn(
+          'w-full',
+          errorMessage && 'input-error',
+          'file-input file-input-sm lg:file-input-md file-input-bordered w-full',
+          className,
+        )}
         {...props}
         type="file"
       />
       {(defaultImage || fileBlob) && (
-        <div className="mt-4 relative">
-          <div className="relative">
+        <div className="mt-4 relative place-items-center">
+          <div className="relative w-fit">
             <Image
               width={300}
               height={300}
@@ -313,9 +314,15 @@ export const FileInput: FC<InputProps> = ({
               alt="Preview"
               className="mt-2 max-w-xs border"
             />
-            <button onClick={handleDelete} type="button" className="absolute top-2 right-2" aria-label="Delete image">
+            <Button
+              onClick={handleDelete}
+              type="button"
+              className="!btn-sm absolute top-2 right-2 !text-xs"
+              aria-label="Delete image"
+              icon
+            >
               ✖
-            </button>
+            </Button>
           </div>
         </div>
       )}
