@@ -6,7 +6,7 @@ import { toolbarOptions } from '@/constants'
 import 'react-quill/dist/quill.snow.css'
 import dynamic from 'next/dynamic'
 import { cn } from '@/lib'
-import { Entity, ICategory, IChapter, IProduct } from '@/types'
+import { TEntity, ICategory, IChapter, IProduct } from '@/types'
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
 import { Combobox, ComboboxButton, ComboboxInput, ComboboxOption, ComboboxOptions } from '@headlessui/react'
 import { ReactQuillProps } from 'react-quill'
@@ -20,13 +20,13 @@ interface Option {
 interface AutoCompleteInputProps {
   name: string
   label: string
-  options: Entity[]
+  options: TEntity[]
   optionName?: string
   optionValue?: string | number | undefined
   getOptionLabel?: (option: Option) => string
   validation?: InputValidationRules
   style?: object
-  defaultValue?: Entity[] | Entity | number
+  defaultValue?: TEntity[] | TEntity | number
   multiple?: boolean
 }
 
@@ -138,7 +138,7 @@ export const AutoCompleteInput: React.FC<AutoCompleteInputProps> = ({
                 <div className="relative py-1.5">
                   <ComboboxInput
                     className="w-full rounded-lg border-none py-1.5 pr-8 pl-3 text-sm focus:outline-none"
-                    displayValue={(items: Entity[] | number) => {
+                    displayValue={(items: TEntity[] | number) => {
                       return multiple && Array.isArray(items)
                         ? items.map(item => item[optionName]).join(', ')
                         : typeof items !== 'number'
@@ -191,7 +191,7 @@ interface EditorInputProps extends Partial<ReactQuillProps> {
   name: string
   label?: string
   validation?: InputValidationRules
-  // defaultValue?: Entity[] | Entity
+  // defaultValue?: TEntity[] | TEntity
   style?: CSSProperties
 }
 

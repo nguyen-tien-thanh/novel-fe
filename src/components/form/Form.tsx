@@ -1,7 +1,6 @@
 'use client'
 
 import { cn } from '@/lib'
-import { Entity } from '@/types'
 import React, { useMemo } from 'react'
 import { FieldValues, FormProvider, SubmitHandler, useForm, DefaultValues } from 'react-hook-form'
 

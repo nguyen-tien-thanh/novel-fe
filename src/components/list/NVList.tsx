@@ -3,7 +3,7 @@ import React, { ReactElement, ReactNode, useState } from 'react'
 import Link from 'next/link'
 import { ICategory, IChapter, IProduct } from '@/types'
 import { EditIcon, TrashIcon } from '../icons'
-import { Pagination } from './NVPagination'
+import { Pagination } from '../commons'
 
 interface NVListColumnProps<T extends IProduct | ICategory | IChapter> {
   headerName: string
@@ -26,7 +26,7 @@ export const NVList = ({ data, title, onAdd, children, onDel, isEdit, resource }
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(5)
 
-  const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
+  const handleChangePage = (newPage: number) => {
     setPage(newPage)
   }
 

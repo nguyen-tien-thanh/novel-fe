@@ -1,13 +1,13 @@
 'use client'
 
-import { CardPaper, Divider, Rating } from '@/components'
+import { CardPaper, Rating, Row, Table } from '@/components'
 import { Book } from '@/components/book'
-import { cn, formatCurrency, formatDatetime } from '@/lib'
+import { cn, formatDatetime } from '@/lib'
 import { IChapter, IProduct, IRate, PRODUCT_STATUS } from '@/types'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { FC, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
 export interface IProductDetailProps {
@@ -28,8 +28,11 @@ export default function ProductDetail({ id, products, product, chapters, rates }
   // const [rowsPerPage, setChaptersPerPage] = useState(5)
   const [relatedProduct, setRelatedProduct] = useState<IProduct[]>([])
 
-  const handleChapterClick = (chap: IChapter) => {
-    return router.push(`/product/${chap.productId}/chapter/${chap.chapterNumber}`)
+  const handleRowClick = (chapterId: number) => {
+    if (!chapters) return
+    const chapter = chapters.find(chapter => chapter.id === chapterId)
+    if (!chapter) return
+    return router.push(`/product/${id}/chapter/${chapter.chapterNumber}`)
     // TODO: UnComment
     // if (!user) return router.push('/login')
 
@@ -144,42 +147,11 @@ export default function ProductDetail({ id, products, product, chapters, rates }
       </section>
 
       <section className="mt-8">
-        <div className="overflow-x-auto">
-          <table className="table table-sm">
-            <thead>
-              <tr>
-                <th></th>
-                <th>Tên</th>
-                <th>Ngày đăng</th>
-                {/* <th>Giá</th> */}
-              </tr>
-            </thead>
-            <tbody>
-              {chapters &&
-                chapters.map(chapter => (
-                  <tr
-                    key={chapter.id}
-                    className="hover:bg-base-200"
-                    role="button"
-                    onClick={() => handleChapterClick(chapter)}
-                  >
-                    <td>{chapter.chapterNumber}</td>
-                    <td>{chapter.chapterName}</td>
-                    <td>{formatDatetime(chapter.createdAt)}</td>
-                    {/* <td>
-                    {user && (
-                      <span
-                        className={`${chapter.price > 0 && user && !chapter.users.includes(+user.id) ? 'text-red-600' : ''}`}
-                      >
-                        {chapter.price > 0 ? formatCurrency(chapter.price) : ''}
-                      </span>
-                    )}  
-                  </td> */}
-                  </tr>
-                ))}
-            </tbody>
-          </table>
-        </div>
+        <Table data={chapters} pagination={false} onRowClick={handleRowClick}>
+          <Row name="chapterNumber" />
+          <Row name="chapterName" colName="Tên" />
+          <Row name="createdAt" colName="Ngày tạo" render={value => formatDatetime(value as string)} />
+        </Table>
       </section>
 
       {products && relatedProduct && (

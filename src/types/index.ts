@@ -9,6 +9,8 @@ export enum ROLE {
   USER = 'USER',
 }
 
+export type TEntity = ICategory | IChapter | IProduct | IUser
+
 export interface IProduct {
   id: number
   createdBy?: number
@@ -133,5 +135,3 @@ export interface IRegister {
   firstName: string
   lastName: string
 }
-
-export type Entity = ICategory | IChapter | IProduct

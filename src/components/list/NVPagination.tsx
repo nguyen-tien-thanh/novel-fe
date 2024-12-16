@@ -8,7 +8,7 @@ interface PaginationProps {
   handleChangeRowsPerPage: (event: React.ChangeEvent<HTMLSelectElement>) => void
 }
 
-export const Pagination: React.FC<PaginationProps> = ({
+export const NVPagination: React.FC<PaginationProps> = ({
   count,
   rowsPerPage,
   page,

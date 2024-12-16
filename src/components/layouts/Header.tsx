@@ -63,9 +63,8 @@ export const Header = () => {
                     page.children.map((child, i) => (
                       <li
                         key={i}
-                        className={cn(
-                          pathname === child.href && 'rounded-lg bg-primary text-primary-content pointer-events-none',
-                        )}
+                        className={cn(pathname === child.href && 'bg-primary text-primary-content pointer-events-none')}
+                        style={{ borderRadius: 'var(--rounded-btn, 0.5rem)' }}
                       >
                         <Link onClick={handleOpenDrawer} href={child.href}>
                           {child.name}

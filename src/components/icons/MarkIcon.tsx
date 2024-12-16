@@ -8,7 +8,7 @@ export const MarkIcon: FC<SVGProps<SVGSVGElement>> = ({ className, ...props }) =
       fill="none"
       strokeWidth={1.5}
       stroke="currentColor"
-      className={cn('size-6', className)}
+      className={cn('size-5 lg:size-6', className)}
       {...props}
     >
       <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />

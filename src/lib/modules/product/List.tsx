@@ -4,7 +4,7 @@ import React from 'react'
 
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
-import { NVCell, NVList } from '@/components'
+import { Row, Table, CheckIcon } from '@/components'
 import { formatDatetime } from '@/lib/utils'
 import { Image } from '@/components'
 
@@ -21,58 +21,50 @@ export const List = ({ initialProducts, deleteProduct }) => {
     }
   }
 
-  return (
-    <NVList
-      data={initialProducts}
-      resource="product"
-      title="Danh sách truyện"
-      isEdit
-      onDel={deleteRow}
-      onAdd={() => router.push('/admin/product/create')}
-    >
-      <NVCell name="name" headerName="Tên" />
-      <NVCell name="authorName" headerName="Tác giả" />
-      <NVCell
-        name="description"
-        headerName="Mô tả"
-        render={(value: unknown) => {
-          const stringValue = value as string | undefined
-          if (typeof stringValue === 'string') {
-            return stringValue.length > 50 ? `${stringValue.slice(0, 50)} ...` : stringValue
-          }
-          return ''
-        }}
-      />
-      <NVCell
-        name="createdAt"
-        headerName="Ngày tạo"
-        render={(createdAt: unknown) => formatDatetime(createdAt as string)}
-      />
-      <NVCell name="viewCount" headerName="Lượt xem" />
-      <NVCell
-        name="image"
-        headerName="Hình ảnh"
-        render={(value: unknown) => {
-          const stringValue = value as string
-          return value ? (
-            <Image
-              width={100}
-              height={100}
-              src={stringValue || '/assets/notfound.webp'}
-              onError={e => {
-                const target = e.target as HTMLImageElement
-                target.src = '/assets/notfound.webp'
-              }}
-              className="h-[100px] w-[100px] object-cover"
-              alt="Image preview"
-            />
-          ) : (
-            <div></div>
-          )
-        }}
-      />
+  const editRow = async (id: number) => router.push(`/admin/product/${id}`)
 
-      <NVCell name="state" headerName="Công khai" render={value => (value ? 'Công khai' : 'Không công khai')} />
-    </NVList>
+  return (
+    <div className="p-2">
+      <Table
+        data={initialProducts}
+        resource="product"
+        title="Danh sách truyện"
+        onDelete={deleteRow}
+        onEdit={editRow}
+        onCreate={() => router.push('/admin/product/create')}
+        zebra
+        footer
+      >
+        <Row
+          name="image"
+          render={(value: unknown) => {
+            const stringValue = value as string
+            return value ? (
+              <div className="mask mask-squircle size-12 relative">
+                <Image fill src={stringValue} className="object-center object-cover" alt="Image preview" />
+              </div>
+            ) : (
+              <div></div>
+            )
+          }}
+        />
+        <Row name="name" colName="Tên" />
+        <Row name="authorName" colName="Tác giả" />
+        <Row
+          name="description"
+          colName="Mô tả"
+          render={(value: unknown) => {
+            const stringValue = value as string | undefined
+            if (typeof stringValue === 'string') {
+              return stringValue.length > 50 ? `${stringValue.slice(0, 50)} ...` : stringValue
+            }
+            return ''
+          }}
+        />
+        <Row name="createdAt" colName="Ngày tạo" render={(createdAt: unknown) => formatDatetime(createdAt as string)} />
+        <Row name="viewCount" colName="Lượt xem" />
+        <Row name="state" colName="Công khai" render={value => value && <CheckIcon />} />
+      </Table>
+    </div>
   )
 }
