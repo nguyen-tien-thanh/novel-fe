@@ -118,7 +118,7 @@ export const InputField = ({ create, edit, defaultValue, categories, upFile }: C
           <EditorInput validation={{ required: 'Vui lòng điền nội dung' }} name="description" label="Nội dung" />
         </div>
 
-        <div className="form-control mt-[90px]">
+        <div className="form-control mt-8">
           <Button type="submit" className="btn-primary">
             Gửi
           </Button>
