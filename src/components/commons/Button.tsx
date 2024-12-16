@@ -6,9 +6,10 @@ export interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string
   children: ReactNode
   responsive?: boolean
+  icon?: boolean
 }
 
-export const Button: FC<IButtonProps> = ({ color, className, children, responsive = true, ...props }) => {
+export const Button: FC<IButtonProps> = ({ color, className, children, responsive = true, icon, ...props }) => {
   return (
     <button
       className={cn(
@@ -21,6 +22,7 @@ export const Button: FC<IButtonProps> = ({ color, className, children, responsiv
         color === 'success' && 'btn-success',
         color === 'warning' && 'btn-warning',
         color === 'error' && 'btn-error',
+        icon && 'btn-circle',
         className,
       )}
       {...props}
