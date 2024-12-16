@@ -28,7 +28,7 @@ jobs:
       # Bước 4: Build và Push Docker image
       - name: Build and Push Development Docker Image
         run: |
-          docker build -f Dockerfile.development -t ${{ secrets.DOCKERHUB_USERNAME }}/novel-fe:dev .
+          docker build -f Dockerfile -t ${{ secrets.DOCKERHUB_USERNAME }}/novel-fe:dev .
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/novel-fe:dev
 
   deploy:

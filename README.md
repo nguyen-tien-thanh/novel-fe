@@ -1,29 +1,33 @@
 # Local
 
 ```bash
-npm run dev
-# or
+cp .env.template .env
+```
+
+```bash
 yarn dev
 ```
 
+<br /><br />
+
 # Docker
+
+## Build
 
 ### Development
 
 ```bash
-create file .env.development .env.local
-
-#build env dev
 docker compose build dev
-docker compose push dev
 ```
 
 ### Production
 
 ```bash
-create file .env.production .env.local
+ENV=prod docker compose build web
+```
 
+## Push
 
-docker compose build web
-docker compose push web
+```bash
+docker compose push
 ```

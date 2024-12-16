@@ -1,16 +1,10 @@
 services:
   web:
-    image: son29032001/novel-fe
+    image: son29032001/novel-fe:${ENV:-dev}
     container_name: web
     restart: unless-stopped
     build:
       context: .
       dockerfile: Dockerfile
-
-  dev:
-    image: son29032001/novel-fe:dev
-    container_name: web
-    restart: unless-stopped
-    build:
-      context: .
-      dockerfile: Dockerfile.development
+      args:
+        ENV: ${ENV:-dev}

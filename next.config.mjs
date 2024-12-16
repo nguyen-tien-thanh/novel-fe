@@ -1,16 +1,17 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'standalone',
+  output: process.env.NODE_ENV === 'production' ? 'standalone' : undefined,
   images: {
     remotePatterns: [
       {
         protocol: 'https',
         hostname: '**',
+        pathname: '/**',
       },
     ],
     domains: ['minio.thanhsonnguyen.io.vn', 'thanhsonnguyen.io.vn'],
   },
-  reactStrictMode: false,
+  reactStrictMode: process.env.NODE_ENV !== 'production',
   env: {
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
   },
