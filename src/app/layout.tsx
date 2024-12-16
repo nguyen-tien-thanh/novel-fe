@@ -25,6 +25,9 @@ export default async function RootLayout({
     <SessionProvider session={session}>
       <ThemeProvider>
         <html lang="vi" suppressHydrationWarning data-theme={theme?.value || 'cupcake'}>
+          <head>
+            <meta name="google-adsense-account" content="ca-pub-9011651022330880" />
+          </head>
           <body>
             <Header />
 
