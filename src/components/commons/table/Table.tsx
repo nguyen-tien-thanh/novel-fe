@@ -165,7 +165,7 @@ export const Table: FC<ITableProps<TEntity> & ITableStyleProps> = ({
         <Pagination
           count={data.length}
           rowsPerPage={rowsPerPage}
-          page={page}
+          page={page + 1}
           onPageChange={handlePageChange}
           handleChangeRowsPerPage={handleRowChange}
         />

@@ -2,6 +2,7 @@ import { useCallback } from 'react'
 import { Button } from '../Button'
 import { ChevronDoubleLeftIcon, ChevronDoubleRightIcon, ChevronLeftIcon, ChevronRightIcon } from '@/components'
 import { cn } from '@/lib'
+import { useMediaQuery } from 'usehooks-ts'
 
 export interface IPaginationProps {
   count: number
@@ -18,30 +19,31 @@ export const Pagination: React.FC<IPaginationProps> = ({
   onPageChange,
   handleChangeRowsPerPage,
 }) => {
+  const isMobile = useMediaQuery('(max-width: 480px)')
   const totalPages = Math.ceil(count / rowsPerPage)
-  const visiblePages = 3
 
   const getPageNumbers = useCallback(() => {
-    const start = Math.max(1, page - Math.floor(visiblePages / 2))
-    const end = Math.min(totalPages, start + visiblePages - 1)
+    const show = isMobile ? 0 : 1
+    let start = Math.max(1, page - show)
+    let end = Math.min(totalPages, page + show)
 
-    const pages: (number | string)[] = []
-    if (start > 1) {
-      pages.push(1)
-      if (start > 2) pages.push('...')
+    const visibleLength = 2 * show + 1
+    if (end - start + 1 < visibleLength) {
+      if (start === 1) {
+        end = Math.min(totalPages, start + visibleLength - 1)
+      } else if (end === totalPages) {
+        start = Math.max(1, end - visibleLength + 1)
+      }
     }
 
+    const pages: number[] = []
     for (let i = start; i <= end; i++) {
       pages.push(i)
     }
 
-    if (end < totalPages) {
-      if (end < totalPages - 1) pages.push('...')
-      pages.push(totalPages)
-    }
-
     return pages
-  }, [page, visiblePages, totalPages])
+  }, [page, totalPages])
+
   const pageNumbers = getPageNumbers()
 
   return (
@@ -54,19 +56,19 @@ export const Pagination: React.FC<IPaginationProps> = ({
       </select>
       <div className="join">
         <Button
-          className={cn('join-item lg:!btn-sm', page === 0 && 'pointer-events-none')}
+          className={cn('join-item lg:!btn-sm', page === 1 && 'pointer-events-none')}
           onClick={() => {
-            if (page === 0) return
+            if (page === 1) return
             onPageChange(0)
           }}
         >
           <ChevronDoubleLeftIcon className="!size-3" />
         </Button>
         <Button
-          className={cn('join-item lg:!btn-sm', page === 0 && 'pointer-events-none')}
+          className={cn('join-item lg:!btn-sm', page === 1 && 'pointer-events-none')}
           onClick={() => {
-            if (page === 0) return
-            onPageChange(page - 1)
+            if (page === 1) return
+            onPageChange(page - 2)
           }}
         >
           <ChevronLeftIcon className="!size-3" />
@@ -76,7 +78,7 @@ export const Pagination: React.FC<IPaginationProps> = ({
           typeof num === 'number' ? (
             <Button
               key={index}
-              className={`join-item lg:!btn-sm ${num === page + 1 ? 'btn-primary' : ''}`}
+              className={`join-item lg:!btn-sm ${num === page ? 'btn-primary' : ''}`}
               onClick={event => onPageChange(num - 1)}
             >
               {num}
@@ -89,18 +91,18 @@ export const Pagination: React.FC<IPaginationProps> = ({
         )}
 
         <Button
-          className={cn('join-item lg:!btn-sm', page + 1 >= totalPages && 'pointer-events-none')}
+          className={cn('join-item lg:!btn-sm', page >= totalPages && 'pointer-events-none')}
           onClick={() => {
-            if (page + 1 >= totalPages) return
-            onPageChange(page + 1)
+            if (page >= totalPages) return
+            onPageChange(page)
           }}
         >
           <ChevronRightIcon className="!size-3" />
         </Button>
         <Button
-          className={cn('join-item lg:!btn-sm', page + 1 >= totalPages && 'pointer-events-none')}
+          className={cn('join-item lg:!btn-sm', page >= totalPages && 'pointer-events-none')}
           onClick={() => {
-            if (page + 1 >= totalPages) return
+            if (page >= totalPages) return
             onPageChange(totalPages - 1)
           }}
         >
