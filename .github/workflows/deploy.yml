@@ -25,10 +25,18 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      # Create .env file from secret
+      - name: Create .env file
+        run: |
+          echo "${{ secrets.ENV_FILE }}" > .env.dev
+
       # Bước 4: Build và Push Docker image
       - name: Build and Push Development Docker Image
         run: |
-          docker build -f Dockerfile -t ${{ secrets.DOCKERHUB_USERNAME }}/novel-fe:dev .
+          docker build \
+            --build-arg ENV_FILE=.env.dev \
+            -t ${{ secrets.DOCKERHUB_USERNAME }}/novel-fe:dev \
+            -f Dockerfile .
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/novel-fe:dev
 
   deploy:
