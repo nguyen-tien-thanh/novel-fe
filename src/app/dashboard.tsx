@@ -29,7 +29,7 @@ export default function Dashboard({ products, categories }: DashboardProps) {
       <section className="container mx-auto">
         <Hero
           title="Welcome"
-          subtitle="Chúc các bạn đọc truyện vui vẻ"
+          subtitle="Chúc các bạn đọc truyện vui vẻ nhé!"
           className="min-h-[30vh]"
           image="https://img.daisyui.com/images/stock/photo-1507358522600-9f71e620c44e.webp"
           buttonText="Khám phá ngay"

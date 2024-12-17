@@ -13,7 +13,7 @@ COPY --from=deps /app/node_modules ./node_modules
 
 ARG ENV_FILE
 COPY ${ENV_FILE} /tmp/.env 
-RUN if [ -f /tmp/.env ]; then cp /tmp/.env /app/.env.${ENV_FILE} ; fi
+RUN if [ -f /tmp/.env ]; then cp /tmp/.env /app/.env.${ENV} ; fi
 
 COPY . .
 
