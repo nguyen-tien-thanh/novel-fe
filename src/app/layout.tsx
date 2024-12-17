@@ -9,7 +9,7 @@ import { ThemeProvider } from '@/providers'
 import { cookies } from 'next/headers'
 
 export const metadata: Metadata = {
-  title: 'AiTruyen',
+  title: 'SotaTruyen',
   description: 'Welcome',
 }
 
