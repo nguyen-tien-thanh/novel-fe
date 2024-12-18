@@ -1,6 +1,6 @@
 import ProductDetail from './ProductDetail'
 import { get } from '@/lib'
-import { IChapter, IProduct, IRate } from '@/types'
+import { IChapter, IProduct, IRate, List } from '@/types'
 
 interface PageProps {
   params: { id: number }
@@ -8,10 +8,10 @@ interface PageProps {
 
 async function fetchProductData(id: number) {
   const [products, product, chapters, rates] = await Promise.all([
-    get<Promise<IProduct[] | undefined>>('/product'),
-    get<Promise<IProduct | undefined>>(`/product/${id}`),
-    get<Promise<IChapter[] | undefined>>(`/product/${id}/chapter`),
-    get<Promise<IRate[] | undefined>>(`/product/${id}/rate`),
+    get<Promise<List<IProduct>>>('/product'),
+    get<Promise<IProduct>>(`/product/${id}`),
+    get<Promise<List<IChapter>>>(`/product/${id}/chapter`),
+    get<Promise<IRate[]>>(`/product/${id}/rate`),
   ])
 
   return { products, product, chapters, rates }

@@ -6,7 +6,7 @@ import { FC } from 'react'
 import { Book } from '../book'
 
 export interface IProductRateProps {
-  products: IProduct[]
+  products?: IProduct[]
 }
 
 const BadgeTop = ({ text }: { text: string | number }) => (
@@ -19,7 +19,7 @@ export const ProductRate: FC<IProductRateProps> = ({ products }) => {
   return (
     <div>
       <ul className="lg:flex lg:flex-wrap lg:gap-x-2">
-        {products.slice(0, 10).map((product, idx) => (
+        {products?.slice(0, 10).map((product, idx) => (
           <li key={product.id} className="border-b border-b-base flex items-center gap-2 py-1 w-full">
             {idx === 0 ? (
               <>

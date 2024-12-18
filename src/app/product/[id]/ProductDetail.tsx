@@ -3,7 +3,7 @@
 import { CardPaper, Rating, Row, Table } from '@/components'
 import { Book } from '@/components/book'
 import { cn, formatDatetime } from '@/lib'
-import { IChapter, IProduct, IRate, PRODUCT_STATUS } from '@/types'
+import { IChapter, IProduct, IRate, List, PRODUCT_STATUS } from '@/types'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -13,8 +13,8 @@ import { toast } from 'react-toastify'
 export interface IProductDetailProps {
   id: number
   product: IProduct
-  products?: IProduct[]
-  chapters?: IChapter[]
+  products?: List<IProduct>
+  chapters?: List<IChapter>
   rates?: IRate[]
 }
 
@@ -30,7 +30,7 @@ export default function ProductDetail({ id, products, product, chapters, rates }
 
   const handleRowClick = (chapterId: number) => {
     if (!chapters) return
-    const chapter = chapters.find(chapter => chapter.id === chapterId)
+    const chapter = chapters.data.find(chapter => chapter.id === chapterId)
     if (!chapter) return
     return router.push(`/product/${id}/chapter/${chapter.chapterNumber}`)
     // TODO: UnComment
@@ -46,7 +46,7 @@ export default function ProductDetail({ id, products, product, chapters, rates }
   useEffect(() => {
     if (products) {
       if (id) {
-        setRelatedProduct(products.filter(prod => prod.id !== id))
+        setRelatedProduct(products.data.filter(prod => prod.id !== id))
       }
     }
   }, [products, id])
@@ -107,6 +107,7 @@ export default function ProductDetail({ id, products, product, chapters, rates }
                 />
 
                 {rates && <p className="text-sm opacity-65">({rates.length} lượt đánh giá)</p>}
+                {/* TODO */}
               </div>
             </div>
 
@@ -147,11 +148,13 @@ export default function ProductDetail({ id, products, product, chapters, rates }
       </section>
 
       <section className="mt-8">
-        <Table data={chapters} pagination={false} onRowClick={handleRowClick}>
-          <Row name="chapterNumber" />
-          <Row name="chapterName" colName="Tên" />
-          <Row name="createdAt" colName="Ngày tạo" render={value => formatDatetime(value as string)} />
-        </Table>
+        {chapters && (
+          <Table data={chapters} pagination={false} onRowClick={handleRowClick}>
+            <Row name="chapterNumber" />
+            <Row name="chapterName" colName="Tên" />
+            <Row name="createdAt" colName="Ngày tạo" render={value => formatDatetime(value as string)} />
+          </Table>
+        )}
       </section>
 
       {products && relatedProduct && (

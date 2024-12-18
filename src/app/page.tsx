@@ -3,10 +3,8 @@ import Dashboard from './dashboard'
 import { get } from '@/lib'
 
 export default async function Home() {
-  const products = await get<List<IProduct> | undefined>('/product')
-  const categories = await get<ICategory[] | null>('/category')
+  const { data: products } = await get<List<IProduct>>('/product')
+  const { data: categories } = await get<List<ICategory>>('/category')
 
-  if (!products || !categories) return
-
-  return <Dashboard products={products.data} categories={categories} />
+  return <Dashboard products={products} categories={categories} />
 }

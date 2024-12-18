@@ -10,13 +10,7 @@ export default async function ChapterPageCreate() {
     return response
   }
 
-  async function fetchProducts() {
-    const response = await get<List<IProduct>>('/product')
-    if (!response) return []
-    return response
-  }
-
-  const { data: products } = await fetchProducts()
+  const { data: products } = await get<List<IProduct>>('/product')
 
   return <Chapter.InputField create={createChapter} products={products} />
 }

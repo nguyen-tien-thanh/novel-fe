@@ -17,13 +17,7 @@ export default async function ChaptersPageEdit({ params, searchParams }) {
     return response
   }
 
-  async function fetchProducts() {
-    const response = await get<List<IProduct>>('/product')
-    if (!response) return []
-    return response
-  }
-
-  const { data: products } = await fetchProducts()
+  const { data: products } = await get<List<IProduct>>('/product')
   const defaultValue: IChapter | undefined = await fetchChapterDetail()
 
   return <Chapter.InputField edit={editChapters} defaultValue={defaultValue} products={products} />

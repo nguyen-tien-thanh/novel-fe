@@ -10,16 +10,7 @@ export default async function CategoriesPageCreate() {
     return response
   }
 
-  async function fetchCategories() {
-    try {
-      const response = await get<List<ICategory>>('/category')
-      return response
-    } catch (error) {
-      console.error('Failed to fetch categories:', error)
-    }
-  }
-
-  const { data: categories } = await fetchCategories()
+  const { data: categories } = await get<List<ICategory>>('/category')
 
   async function upFile(body: FormData) {
     'use server'

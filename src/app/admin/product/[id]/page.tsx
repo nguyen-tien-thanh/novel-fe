@@ -17,16 +17,7 @@ export default async function ProductsPageEdit({ params }) {
     return response
   }
 
-  async function fetchCategories() {
-    try {
-      const response = await get<List<ICategory>>('/category')
-      return response
-    } catch (error) {
-      console.error('Failed to fetch categories:', error)
-    }
-  }
-
-  const { data: categories } = await fetchCategories()
+  const { data: categories } = await get<List<ICategory>>('/category')
   const defaultValue: IProduct | undefined = await fetchProductDetail()
 
   async function upFile(body: FormData) {

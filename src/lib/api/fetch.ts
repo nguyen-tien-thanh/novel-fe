@@ -35,45 +35,43 @@ export async function uploadFile(endpoint: string, body: BodyInit): Promise<Resp
   })
 }
 
-export async function get<T>(endpoint: string, query: IFilter = {}, options?: RequestInit): Promise<T | undefined> {
+export async function get<T>(endpoint: string, query: IFilter = {}, options?: RequestInit): Promise<T> {
   const queryString = buildQueryString(query)
   const response = await _fetchWithAuth(`${endpoint}?${queryString}`, options)
-  return _handleResponse<T | undefined>(response)
+  return _handleResponse<T>(response)
 }
 
-export async function post<T>(endpoint: string, body: T, options: RequestInit = {}): Promise<T | undefined> {
+export async function post<T>(endpoint: string, body: T, options: RequestInit = {}): Promise<T> {
   const response = await _fetchWithAuth(endpoint, {
     method: 'POST',
     body: JSON.stringify(body),
     ...options,
   })
 
-  return _handleResponse<T | undefined>(response)
+  return _handleResponse<T>(response)
 }
 
-export async function patch<T>(endpoint: string, body: T, options: RequestInit = {}): Promise<T | undefined> {
+export async function patch<T>(endpoint: string, body: T, options: RequestInit = {}): Promise<T> {
   const response = await _fetchWithAuth(endpoint, {
     method: 'PATCH',
     body: JSON.stringify(body),
     ...options,
   })
 
-  return _handleResponse<T | undefined>(response)
+  return _handleResponse<T>(response)
 }
 
-export async function put<T>(endpoint: string, body: T, options: RequestInit = {}): Promise<T | undefined> {
+export async function put<T>(endpoint: string, body: T, options: RequestInit = {}): Promise<T> {
   const response = await _fetchWithAuth(endpoint, {
     method: 'PUT',
     body: JSON.stringify(body),
     ...options,
   })
 
-  return _handleResponse<T | undefined>(response)
+  return _handleResponse<T>(response)
 }
 
 export async function del(endpoint: string): Promise<void> {
-  const response = await _fetchWithAuth(endpoint, {
-    method: 'DELETE',
-  })
+  const response = await _fetchWithAuth(endpoint, { method: 'DELETE' })
   return _handleResponse<undefined>(response)
 }

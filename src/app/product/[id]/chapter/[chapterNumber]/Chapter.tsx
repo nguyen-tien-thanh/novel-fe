@@ -9,7 +9,7 @@ import html2canvas from 'html2canvas-pro'
 import { useMediaQuery } from 'usehooks-ts'
 
 export interface IChapterParams {
-  chapters: IChapter[]
+  chapters: IChapter[] // TODO
   chapter: IChapter
 }
 

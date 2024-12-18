@@ -10,7 +10,7 @@ import { Pagination } from './Pagination'
 import { useRouter } from 'next/navigation'
 
 export interface ITableProps<T extends TEntity> {
-  data?: List<T>
+  data?: List<TEntity>
   title?: string
   resource?: string
   children: ReactElement<IRowProps<T>>[] | ReactElement<IRowProps<T>>

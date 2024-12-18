@@ -12,7 +12,7 @@ import './swiper.css'
 import { ICoverProps } from '../cover'
 
 export interface ISwiperProps extends SwiperProps {
-  items: IProduct[]
+  items?: IProduct[]
   itemsProps?: Partial<ICoverProps>
   // loading?: boolean
 }
@@ -42,13 +42,14 @@ export const Swiper: FC<ISwiperProps> = ({ items, slidesPerView = 2, itemsProps,
       className="[&>.swiper-pagination>.swiper-pagination-bullet]:bg-secondary"
       {...props}
     >
-      {items.map((item: IProduct) => (
-        <SwiperSlide key={item.id}>
-          <Link href={`/product/${item.id}`}>
-            <Book.Cover product={item} width={140} height={210} {...itemsProps} />
-          </Link>
-        </SwiperSlide>
-      ))}
+      {items &&
+        items.map((item: IProduct) => (
+          <SwiperSlide key={item.id}>
+            <Link href={`/product/${item.id}`}>
+              <Book.Cover product={item} width={140} height={210} {...itemsProps} />
+            </Link>
+          </SwiperSlide>
+        ))}
     </SwiperReact>
   )
 }
