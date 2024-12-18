@@ -1,21 +1,22 @@
-import { IProduct } from '@/types'
-import { auth } from '@/auth'
-import { del, get, Product } from '@/lib'
+import { IProduct, List } from '@/types'
+import { buildQueryString, del, get, Product } from '@/lib'
 
-async function fetchProducts() {
-  const response = await get<IProduct[] | undefined>('/product')
-  return response
-}
+export default async function ProductsPage({ searchParams }) {
+  const { skip = 0, take = 5 } = searchParams
+  const filter = { skip, take }
 
-export default async function ProductsPage() {
-  const session = await auth()
-  const token = session?.accessToken
-  const products: IProduct[] | undefined = await fetchProducts()
+  async function fetchProducts() {
+    const response = await get<List<IProduct[] | undefined>>(`/product`, filter)
+    return response
+  }
+
+  const products = await fetchProducts()
 
   const deleteProduct = async (id: number) => {
     'use server'
     const response = await del(`/product/${id}`)
     return response
   }
+
   return <Product.List initialProducts={products} deleteProduct={deleteProduct} />
 }

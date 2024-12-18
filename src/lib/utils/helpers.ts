@@ -63,3 +63,13 @@ export const pick = <T extends object, K extends keyof T>(obj: T, keys: K[]): Pi
     {} as Pick<T, K>,
   )
 }
+
+export const buildQueryString = (params: Record<string, any>) => {
+  const query = new URLSearchParams()
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== undefined) {
+      query.append(key, String(value))
+    }
+  })
+  return query.toString()
+}

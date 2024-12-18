@@ -1,7 +1,7 @@
 'use client'
 import { useRouter } from 'next/navigation'
 import { toast } from 'react-toastify'
-import { NVCell, NVList } from '@/components'
+import { NVCell, NVList, Row, Table } from '@/components'
 import React from 'react'
 
 export const List = ({ initialCategories, deleteCategory }) => {
@@ -16,19 +16,20 @@ export const List = ({ initialCategories, deleteCategory }) => {
       toast.success('Xóa thành công danh mục')
     }
   }
+  const editRow = async (id: number) => router.push(`/admin/category/${id}`)
 
   return (
-    <NVList
+    <Table
       data={initialCategories}
       resource="category"
       title="Danh sách danh mục"
-      isEdit
-      onDel={deleteCate}
-      onAdd={() => router.push('/admin/category/create')}
+      onEdit={editRow}
+      onDelete={deleteCate}
+      onCreate={() => router.push('/admin/category/create')}
     >
-      <NVCell name="name" headerName="Tên" />
-      <NVCell name="description" headerName="Mô tả" />
-      <NVCell name="state" headerName="Công khai" render={value => (value ? 'Công khai' : 'Không công khai')} />
-    </NVList>
+      <Row name="name" colName="Tên" />
+      <Row name="description" colName="Mô tả" />
+      <Row name="state" colName="Công khai" render={value => (value ? 'Công khai' : 'Không công khai')} />
+    </Table>
   )
 }

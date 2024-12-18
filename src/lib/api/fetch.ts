@@ -1,7 +1,8 @@
 'use server'
 
 import { auth } from '@/auth'
-import { _handleResponse } from '@/lib/utils'
+import { _handleResponse, buildQueryString } from '@/lib/utils'
+import { IFilter } from '@/types'
 
 const getToken = async () => {
   const session = await auth()
@@ -34,8 +35,9 @@ export async function uploadFile(endpoint: string, body: BodyInit): Promise<Resp
   })
 }
 
-export async function get<T>(endpoint: string, options: RequestInit = {}): Promise<T | undefined> {
-  const response = await _fetchWithAuth(endpoint, options)
+export async function get<T>(endpoint: string, query: IFilter = {}, options?: RequestInit): Promise<T | undefined> {
+  const queryString = buildQueryString(query)
+  const response = await _fetchWithAuth(`${endpoint}?${queryString}`, options)
   return _handleResponse<T | undefined>(response)
 }
 

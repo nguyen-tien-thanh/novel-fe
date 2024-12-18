@@ -129,9 +129,23 @@ export interface ApiResponse<T> {
   message: string
 }
 
+export interface List<T> {
+  data: T[]
+  count: number
+}
+
 export interface IRegister {
   email: string
   password: string
   firstName: string
   lastName: string
+}
+
+export interface IFilter {
+  skip?: number
+  take?: number
+  where?: Record<string, unknown>
+  orderBy?: Record<string, unknown>
+  include?: Record<string, unknown>
+  select?: Record<string, unknown>
 }

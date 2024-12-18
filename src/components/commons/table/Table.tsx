@@ -5,11 +5,12 @@ import React, { FC, ReactElement, useState } from 'react'
 import { Button } from '../Button'
 import { EditIcon, PlusIcon, TrashIcon } from '../../icons'
 import { IRowProps } from './Row'
-import { TEntity } from '@/types'
+import { List, TEntity } from '@/types'
 import { Pagination } from './Pagination'
+import { useRouter } from 'next/navigation'
 
 export interface ITableProps<T extends TEntity> {
-  data?: T[]
+  data?: List<T>
   title?: string
   resource?: string
   children: ReactElement<IRowProps<T>>[] | ReactElement<IRowProps<T>>
@@ -33,7 +34,7 @@ export interface ITableStyleProps {
 
 // TODO: TableAction, handleCheckbox
 export const Table: FC<ITableProps<TEntity> & ITableStyleProps> = ({
-  data,
+  data: initialData,
   title,
   resource,
   children,
@@ -41,7 +42,6 @@ export const Table: FC<ITableProps<TEntity> & ITableStyleProps> = ({
   onDelete,
   onEdit,
   onRowClick,
-
   size = 'sm',
   zebra,
   pin,
@@ -52,18 +52,25 @@ export const Table: FC<ITableProps<TEntity> & ITableStyleProps> = ({
   pagination = true,
   ...props
 }) => {
+  const { data, count } = initialData || { data: [], count: 0 }
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(5)
+  const router = useRouter()
 
-  const handlePageChange = newPage => setPage(newPage)
+  const handlePageChange = newPage => {
+    const params = new URLSearchParams({ skip: (newPage * rowsPerPage).toString(), take: rowsPerPage.toString() })
+    router.push(`?${params.toString()}`)
+    setPage(newPage)
+  }
   const handleRowChange = e => {
-    setRowsPerPage(parseInt(e.target.value, 10))
+    const _rowsPerPage = parseInt(e.target.value, 10)
+    const params = new URLSearchParams({ skip: '0', take: _rowsPerPage.toString() })
+    router.push(`?${params.toString()}`)
+    setRowsPerPage(_rowsPerPage)
     setPage(0)
   }
 
   const pinnedClass = pin?.map(p => (p === 'rows' ? 'table-pin-rows' : 'table-pin-cols')).join(' ')
-  const paginatedData =
-    data && data.length > 0 ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : data
 
   return (
     <div>
@@ -109,8 +116,8 @@ export const Table: FC<ITableProps<TEntity> & ITableStyleProps> = ({
           </thead>
 
           <tbody>
-            {paginatedData && paginatedData.length > 0 ? (
-              paginatedData.map((row, index) => (
+            {data && count > 0 ? (
+              data.map((row, index) => (
                 <tr
                   key={index}
                   className={cn('', (hover || onRowClick) && 'hover cursor-pointer')}
@@ -149,7 +156,7 @@ export const Table: FC<ITableProps<TEntity> & ITableStyleProps> = ({
             )}
           </tbody>
 
-          {footer && paginatedData && paginatedData.length > 0 && (
+          {footer && data && count > 0 && (
             <tfoot>
               <tr>
                 {checkbox && <th></th>}
@@ -163,7 +170,7 @@ export const Table: FC<ITableProps<TEntity> & ITableStyleProps> = ({
       </div>
       {pagination && data && (
         <Pagination
-          count={data.length}
+          count={count}
           rowsPerPage={rowsPerPage}
           page={page + 1}
           onPageChange={handlePageChange}
