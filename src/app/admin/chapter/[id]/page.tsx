@@ -1,4 +1,4 @@
-import { IChapter, IProduct } from '@/types'
+import { IChapter, IProduct, List } from '@/types'
 import { Chapter, get, patch } from '@/lib'
 
 export default async function ChaptersPageEdit({ params, searchParams }) {
@@ -18,12 +18,12 @@ export default async function ChaptersPageEdit({ params, searchParams }) {
   }
 
   async function fetchProducts() {
-    const response = await get<IProduct[]>('/product')
+    const response = await get<List<IProduct>>('/product')
     if (!response) return []
     return response
   }
 
-  const products: IProduct[] = await fetchProducts()
+  const { data: products } = await fetchProducts()
   const defaultValue: IChapter | undefined = await fetchChapterDetail()
 
   return <Chapter.InputField edit={editChapters} defaultValue={defaultValue} products={products} />

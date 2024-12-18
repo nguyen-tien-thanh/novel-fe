@@ -13,7 +13,7 @@ export default async function CategoriesPage({ searchParams }) {
 
   async function fetchCategories() {
     try {
-      const response = await get<List<ICategory[] | undefined>>('/category', filter)
+      const response = await get<List<ICategory | undefined>>('/category', filter)
       return response
     } catch (error) {
       console.error('Failed to fetch categories:', error)

@@ -1,19 +1,16 @@
-import { ICategory, IProduct } from '@/types'
+import { ICategory, IChapter, IProduct, List } from '@/types'
 import { Chapter, del, get } from '@/lib'
 
-async function fetchChapters() {
-  const response = await get<ICategory[] | undefined>('/chapter')
-  return response
-}
+export default async function ChapterPage({ searchParams }) {
+  const { skip = 0, take = 5 } = searchParams
+  const filter = { skip, take, include: { product: true } }
 
-async function fetchProducts() {
-  const response = await get<IProduct[] | undefined>('/product')
-  return response
-}
+  async function fetchChapters() {
+    const response = await get<List<IChapter | undefined>>('/chapter', filter)
+    return response
+  }
 
-export default async function ChapterPage() {
-  const chapters: ICategory[] | undefined = await fetchChapters()
-  const products: IProduct[] | undefined = await fetchProducts()
+  const chapters = await fetchChapters()
 
   const deleteChapter = async (id: number) => {
     'use server'
@@ -22,5 +19,5 @@ export default async function ChapterPage() {
     return response
   }
 
-  return <Chapter.List initialChapters={chapters} deleteChapter={deleteChapter} products={products} />
+  return <Chapter.List initialChapters={chapters} deleteChapter={deleteChapter} />
 }

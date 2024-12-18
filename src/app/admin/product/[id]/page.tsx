@@ -1,4 +1,4 @@
-import { ICategory, IProduct } from '@/types'
+import { ICategory, IProduct, List } from '@/types'
 import { get, patch, Product, uploadFile } from '@/lib'
 
 export default async function ProductsPageEdit({ params }) {
@@ -18,14 +18,15 @@ export default async function ProductsPageEdit({ params }) {
   }
 
   async function fetchCategories() {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/category`)
-    if (!response.ok) {
-      throw new Error('Failed to fetch categories')
+    try {
+      const response = await get<List<ICategory>>('/category')
+      return response
+    } catch (error) {
+      console.error('Failed to fetch categories:', error)
     }
-    return response.json()
   }
 
-  const categories: ICategory[] = await fetchCategories()
+  const { data: categories } = await fetchCategories()
   const defaultValue: IProduct | undefined = await fetchProductDetail()
 
   async function upFile(body: FormData) {

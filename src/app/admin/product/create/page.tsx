@@ -1,4 +1,4 @@
-import { ICategory, IProduct } from '@/types'
+import { ICategory, IProduct, List } from '@/types'
 import { get, post, Product, uploadFile } from '@/lib'
 
 export default async function CategoriesPageCreate() {
@@ -11,12 +11,15 @@ export default async function CategoriesPageCreate() {
   }
 
   async function fetchCategories() {
-    const response = await get<ICategory[]>('/category')
-    if (!response) return []
-    return response
+    try {
+      const response = await get<List<ICategory>>('/category')
+      return response
+    } catch (error) {
+      console.error('Failed to fetch categories:', error)
+    }
   }
 
-  const categories: ICategory[] = await fetchCategories()
+  const { data: categories } = await fetchCategories()
 
   async function upFile(body: FormData) {
     'use server'

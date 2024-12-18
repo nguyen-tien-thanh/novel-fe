@@ -1,4 +1,4 @@
-import { IChapter, IProduct } from '@/types'
+import { IChapter, IProduct, List } from '@/types'
 import { Chapter, get, post } from '@/lib'
 
 export default async function ChapterPageCreate() {
@@ -11,12 +11,12 @@ export default async function ChapterPageCreate() {
   }
 
   async function fetchProducts() {
-    const response = await get<IProduct[]>('/product')
+    const response = await get<List<IProduct>>('/product')
     if (!response) return []
     return response
   }
 
-  const products: IProduct[] = await fetchProducts()
+  const { data: products } = await fetchProducts()
 
   return <Chapter.InputField create={createChapter} products={products} />
 }

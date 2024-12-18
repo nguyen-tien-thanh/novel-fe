@@ -1,3 +1,4 @@
+import { IFilter } from '@/types'
 import { twMerge } from 'tailwind-merge'
 
 export const cn = twMerge
@@ -64,10 +65,12 @@ export const pick = <T extends object, K extends keyof T>(obj: T, keys: K[]): Pi
   )
 }
 
-export const buildQueryString = (params: Record<string, any>) => {
+export const buildQueryString = (params: IFilter) => {
   const query = new URLSearchParams()
   Object.entries(params).forEach(([key, value]) => {
-    if (value !== undefined) {
+    if (typeof value === 'object') {
+      query.append(key, JSON.stringify(value))
+    } else if (value !== undefined) {
       query.append(key, String(value))
     }
   })

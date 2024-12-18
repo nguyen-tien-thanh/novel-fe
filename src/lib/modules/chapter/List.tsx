@@ -3,9 +3,10 @@ import React from 'react'
 import { formatDatetime } from '@/lib'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
-import { NVCell, NVList } from '@/components'
+import { Row, Table } from '@/components'
+import { IProduct } from '@/types'
 
-export const List = ({ initialChapters, deleteChapter, products }) => {
+export const List = ({ initialChapters, deleteChapter }) => {
   const router = useRouter()
 
   const deleteChap = async (id: number) => {
@@ -18,36 +19,44 @@ export const List = ({ initialChapters, deleteChapter, products }) => {
     }
   }
 
+  const editRow = async (id: number) => router.push(`/admin/chapter/${id}`)
   return (
-    <NVList
+    <Table
       data={initialChapters}
       resource="chapter"
       title="Danh sách chương"
-      isEdit
-      onDel={deleteChap}
-      onAdd={() => router.push('/admin/chapter/create')}
+      onEdit={editRow}
+      onDelete={deleteChap}
+      onCreate={() => router.push('/admin/chapter/create')}
     >
-      <NVCell name="productId" headerName="Tên truyện" render={value => products?.find(v => v?.id === value)?.name} />
-      <NVCell name="chapterName" headerName="Tên chương" />
-      <NVCell name="chapterNumber" headerName="Số chương" />
-      <NVCell name="price" headerName="giá" />
-      <NVCell
+      <Row
+        name="product"
+        colName="Tên truyện"
+        render={(value: IProduct | unknown) => {
+          const product = value as IProduct
+          return product?.name
+        }}
+      />
+      <Row name="chapterName" colName="Tên chương" />
+      <Row name="chapterNumber" colName="Số chương" />
+      <Row name="price" colName="giá" />
+      <Row
         name="content"
-        headerName="Nội dung"
+        colName="Nội dung"
         render={(value: unknown) => {
           const _value = value as string
           return _value.length > 50 ? `${_value.slice(0, 50)} ...` : _value
         }}
       />
-      <NVCell
+      <Row
         name="createdAt"
-        headerName="Thời gian tạo"
+        colName="Thời gian tạo"
         render={(createdAt: unknown) => {
           const _createdAt = createdAt as string
           return formatDatetime(_createdAt)
         }}
       />
-      <NVCell name="state" headerName="Công khai" render={value => (value ? 'Công khai' : 'Không công khai')} />
-    </NVList>
+      <Row name="state" colName="Công khai" render={value => (value ? 'Công khai' : 'Không công khai')} />
+    </Table>
   )
 }
