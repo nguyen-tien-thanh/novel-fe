@@ -5,7 +5,7 @@ export const Footer = () => {
         <p className="flex flex-col lg:flex-row lg:gap-1">
           <span className="text-xs lg:text-base">Copyright © {new Date().getFullYear()}</span>
           <span className="hidden lg:block"> - </span>
-          <span className="text-xs lg:text-base">All right reserved by AiTruyen</span>
+          <span className="text-xs lg:text-base">All right reserved by SotaTruyen</span>
         </p>
       </aside>
     </footer>

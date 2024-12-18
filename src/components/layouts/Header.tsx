@@ -85,7 +85,9 @@ export const Header = () => {
             alt="logo"
             priority
           />
-          <span className="text-lg lg:text-xl">AiTruyen</span>
+          <span className="text-lg lg:text-xl">
+            Sota<span className="hidden lg:inline-flex">Truyen</span>
+          </span>
         </Link>
       </nav>
       <nav className="navbar-center hidden lg:flex">
