@@ -3,19 +3,18 @@
 import { ChapterActionButton } from '@/components'
 import { useBlockCopy } from '@/hooks'
 import { formatDatetime } from '@/lib'
-import { IChapter, ITextStyle } from '@/types'
+import { IChapter, ITextStyle, List } from '@/types'
 import { useEffect, useState } from 'react'
 import html2canvas from 'html2canvas-pro'
 import { useMediaQuery } from 'usehooks-ts'
 
 export interface IChapterParams {
-  chapters: IChapter[] // TODO
-  chapter: IChapter
+  chapters?: IChapter[]
+  chapter?: IChapter
 }
 
 export const Chapter = ({ chapter, chapters }: IChapterParams) => {
   const isMobile = useMediaQuery('(max-width: 480px)')
-  const [loading, setLoading] = useState(true)
   const [textStyle, setTextStyle] = useState<ITextStyle>({
     fontFamily: '',
     fontWeight: 400,
@@ -38,40 +37,31 @@ export const Chapter = ({ chapter, chapters }: IChapterParams) => {
   }, [])
 
   useEffect(() => {
-    if (chapters.length > 0 && chapter) {
-      setLoading(false)
-    }
-  }, [chapters, chapter])
-
-  useEffect(() => {
     const incrementViewCount = async () => {
-      await fetch(`/api/product/${chapter.productId}/view`, { method: 'POST', body: JSON.stringify({}) })
+      await fetch(`/api/product/${chapter?.productId}/view`, { method: 'POST', body: JSON.stringify({}) })
     }
 
     incrementViewCount()
-  }, [chapter.productId])
-
-  useEffect(() => {
-    if (document && document.querySelector('#content')) {
-      const contentElement = document.querySelector('#content') as HTMLElement
-      html2canvas(contentElement).then(canvas => contentElement.replaceWith(canvas))
-    }
-  }, [chapter.content])
+  }, [chapter?.productId])
 
   useBlockCopy()
 
   return (
     <div className="container mx-auto relative py-5 lg:py-10">
       <div className="flex flex-col justify-center">
-        <p className="text-xl lg:*:text-3xl font-semibold text-center">
-          Chap {chapter.chapterNumber} - {chapter.chapterName}
-        </p>
+        {chapter && (
+          <p className="text-xl lg:*:text-3xl font-semibold text-center">
+            Chap {chapter.chapterNumber} - {chapter.chapterName}
+          </p>
+        )}
 
-        <p className="text-right italic text-sm lg:text-base">
-          {formatDatetime(chapter.createdAt, 'HH:mm - dd/MM/yyyy')}
-        </p>
+        {chapter && (
+          <p className="text-right italic text-sm lg:text-base">
+            {formatDatetime(chapter.createdAt, 'HH:mm - dd/MM/yyyy')}
+          </p>
+        )}
 
-        {!chapter || loading ? (
+        {!chapter ? (
           <div>{/* <ArraySkeleton sx={{ my: 2 }} variant="text" height="20px" /> */}</div>
         ) : (
           <div className="py-3">
@@ -99,7 +89,7 @@ export const Chapter = ({ chapter, chapters }: IChapterParams) => {
           textStyle={textStyle}
           handleChangeTextStyle={handleChangeTextStyle}
           chapter={chapter}
-          count={chapters.length}
+          count={chapters ? chapters.length : 0}
         />
       )}
     </div>

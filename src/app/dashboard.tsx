@@ -1,8 +1,5 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import React from 'react'
 import { ICategory, IProduct } from '@/types'
 import { Book } from '@/components/book'
 import { CardPaper, Hero, ProductList, ProductRate } from '@/components'
@@ -10,20 +7,18 @@ import Link from 'next/link'
 import { cn } from '@/lib'
 
 export interface DashboardProps {
-  products?: IProduct[]
+  products?: {
+    recommend?: IProduct[]
+    updated?: IProduct[]
+    topRated?: IProduct[]
+    completed?: IProduct[]
+    weeklyTop?: IProduct[]
+    monthlyTop?: IProduct[]
+  }
   categories?: ICategory[]
 }
 
 export default function Dashboard({ products, categories }: DashboardProps) {
-  const router = useRouter()
-  const [loading, setLoading] = useState(true)
-
-  // useEffect(() => {
-  //   if (products?.length > 0 && categories.length > 0) {
-  //     setLoading(false)
-  //   }
-  // }, [products, categories])
-
   return (
     <div className="pb-10 lg:pb-20">
       <section className="container mx-auto">
@@ -38,24 +33,22 @@ export default function Dashboard({ products, categories }: DashboardProps) {
       </section>
 
       <section className="container mx-auto mt-5">
-        <CardPaper title="Được đề xuất">
-          <Book.Swiper items={products?.slice(0, 10)} />
-        </CardPaper>
+        <CardPaper title="Được đề xuất">{products?.recommend && <Book.Swiper items={products.recommend} />}</CardPaper>
       </section>
 
       <section className="container mx-auto mt-5">
         <div className="flex flex-col lg:flex-row gap-10 lg:gap-5">
           <div id="product-section" className="grow space-y-14 lg:space-y-20">
             <CardPaper title="Mới cập nhật">
-              <ProductList badgeText="New" products={products?.slice(0, 20)} />
+              {products?.updated && <ProductList badgeText="New" products={products.updated} />}
             </CardPaper>
 
             <CardPaper title="Đánh giá cao">
-              <ProductList badgeText="Hot" products={products?.slice(0, 14)} />
+              {products?.topRated && <ProductList badgeText="Hot" products={products.topRated} />}
             </CardPaper>
 
             <CardPaper title="Đã hoàn thành">
-              <ProductList products={products?.slice(0, 18)} />
+              {products?.completed && <ProductList products={products.completed} />}
             </CardPaper>
           </div>
 
@@ -86,11 +79,11 @@ export default function Dashboard({ products, categories }: DashboardProps) {
             </CardPaper>
 
             <CardPaper title="Top tuần">
-              <ProductRate products={products} />
+              {products?.weeklyTop && <ProductRate products={products.weeklyTop} />}
             </CardPaper>
 
             <CardPaper title="Top tháng">
-              <ProductRate products={products} />
+              {products?.monthlyTop && <ProductRate products={products.monthlyTop} />}
             </CardPaper>
           </div>
         </div>

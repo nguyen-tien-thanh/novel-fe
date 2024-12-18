@@ -1,10 +1,48 @@
-import { ICategory, IProduct, List } from '@/types'
+import { ICategory, IProduct, List, PRODUCT_STATUS, STATE } from '@/types'
 import Dashboard from './dashboard'
 import { get } from '@/lib'
 
 export default async function Home() {
-  const { data: products } = await get<List<IProduct>>('/product')
-  const { data: categories } = await get<List<ICategory>>('/category')
+  const oneWeekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+  const oneMonthAgo = new Date(Date.now() - 31 * 24 * 60 * 60 * 1000)
 
-  return <Dashboard products={products} categories={categories} />
+  const [
+    { data: recommend },
+    { data: updated },
+    { data: topRatedResp },
+    { data: completed },
+    { data: weeklyTop },
+    { data: monthlyTop },
+    { data: categories },
+  ] = await Promise.all([
+    get<List<IProduct>>('/product', { take: 10, where: { state: STATE.ACTIVE }, orderBy: { viewCount: 'desc' } }),
+    get<List<IProduct>>('/product', { take: 14, where: { state: STATE.ACTIVE }, orderBy: { updatedAt: 'desc' } }),
+    get<List<IProduct>>('/product', { take: 14, where: { state: STATE.ACTIVE }, include: { rates: true } }),
+    get<List<IProduct>>('/product', { take: 14, where: { AND: { state: STATE.ACTIVE, status: PRODUCT_STATUS.DONE } } }),
+    get<List<IProduct>>('/product', {
+      take: 10,
+      where: { AND: { state: STATE.ACTIVE, updatedAt: { gte: oneWeekAgo } } },
+      orderBy: { viewCount: 'desc' },
+    }),
+    get<List<IProduct>>('/product', {
+      take: 10,
+      where: { AND: { state: STATE.ACTIVE, updatedAt: { gte: oneMonthAgo } } },
+      orderBy: { viewCount: 'desc' },
+    }),
+    get<List<ICategory>>('/category', { take: 30, where: { state: STATE.ACTIVE } }),
+  ])
+
+  const topRated = topRatedResp
+    .map(product => {
+      const avgRating =
+        product.rates && product.rates.length > 0
+          ? product.rates.reduce((sum, rate) => sum + rate.rating, 0) / product.rates.length
+          : 0
+      return { ...product, avgRating }
+    })
+    .sort((a, b) => (b.avgRating || 0) - (a.avgRating || 0)) as IProduct[]
+
+  return (
+    <Dashboard products={{ recommend, updated, topRated, completed, weeklyTop, monthlyTop }} categories={categories} />
+  )
 }

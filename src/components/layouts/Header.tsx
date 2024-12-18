@@ -45,7 +45,7 @@ export const Header = () => {
     <header className="navbar bg-base-200 h-[68px]">
       <nav className="navbar-start">
         <div className="dropdown">
-          <Button onClick={handleOpenDrawer} className="btn-ghost btn-circle lg:hidden">
+          <Button onClick={handleOpenDrawer} className="btn-ghost btn-circle lg:hidden mx-1">
             <HamburgerIcon />
           </Button>
           <Drawer open={openDrawer} setOpen={setOpenDrawer}>

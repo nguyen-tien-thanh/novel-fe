@@ -6,6 +6,8 @@ export function _handleParams(url: string, params: Record<string, string> = {}) 
 }
 
 export async function _handleResponse<T>(res: Response) {
+  if (res.status === 204 || res.status === 304) return {} as T
+
   if (!res.ok) console.error(res)
 
   let json = {}

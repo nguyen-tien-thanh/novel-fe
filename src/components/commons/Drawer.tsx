@@ -37,7 +37,7 @@ export const Drawer: FC<DrawerProps> = ({ open = false, setOpen, position = 'lef
       <div className="drawer-side">
         <label htmlFor={id} aria-label="close sidebar" className="drawer-overlay" />
 
-        <ul className={cn('menu bg-base-200 text-base-content min-h-full w-[80%] lg:max-w-xs p-4 pt-10', className)}>
+        <ul className={cn('menu bg-base-200 text-base-content min-h-screen w-[80%] lg:max-w-xs p-4 pt-10', className)}>
           <label
             htmlFor={id}
             aria-label="close sidebar"

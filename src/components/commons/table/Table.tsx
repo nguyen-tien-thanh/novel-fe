@@ -10,7 +10,7 @@ import { Pagination } from './Pagination'
 import { useRouter } from 'next/navigation'
 
 export interface ITableProps<T extends TEntity> {
-  data?: List<TEntity>
+  data?: List<T>
   title?: string
   resource?: string
   children: ReactElement<IRowProps<T>>[] | ReactElement<IRowProps<T>>
@@ -104,14 +104,14 @@ export const Table: FC<ITableProps<TEntity> & ITableStyleProps> = ({
               {React.Children.map(children, child => (
                 <th>{child.props.colName}</th>
               ))}
-              <th>
-                {onCreate && (
+              {onCreate && (
+                <th>
                   <Button className="btn-success w-max" onClick={onCreate}>
                     <PlusIcon />
                     Tạo
                   </Button>
-                )}
-              </th>
+                </th>
+              )}
             </tr>
           </thead>
 
@@ -131,25 +131,27 @@ export const Table: FC<ITableProps<TEntity> & ITableStyleProps> = ({
                     </th>
                   )}
                   {React.Children.map(children, child => React.cloneElement(child, { rowData: row }))}
-                  <td>
-                    <div className="flex gap-1">
-                      {onEdit && (
-                        <Button className="btn-outline" icon onClick={() => onEdit(Number(row.id))}>
-                          <EditIcon />
-                        </Button>
-                      )}
-                      {onDelete && (
-                        <Button className="btn-outline btn-error" icon onClick={() => onDelete(Number(row.id))}>
-                          <TrashIcon />
-                        </Button>
-                      )}
-                    </div>
-                  </td>
+                  {(onEdit || onDelete) && (
+                    <td>
+                      <div className="flex gap-1">
+                        {onEdit && (
+                          <Button className="btn-outline" icon onClick={() => onEdit(Number(row.id))}>
+                            <EditIcon />
+                          </Button>
+                        )}
+                        {onDelete && (
+                          <Button className="btn-outline btn-error" icon onClick={() => onDelete(Number(row.id))}>
+                            <TrashIcon />
+                          </Button>
+                        )}
+                      </div>
+                    </td>
+                  )}
                 </tr>
               ))
             ) : (
               <tr>
-                <th colSpan={React.Children.count(children) + 1} className="text-center">
+                <th colSpan={React.Children.count(children) + 1} className="text-center font-normal italic">
                   Không có dữ liệu
                 </th>
               </tr>

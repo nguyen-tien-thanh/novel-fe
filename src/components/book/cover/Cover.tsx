@@ -29,7 +29,7 @@ export const Cover: FC<ICoverProps> = ({ product, href, height = 360, width = 24
 
   return (
     <div
-      className={cn('book-cover transition-all hover:scale-110 duration-500', href && 'cursor-pointer')}
+      className={cn('book-cover transition-all duration-500', href && 'cursor-pointer')}
       onClick={() => {
         if (href) router.push(href)
       }}

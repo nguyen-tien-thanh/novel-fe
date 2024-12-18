@@ -9,6 +9,11 @@ export enum ROLE {
   USER = 'USER',
 }
 
+export enum STATE {
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
+}
+
 export type TEntity = ICategory | IChapter | IProduct | IUser
 
 export interface IProduct {
@@ -25,13 +30,17 @@ export interface IProduct {
   updatedAt?: string
   averageRate?: number
   chapterCount?: number
+  state?: STATE
   categories?: ICategory[]
+  rates?: IRate[]
+  chapters?: IChapter[]
 }
 
 export interface ICategory {
   id: number
   name?: string
   description?: string
+  state?: STATE
 }
 
 export interface IChapter {
@@ -44,6 +53,7 @@ export interface IChapter {
   createdAt: string
   updatedAt: string
   users: number[]
+  state?: STATE
 }
 
 export interface IRate {
