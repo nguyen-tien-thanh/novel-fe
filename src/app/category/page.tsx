@@ -19,10 +19,17 @@ export default async function Page({ searchParams }: PageProps) {
     where: {
       ...(ids.length > 0
         ? {
-            AND: {
-              categories: { some: { AND: { id: { in: ids }, state: STATE.ACTIVE } } },
-              state: STATE.ACTIVE,
-            },
+            AND: [
+              { state: STATE.ACTIVE },
+              ...ids.map(id => ({
+                categories: {
+                  some: {
+                    id,
+                    state: STATE.ACTIVE,
+                  },
+                },
+              })),
+            ],
           }
         : { state: STATE.ACTIVE }),
     },
@@ -30,6 +37,8 @@ export default async function Page({ searchParams }: PageProps) {
     skip: Number(searchParams.skip) || 0,
     take: Number(searchParams.take) || 6,
   })
+
+  console.log(products)
 
   return <Category categories={categories} products={products} />
 }

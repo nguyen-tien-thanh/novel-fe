@@ -84,7 +84,7 @@ export const Category: FC<ICategoryParams> = ({ categories, products = { data: [
       {products && (
         <section>
           <ul className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            {products.data.map(product => (
+            {products?.data?.map(product => (
               <li key={product.id}>
                 <div className="card lg:card-side bg-base-100 shadow-xl">
                   {product.image && (
@@ -148,7 +148,7 @@ export const Category: FC<ICategoryParams> = ({ categories, products = { data: [
       )}
 
       <div ref={observerRef}>
-        {products.data.length < products.count && (
+        {products?.data?.length < products.count && (
           <div className="flex justify-center">
             <Spinner size="lg" />
           </div>
