@@ -1,15 +1,15 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { Divider } from '../commons'
 
 export interface ICardPaper {
-  title: string
+  title?: string
   children: React.ReactNode
 }
 
-export const CardPaper = ({ children, title }) => {
+export const CardPaper: FC<ICardPaper> = ({ children, title }) => {
   return (
     <div>
-      <h2 className="text-xl lg:text-2xl font-semibold">{title}</h2>
+      {title && <h2 className="text-xl lg:text-2xl font-semibold">{title}</h2>}
 
       <Divider className="w-full divider-primary mb-2 mt-0 lg:mt-1" />
 

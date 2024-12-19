@@ -41,6 +41,7 @@ export interface ICategory {
   name?: string
   description?: string
   state?: STATE
+  products?: IProduct[]
 }
 
 export interface IChapter {

@@ -114,7 +114,7 @@ export default function ProductDetail({ id, products, product }: IProductDetailP
             {product && product.categories && (
               <div className="my-4 flex flex-wrap gap-2">
                 {product.categories.map(cate => (
-                  <Link key={cate.id} href={`/category/${cate.id}`} className="btn btn-xs font-normal">
+                  <Link key={cate.id} href={`/category?ids=${cate.id}`} className="btn btn-xs font-normal">
                     {cate.name}
                   </Link>
                 ))}

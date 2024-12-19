@@ -56,7 +56,7 @@ export const Pagination: React.FC<IPaginationProps> = ({
       </select>
       <div className="join">
         <Button
-          className={cn('join-item lg:!btn-sm', page === 1 && 'pointer-events-none')}
+          className={cn('join-item lg:btn-sm', page === 1 && 'pointer-events-none')}
           onClick={() => {
             if (page === 1) return
             onPageChange(0)
@@ -65,7 +65,7 @@ export const Pagination: React.FC<IPaginationProps> = ({
           <ChevronDoubleLeftIcon className="!size-3" />
         </Button>
         <Button
-          className={cn('join-item lg:!btn-sm', page === 1 && 'pointer-events-none')}
+          className={cn('join-item lg:btn-sm', page === 1 && 'pointer-events-none')}
           onClick={() => {
             if (page === 1) return
             onPageChange(page - 2)
@@ -78,20 +78,20 @@ export const Pagination: React.FC<IPaginationProps> = ({
           typeof num === 'number' ? (
             <Button
               key={index}
-              className={`join-item lg:!btn-sm ${num === page ? 'btn-primary' : ''}`}
+              className={`join-item lg:btn-sm ${num === page ? 'btn-primary' : ''}`}
               onClick={event => onPageChange(num - 1)}
             >
               {num}
             </Button>
           ) : (
-            <Button key={index} disabled className="join-item lg:!btn-sm btn-disabled">
+            <Button key={index} disabled className="join-item lg:btn-sm btn-disabled">
               {num}
             </Button>
           ),
         )}
 
         <Button
-          className={cn('join-item lg:!btn-sm', page >= totalPages && 'pointer-events-none')}
+          className={cn('join-item lg:btn-sm', page >= totalPages && 'pointer-events-none')}
           onClick={() => {
             if (page >= totalPages) return
             onPageChange(page)
@@ -100,7 +100,7 @@ export const Pagination: React.FC<IPaginationProps> = ({
           <ChevronRightIcon className="!size-3" />
         </Button>
         <Button
-          className={cn('join-item lg:!btn-sm', page >= totalPages && 'pointer-events-none')}
+          className={cn('join-item lg:btn-sm', page >= totalPages && 'pointer-events-none')}
           onClick={() => {
             if (page >= totalPages) return
             onPageChange(totalPages - 1)

@@ -317,7 +317,7 @@ export const FileInput: FC<InputProps> = ({
             <Button
               onClick={handleDelete}
               type="button"
-              className="!btn-sm absolute top-2 right-2 !text-xs"
+              className="lg:btn-sm absolute top-2 right-2 !text-xs"
               aria-label="Delete image"
               icon
             >

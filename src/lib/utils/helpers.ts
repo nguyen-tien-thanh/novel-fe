@@ -1,7 +1,17 @@
 import { IFilter } from '@/types'
-import { twMerge } from 'tailwind-merge'
+import { extendTailwindMerge } from 'tailwind-merge'
 
-export const cn = twMerge
+export const cn = extendTailwindMerge(config => ({
+  ...config,
+  classGroups: {
+    ...config.classGroups,
+    btn: ['btn-xs', 'btn-sm', 'btn-md', 'btn-lg'],
+  },
+  conflictingClassGroups: {
+    ...config.conflictingClassGroups,
+    btn: ['btn-xs', 'btn-sm', 'btn-md', 'btn-lg'],
+  },
+}))
 
 export const stringAvatar = (name: string) => {
   const _stringToColor = (string: string) => {

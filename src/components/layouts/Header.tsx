@@ -138,7 +138,7 @@ export const Header = () => {
               <Link href="/register" className="hidden lg:inline-flex">
                 <Button className="btn-ghost">Đăng kí</Button>
               </Link>
-              <Link href="/login">
+              <Link href="/login" className="inline-flex">
                 <Button className="btn-outline">Đăng nhập</Button>
               </Link>
             </div>

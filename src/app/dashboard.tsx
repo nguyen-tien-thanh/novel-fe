@@ -53,7 +53,7 @@ export default function Dashboard({ products, categories }: DashboardProps) {
           </div>
 
           <div className="lg:max-w-xs space-y-10">
-            <CardPaper title="Danh mục">
+            <CardPaper title="Thể loại">
               <div className="flex flex-wrap gap-2">
                 {categories?.map(category => {
                   const colors = [
@@ -67,7 +67,7 @@ export default function Dashboard({ products, categories }: DashboardProps) {
                   const randomColor = colors[index]
                   return (
                     <Link
-                      href={`/category/${category.id}`}
+                      href={`/category?ids=${category.id}`}
                       key={category.id}
                       className={cn('font-semibold btn btn-xs hover:text-white', randomColor)}
                     >

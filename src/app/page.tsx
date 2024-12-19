@@ -29,7 +29,7 @@ export default async function Home() {
       where: { AND: { state: STATE.ACTIVE, updatedAt: { gte: oneMonthAgo } } },
       orderBy: { viewCount: 'desc' },
     }),
-    get<List<ICategory>>('/category', { take: 30, where: { state: STATE.ACTIVE } }),
+    get<List<ICategory>>('/category', { take: 30, where: { state: STATE.ACTIVE }, orderBy: { updatedAt: 'desc' } }),
   ])
 
   const topRated = topRatedResp
