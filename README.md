@@ -31,3 +31,8 @@ ENV=prod docker compose build web
 ```bash
 docker compose push
 ```
+
+```bash
+generate key webpush
+web-push generate-vapid-keys
+```
