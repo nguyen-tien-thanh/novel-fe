@@ -3,11 +3,10 @@
 import { CardPaper, Rating, Row, Table } from '@/components'
 import { Book } from '@/components/book'
 import { cn, formatDatetime } from '@/lib'
-import { IChapter, IProduct, IRate, List, PRODUCT_STATUS } from '@/types'
+import { IProduct, List, PRODUCT_STATUS } from '@/types'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
 export interface IProductDetailProps {
@@ -20,6 +19,8 @@ export default function ProductDetail({ id, products, product }: IProductDetailP
   const router = useRouter()
   const session = useSession()
   const user = session?.data?.user
+  const averageRating =
+    product && product.rates && product.rates.reduce((sum, item) => sum + item.rating, 0) / product.rates.length
 
   const handleRowClick = (chapterId: number) => {
     if (!product?.chapters) return
@@ -76,7 +77,7 @@ export default function ProductDetail({ id, products, product }: IProductDetailP
                 <div className="flex flex-col items-center">
                   <Rating
                     name="rating"
-                    value={product.averageRate || 0}
+                    value={Math.round(averageRating || 0)}
                     size="sm"
                     onChange={(e, val) => handleRating(val)}
                   />
@@ -98,7 +99,14 @@ export default function ProductDetail({ id, products, product }: IProductDetailP
                   <div
                     className={cn('badge', product.status === PRODUCT_STATUS.DONE ? 'badge-success' : 'badge-warning')}
                   >
-                    {product.status === PRODUCT_STATUS.DONE ? 'Hoàn thành' : 'Cập nhật'}
+                    {product.status === PRODUCT_STATUS.DONE ? (
+                      'Hoàn thành'
+                    ) : (
+                      <div className="flex items-center gap-1">
+                        <span className="loading loading-spinner loading-xs"></span>
+                        <span>Cập nhật</span>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
@@ -121,25 +129,30 @@ export default function ProductDetail({ id, products, product }: IProductDetailP
               </div>
             )}
             {product && (
-              <div className="mt-4 opacity-65" dangerouslySetInnerHTML={{ __html: product.description || '' }} />
+              <div
+                className="mt-4 opacity-65 text-sm lg:text-md"
+                dangerouslySetInnerHTML={{ __html: product.description || '' }}
+              />
             )}
           </div>
         </div>
       </section>
 
-      <section className="mt-8">
-        {product && product.chapters && (
-          <Table
-            data={{ data: product.chapters, count: product.chapters.length }}
-            pagination={false}
-            onRowClick={handleRowClick}
-          >
-            <Row name="chapterNumber" />
-            <Row name="chapterName" colName="Tên" />
-            <Row name="createdAt" colName="Ngày tạo" render={value => formatDatetime(value as string)} />
-          </Table>
-        )}
-      </section>
+      {product && (
+        <section className="mt-8">
+          {product.chapters && (
+            <Table
+              data={{ data: product.chapters, count: product.chapters.length }}
+              pagination={false}
+              onRowClick={handleRowClick}
+            >
+              <Row name="chapterNumber" />
+              <Row name="chapterName" colName="Tên" />
+              <Row name="createdAt" colName="Ngày tạo" render={value => formatDatetime(value as string)} />
+            </Table>
+          )}
+        </section>
+      )}
 
       {products && (
         <section className="mt-10 lg:mt-20">

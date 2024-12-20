@@ -20,7 +20,7 @@ const Login = () => {
     if (user.status !== 200) {
       toast.error('Sai tài khoản hoặc mật khẩu')
     } else {
-      window.location.href = '/'
+      router.push('/')
     }
   }
 

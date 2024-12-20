@@ -38,7 +38,5 @@ export default async function Page({ searchParams }: PageProps) {
     take: Number(searchParams.take) || 6,
   })
 
-  console.log(products)
-
   return <Category categories={categories} products={products} />
 }

@@ -42,7 +42,7 @@ export const Pagination: React.FC<IPaginationProps> = ({
     }
 
     return pages
-  }, [page, totalPages])
+  }, [page, totalPages, isMobile])
 
   const pageNumbers = getPageNumbers()
 

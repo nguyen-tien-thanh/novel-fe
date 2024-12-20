@@ -16,9 +16,9 @@ export const Image: FC<IImageProps> = props => {
     <NextImage
       {...rest}
       src={imgSrc}
-      onError={() => {
-        fallbackSrc && setImgSrc(fallbackSrc)
-      }}
+      onError={() => fallbackSrc && setImgSrc(fallbackSrc)}
+      placeholder="blur"
+      blurDataURL={fallbackSrc}
     />
   )
 }

@@ -4,7 +4,7 @@ import { Button, CardPaper, Image, Spinner } from '@/components'
 import { cn, formatDatetime } from '@/lib'
 import { ICategory, IProduct, List } from '@/types'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { FC, useEffect, useRef, useState } from 'react'
+import { FC, useCallback, useEffect, useRef, useState } from 'react'
 
 export interface ICategoryParams {
   categories?: List<ICategory>
@@ -36,29 +36,32 @@ export const Category: FC<ICategoryParams> = ({ categories, products = { data: [
     router.push(query)
   }
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (products.data.length >= products.count) return
+  const handleScroll = useCallback(() => {
+    if (products.data.length >= products.count) return
 
-      const params = new URLSearchParams(searchParams)
-      const currentTake = params.get('take') || '6'
-      params.set('take', (Number(currentTake) + 6).toString())
+    const params = new URLSearchParams(searchParams)
+    const currentTake = params.get('take') || '6'
+    params.set('take', (Number(currentTake) + 6).toString())
 
-      router.replace(`${pathname}?${params.toString()}`, { scroll: false })
-    }
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false })
+  }, [products.data.length, products.count, searchParams, pathname, router])
 
-    const handleObserver = (entries: IntersectionObserverEntry[]) => {
+  const handleObserver = useCallback(
+    (entries: IntersectionObserverEntry[]) => {
       const target = entries[0]
       if (target.isIntersecting) handleScroll()
-    }
+    },
+    [handleScroll],
+  )
 
+  useEffect(() => {
     const observer = new IntersectionObserver(handleObserver, { threshold: 1.0 })
     if (observerRef.current) observer.observe(observerRef.current)
     return () => observer.disconnect()
-  }, [searchParams])
+  }, [handleObserver])
 
   return (
-    <div className="container mx-auto relative py-4 lg:py-8 space-y-10">
+    <div className="container mx-auto relative py-4 lg:py-8 space-y-6 lg:space-y-10">
       <section>
         <CardPaper title="Thể loại">
           <div className="flex flex-wrap gap-2">
@@ -97,33 +100,33 @@ export const Category: FC<ICategoryParams> = ({ categories, products = { data: [
                         src={String(product.image)}
                         fill
                         className="object-cover group-hover:brightness-105 transition-all"
-                        alt="Movie"
+                        alt={product.name}
                       />
                     </figure>
                   )}
-                  <div className="card-body p-4">
+                  <div className="card-body p-3 lg:p-4">
                     <div>
                       <h2
-                        className="hover:underline underline-offset-4 text-lg"
+                        className="hover:underline underline-offset-4 lg:text-lg truncate"
                         role="button"
                         onClick={() => router.push(`/product/${product.id}`)}
                       >
                         {product.name}
                       </h2>
-                      <p className="text-primary text-sm">{product.authorName}</p>
-                      {product.updatedAt && (
+                      <p className="text-primary text-sm lg:text-md truncate">{product.authorName}</p>
+                      {/* {product.updatedAt && (
                         <p className="text-sm opacity-70">
                           Cập nhật: <span>{formatDatetime(product.updatedAt)}</span>
                         </p>
-                      )}
+                      )} */}
                       <p
-                        className="text-sm line-clamp-2 opacity-70"
+                        className="text-xs lg:text-sm line-clamp-2 opacity-70"
                         dangerouslySetInnerHTML={{ __html: product.description || '' }}
                       />
                     </div>
                     <div className="card-actions">
                       {product.categories && (
-                        <div className="flex flex-wrap gap-2">
+                        <div className="flex gap-1 lg:gap-2 h-7 overflow-auto lg:h-auto lg:flex-wrap">
                           {product.categories.map(category => (
                             <Button
                               key={category.id}
