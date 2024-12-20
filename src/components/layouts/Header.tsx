@@ -8,24 +8,33 @@ import { usePathname } from 'next/navigation'
 import { cn } from '@/lib'
 import { useEffect, useState } from 'react'
 
-const pages = [
+type Page = {
+  name: string
+  href: string
+  role?: string
+  children?: { name: string; href: string }[]
+}
+
+const pages: Page[] = [
   { name: 'Danh sách', href: '/' },
   { name: 'Thể loại', href: '/category' },
   { name: 'Phân loại', href: '' },
   {
     name: 'Quản lý',
     href: '/admin',
-    children: [
-      { name: 'Truyện', href: '/admin/product', role: 'ADMIN' },
-      { name: 'Danh mục', href: '/admin/category', role: 'ADMIN' },
-      { name: 'Chương', href: '/admin/chapter', role: 'ADMIN' },
-    ],
+    role: 'ADMIN',
+    // children: [
+    //   { name: 'Truyện', href: '/admin/product' },
+    //   { name: 'Danh mục', href: '/admin/category' },
+    //   { name: 'Chương', href: '/admin/chapter' },
+    // ],
   },
 ]
 
 export const Header = () => {
   const { data } = useSession()
   const user = data?.user
+  const { role } = user || {}
   const pathname = usePathname()
   const [openDrawer, setOpenDrawer] = useState(false)
 
@@ -41,6 +50,13 @@ export const Header = () => {
     return () => window.removeEventListener('click', hideDropdownDaisy)
   }, [])
 
+  const isAccess = (pageRole?: string) => {
+    if (pageRole) {
+      return role === pageRole
+    }
+    return true
+  }
+
   return (
     <header className="navbar bg-base-200 h-[68px]">
       <nav className="navbar-start">
@@ -49,31 +65,36 @@ export const Header = () => {
             <HamburgerIcon />
           </Button>
           <Drawer open={openDrawer} setOpen={setOpenDrawer}>
-            {pages.map((page, i) => (
-              <li key={i}>
-                <Link
-                  href={page.href}
-                  onClick={handleOpenDrawer}
-                  className={cn(pathname === page.href && 'bg-primary text-primary-content pointer-events-none')}
-                >
-                  {page.name}
-                </Link>
-                <ul>
-                  {page.children &&
-                    page.children.map((child, i) => (
-                      <li
-                        key={i}
-                        className={cn(pathname === child.href && 'bg-primary text-primary-content pointer-events-none')}
-                        style={{ borderRadius: 'var(--rounded-btn, 0.5rem)' }}
-                      >
-                        <Link onClick={handleOpenDrawer} href={child.href}>
-                          {child.name}
-                        </Link>
-                      </li>
-                    ))}
-                </ul>
-              </li>
-            ))}
+            {pages.map(
+              (page, i) =>
+                isAccess(page.role) && (
+                  <li key={i}>
+                    <Link
+                      href={page.href}
+                      onClick={handleOpenDrawer}
+                      className={cn(pathname === page.href && 'bg-primary text-primary-content pointer-events-none')}
+                    >
+                      {page.name}
+                    </Link>
+                    <ul>
+                      {page.children &&
+                        page.children.map((child, i) => (
+                          <li
+                            key={i}
+                            className={cn(
+                              pathname === child.href && 'bg-primary text-primary-content pointer-events-none',
+                            )}
+                            style={{ borderRadius: 'var(--rounded-btn, 0.5rem)' }}
+                          >
+                            <Link onClick={handleOpenDrawer} href={child.href}>
+                              {child.name}
+                            </Link>
+                          </li>
+                        ))}
+                    </ul>
+                  </li>
+                ),
+            )}
           </Drawer>
         </div>
         <Link className="btn btn-sm lg:btn-md btn-ghost text-xl px-0 lg:px-3" href="/">
@@ -92,40 +113,43 @@ export const Header = () => {
       </nav>
       <nav className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
-          {pages.map((page, i) => (
-            <li key={i}>
-              {!page.children ? (
-                <Link
-                  href={page.href}
-                  className={cn(pathname === page.href && 'bg-primary text-primary-content pointer-events-none')}
-                >
-                  {page.name}
-                </Link>
-              ) : (
-                <details className="z-10 dropdown">
-                  <summary className={cn('font-normal', pathname.includes(page.href) && 'btn btn-primary btn-sm')}>
-                    {page.name}
-                  </summary>
-                  <ul className="p-2 bg-base-200">
-                    {page.children.map((child, i) => (
-                      <li key={i}>
-                        <Link
-                          href={child.href}
-                          onClick={e => hideDropdownDaisy(e.nativeEvent, true)}
-                          className={cn(
-                            'min-w-24',
-                            pathname === child.href && 'bg-primary text-primary-content pointer-events-none',
-                          )}
-                        >
-                          {child.name}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </details>
-              )}
-            </li>
-          ))}
+          {pages.map(
+            (page, i) =>
+              isAccess(page.role) && (
+                <li key={i}>
+                  {!page.children ? (
+                    <Link
+                      href={page.href}
+                      className={cn(pathname === page.href && 'bg-primary text-primary-content pointer-events-none')}
+                    >
+                      {page.name}
+                    </Link>
+                  ) : (
+                    <details className="z-10 dropdown">
+                      <summary className={cn('font-normal', pathname.includes(page.href) && 'btn btn-primary btn-sm')}>
+                        {page.name}
+                      </summary>
+                      <ul className="p-2 bg-base-200">
+                        {page.children.map((child, i) => (
+                          <li key={i}>
+                            <Link
+                              href={child.href}
+                              onClick={e => hideDropdownDaisy(e.nativeEvent, true)}
+                              className={cn(
+                                'min-w-24',
+                                pathname === child.href && 'bg-primary text-primary-content pointer-events-none',
+                              )}
+                            >
+                              {child.name}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </details>
+                  )}
+                </li>
+              ),
+          )}
         </ul>
       </nav>
       <nav className="navbar-end">

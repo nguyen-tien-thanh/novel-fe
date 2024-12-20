@@ -117,7 +117,8 @@ const ChapterInput = () => {
 
   useEffect(() => {
     setValue('chapterNumber', chapterNumber)
-  }, [chapterNumber])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chapterNumber]) // Only include 'chapterNumber' as the dependency
 
   return (
     <Input readOnly validation={{ required: 'Vui lòng chương mấy' }} name="chapterNumber" type="number" autoFocus />

@@ -1,6 +1,7 @@
 import { ICategory, IProduct, List, PRODUCT_STATUS, STATE } from '@/types'
 import Dashboard from './dashboard'
 import { get } from '@/lib'
+import { PushNotificationManager } from './NotificationManager'
 
 export default async function Home() {
   const oneWeekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
@@ -43,6 +44,12 @@ export default async function Home() {
     .sort((a, b) => (b.avgRating || 0) - (a.avgRating || 0)) as IProduct[]
 
   return (
-    <Dashboard products={{ recommend, updated, topRated, completed, weeklyTop, monthlyTop }} categories={categories} />
+    <>
+      <PushNotificationManager />
+      <Dashboard
+        products={{ recommend, updated, topRated, completed, weeklyTop, monthlyTop }}
+        categories={categories}
+      />
+    </>
   )
 }

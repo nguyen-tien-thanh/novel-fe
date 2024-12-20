@@ -30,14 +30,12 @@ export default async function RootLayout({
           </head>
           <body>
             <Header />
-
             <ToastContainer />
             <main className="relative min-h-[calc(100dvh-68px-52px)]">
               {children}
 
               <ScrollToTopButton />
             </main>
-
             <Footer />
           </body>
         </html>
