@@ -3,13 +3,23 @@ const nextConfig = {
   output: process.env.NODE_ENV === 'production' ? 'standalone' : undefined,
   images: {
     remotePatterns: [
+      // TODO: REMOVE THIS
       {
         protocol: 'https',
         hostname: '**',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'minio.thanhsonnguyen.io.vn',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'thanhsonnguyen.io.vn',
+        pathname: '/**',
+      },
     ],
-    domains: ['minio.thanhsonnguyen.io.vn', 'thanhsonnguyen.io.vn'],
   },
   reactStrictMode: process.env.NODE_ENV !== 'production',
   env: {
@@ -17,12 +27,12 @@ const nextConfig = {
   },
   pwa: {
     dest: 'public',
-    swDest: 'public/sw.js', // Location of the Service Worker
+    swDest: 'public/sw.js',
   },
   async headers() {
     return [
       {
-        source: '/(.*)', // Apply these headers to all routes
+        source: '/(.*)',
         headers: [
           {
             key: 'X-Content-Type-Options',
@@ -39,7 +49,7 @@ const nextConfig = {
         ],
       },
       {
-        source: '/sw.js', // Specific headers for the service worker
+        source: '/sw.js',
         headers: [
           {
             key: 'Content-Type',
