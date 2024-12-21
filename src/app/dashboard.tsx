@@ -21,7 +21,7 @@ export interface DashboardProps {
 export default function Dashboard({ products, categories }: DashboardProps) {
   return (
     <div className="pb-10 lg:pb-20">
-      <section className="container mx-auto">
+      <section className="lg:container lg:mx-auto">
         <Hero
           title="Welcome"
           subtitle="Chúc các bạn đọc truyện vui vẻ nhé!"

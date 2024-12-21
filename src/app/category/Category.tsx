@@ -1,6 +1,6 @@
 'use client'
 
-import { Button, CardPaper, Image, Spinner } from '@/components'
+import { Button, CardPaper, Image, Skeleton, Spinner } from '@/components'
 import { cn, formatDatetime } from '@/lib'
 import { ICategory, IProduct, List } from '@/types'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
@@ -61,7 +61,7 @@ export const Category: FC<ICategoryParams> = ({ categories, products = { data: [
   }, [handleObserver])
 
   return (
-    <div className="container mx-auto relative py-4 lg:py-8 space-y-6 lg:space-y-10">
+    <div className="container mx-auto relative py-2 lg:py-4 space-y-6 lg:space-y-4">
       <section>
         <CardPaper title="Thể loại">
           <div className="flex flex-wrap gap-2">
@@ -86,7 +86,7 @@ export const Category: FC<ICategoryParams> = ({ categories, products = { data: [
 
       {products && (
         <section>
-          <ul className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <ul className="grid grid-cols-2 gap-2 lg:gap-4">
             {products?.data?.map(product => (
               <li key={product.id}>
                 <div className="card lg:card-side bg-base-100 shadow-xl">
@@ -126,7 +126,7 @@ export const Category: FC<ICategoryParams> = ({ categories, products = { data: [
                     </div>
                     <div className="card-actions">
                       {product.categories && (
-                        <div className="flex gap-1 lg:gap-2 h-7 overflow-auto lg:h-auto lg:flex-wrap">
+                        <div className="flex gap-1 lg:gap-2 h-7 overflow-auto lg:h-auto lg:flex-wrap no-scrollbar">
                           {product.categories.map(category => (
                             <Button
                               key={category.id}
@@ -152,8 +152,8 @@ export const Category: FC<ICategoryParams> = ({ categories, products = { data: [
 
       <div ref={observerRef}>
         {products?.data?.length < products.count && (
-          <div className="flex justify-center">
-            <Spinner size="lg" />
+          <div className="grid grid-cols-2 gap-2 lg:gap-4">
+            <Skeleton className="h-[346px] lg:h-[210px]" count={2} />
           </div>
         )}
       </div>

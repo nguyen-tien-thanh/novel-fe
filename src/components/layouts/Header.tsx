@@ -18,7 +18,7 @@ type Page = {
 const pages: Page[] = [
   { name: 'Danh sách', href: '/' },
   { name: 'Thể loại', href: '/category' },
-  { name: 'Phân loại', href: '' },
+  // { name: 'Phân loại', href: '' },
   {
     name: 'Quản lý',
     href: '/admin',
