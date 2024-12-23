@@ -32,13 +32,13 @@ export default function Dashboard({ products, categories }: DashboardProps) {
         />
       </section>
 
-      <section className="container mx-auto mt-5">
+      <section className="container mx-auto">
         <CardPaper title="Được đề xuất">{products?.recommend && <Book.Swiper items={products.recommend} />}</CardPaper>
       </section>
 
-      <section className="container mx-auto mt-5">
+      <section className="container mx-auto">
         <div className="flex flex-col lg:flex-row gap-10 lg:gap-5">
-          <div id="product-section" className="grow space-y-14 lg:space-y-20">
+          <div id="product-section" className="grow space-y-6">
             <CardPaper title="Mới cập nhật">
               {products?.updated && <ProductList badgeText="New" products={products.updated} />}
             </CardPaper>
