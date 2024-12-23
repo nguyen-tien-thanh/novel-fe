@@ -33,7 +33,7 @@ export const stringAvatar = (name: string) => {
   }
 
   return {
-    style: { backgroundColor: _stringToColor(name) },
+    style: { backgroundColor: _stringToColor(name), color: '#F0F0F0' },
     className: 'flex justify-center items-center size-10',
     children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
   }
