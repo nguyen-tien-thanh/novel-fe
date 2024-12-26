@@ -21,7 +21,7 @@ export default function RootLayout({
 
   return (
     <div className="flex">
-      <div className=" w-80 bg-base-200 text-base-content min-h-screen">
+      <div className="lg:w-80 bg-base-200 text-base-content min-h-screen">
         <ul className={cn('menu bg-base-200 text-base-content min-h-screen lg:max-w-xs')}>
           {pages.map((page, i) => (
             <li key={i} className="my-[1px]">
