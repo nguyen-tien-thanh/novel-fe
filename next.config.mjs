@@ -25,10 +25,10 @@ const nextConfig = {
   env: {
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
   },
-  pwa: {
-    dest: 'public',
-    swDest: 'public/sw.js',
-  },
+  // pwa: {
+  //   dest: 'public',
+  //   swDest: 'public/sw.js',
+  // },
   async headers() {
     return [
       {
