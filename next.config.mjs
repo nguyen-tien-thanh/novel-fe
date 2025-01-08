@@ -2,20 +2,21 @@
 const nextConfig = {
   output: process.env.NODE_ENV === 'production' ? 'standalone' : undefined,
   images: {
+    domains: ['thanhsonnguyen.io.vn', 'minio.thanhsonnguyen.io.vn', 'dev.thanhsonnguyen.io.vn'],
     remotePatterns: [
       // TODO: REMOVE THIS
       {
-        protocol: 'https',
+        protocol: 'http',
         hostname: '**',
         pathname: '/**',
       },
       {
-        protocol: 'https',
+        protocol: 'http',
         hostname: 'minio.thanhsonnguyen.io.vn',
         pathname: '/**',
       },
       {
-        protocol: 'https',
+        protocol: 'http',
         hostname: 'thanhsonnguyen.io.vn',
         pathname: '/**',
       },
