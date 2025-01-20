@@ -20,7 +20,7 @@ export const ProductRate: FC<IProductRateProps> = ({ products }) => {
     <div>
       <ul className="lg:flex lg:flex-wrap lg:gap-x-2">
         {products?.slice(0, 10).map((product, idx) => (
-          <li key={product.id} className="border-b border-b-base flex items-center gap-2 py-1 w-full">
+          <li key={product.id} className="border-b border-b-primary/30 flex items-center gap-2 py-1 w-full">
             {idx === 0 ? (
               <>
                 <div className="flex p-4">
