@@ -1,7 +1,7 @@
-import { FC, ReactNode } from 'react'
+import { FC, HTMLAttributes, ReactNode } from 'react'
 import { cn } from '@/lib'
 
-export interface ITooltipProps {
+export interface ITooltipProps extends HTMLAttributes<HTMLDivElement> {
   position?: 'top' | 'bottom' | 'left' | 'right'
   title: string
   children: ReactNode

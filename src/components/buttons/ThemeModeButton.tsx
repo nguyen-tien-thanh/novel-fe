@@ -5,6 +5,7 @@ import { cn } from '@/lib'
 import { useTheme } from '@/providers'
 import { Button, Drawer, Tooltip } from '../commons'
 import { useState } from 'react'
+import { CardPaper } from '../cards'
 
 const themes = [
   // { name: 'Mặc Định', value: 'default', icon: '' },
@@ -55,35 +56,37 @@ export const ThemeModeButton = () => {
           <ThemeIcon />
         </Button>
       </Tooltip>
-      <Drawer open={openDrawer} setOpen={setOpenDrawer} position="right">
-        <div className="grid grid-cols-1 gap-3">
-          {themes.map((t, i) => (
-            <button
-              key={i}
-              className="outline-base-content text-start outline-offset-4"
-              data-set-theme={t.value}
-              onClick={() => changeTheme(t.value)}
-            >
-              <span
-                className="bg-base-100 rounded-btn text-base-content block w-full cursor-pointer font-sans"
-                data-theme={t.value}
+      <Drawer open={openDrawer} setOpen={setOpenDrawer} position="right" className="pt-4">
+        <CardPaper title="Giao diện">
+          <div className="grid grid-cols-1 gap-3">
+            {themes.map((t, i) => (
+              <button
+                key={i}
+                className="outline-base-content text-start outline-offset-4"
+                data-set-theme={t.value}
+                onClick={() => changeTheme(t.value)}
               >
-                <span className="grid grid-cols-5 grid-rows-3">
-                  <span className="col-span-5 row-span-3 row-start-1 flex items-center gap-2 px-4 py-3">
-                    <CheckIcon className={cn('invisible', t.value == theme && 'visible')} />
-                    <span className="flex-grow text-sm">{t.name}</span>
-                    <span className="flex h-full shrink-0 flex-wrap gap-1">
-                      <span className="bg-primary rounded-badge w-2"></span>
-                      <span className="bg-secondary rounded-badge w-2"></span>
-                      <span className="bg-accent rounded-badge w-2"></span>
-                      <span className="bg-neutral rounded-badge w-2"></span>
+                <span
+                  className="bg-base-100 rounded-btn text-base-content block w-full cursor-pointer font-sans"
+                  data-theme={t.value}
+                >
+                  <span className="grid grid-cols-5 grid-rows-3">
+                    <span className="col-span-5 row-span-3 row-start-1 flex items-center gap-2 px-4 py-3">
+                      <CheckIcon className={cn('invisible', t.value == theme && 'visible')} />
+                      <span className="flex-grow text-sm">{t.name}</span>
+                      <span className="flex h-full shrink-0 flex-wrap gap-1">
+                        <span className="bg-primary rounded-badge w-2"></span>
+                        <span className="bg-secondary rounded-badge w-2"></span>
+                        <span className="bg-accent rounded-badge w-2"></span>
+                        <span className="bg-neutral rounded-badge w-2"></span>
+                      </span>
                     </span>
                   </span>
                 </span>
-              </span>
-            </button>
-          ))}
-        </div>
+              </button>
+            ))}
+          </div>
+        </CardPaper>
       </Drawer>
     </>
   )

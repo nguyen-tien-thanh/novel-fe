@@ -5,7 +5,7 @@ import { auth } from '@/auth'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { SessionProvider } from 'next-auth/react'
-import { ThemeProvider } from '@/providers'
+import { QueryProvider, ThemeProvider } from '@/providers'
 import { cookies } from 'next/headers'
 
 export const metadata: Metadata = {
@@ -23,23 +23,25 @@ export default async function RootLayout({
 
   return (
     <SessionProvider session={session}>
-      <ThemeProvider>
-        <html lang="vi" suppressHydrationWarning data-theme={theme?.value || 'cupcake'}>
-          <head>
-            <meta name="google-adsense-account" content="ca-pub-9011651022330880" />
-          </head>
-          <body>
-            <Header />
-            <ToastContainer />
-            <main className="relative min-h-[calc(100dvh-68px-52px)]">
-              {children}
+      <QueryProvider>
+        <ThemeProvider>
+          <html lang="vi" suppressHydrationWarning data-theme={theme?.value || 'cupcake'}>
+            <head>
+              <meta name="google-adsense-account" content="ca-pub-9011651022330880" />
+            </head>
+            <body>
+              <Header />
+              <ToastContainer />
+              <main className="relative min-h-[calc(100dvh-68px-52px)]">
+                {children}
 
-              <ScrollToTopButton />
-            </main>
-            <Footer />
-          </body>
-        </html>
-      </ThemeProvider>
+                <ScrollToTopButton />
+              </main>
+              <Footer />
+            </body>
+          </html>
+        </ThemeProvider>
+      </QueryProvider>
     </SessionProvider>
   )
 }

@@ -7,8 +7,9 @@ interface IParams {
 
 export async function GET(req: NextRequest, { params }: IParams) {
   const endpoint = params.endpoint.join('/')
+  const searchParams = Object.fromEntries(req.nextUrl.searchParams)
 
-  const resp = await get(endpoint)
+  const resp = await get(endpoint, searchParams)
 
   return NextResponse.json(resp)
 }

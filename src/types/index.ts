@@ -46,7 +46,6 @@ export interface ICategory {
 
 export interface IChapter {
   id: number
-  productId: number | IProduct
   chapterName: string
   content: string
   chapterNumber: number
@@ -55,6 +54,8 @@ export interface IChapter {
   updatedAt: string
   users: number[]
   state?: STATE
+  productId: number | IProduct
+  product?: IProduct
 }
 
 export interface IRate {
@@ -159,4 +160,14 @@ export interface IFilter {
   orderBy?: Record<string, unknown>
   include?: Record<string, unknown>
   select?: Record<string, unknown>
+  [x: string]: any
+}
+
+export interface IList {
+  id: number
+  classification: 'READING' | 'FAVORITE'
+  createdBy: number
+  updatedAt: string
+  chapters?: IChapter[]
+  products?: IProduct[]
 }

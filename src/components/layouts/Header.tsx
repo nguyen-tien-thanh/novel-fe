@@ -1,7 +1,7 @@
 'use client'
 
-import { Image } from '@/components'
-import { Button, Drawer, HamburgerIcon, HeartIcon, ProfileButton, ThemeModeButton, Tooltip } from '@/components'
+import { FavoriteButton, Image } from '@/components'
+import { Button, Drawer, HamburgerIcon, ProfileButton, ThemeModeButton, Tooltip } from '@/components'
 import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -169,11 +169,7 @@ export const Header = () => {
           ) : (
             <>
               <div className="dropdown dropdown-end">
-                <Tooltip title="Yêu thích">
-                  <Button className="btn-ghost btn-circle">
-                    <HeartIcon />
-                  </Button>
-                </Tooltip>
+                <FavoriteButton />
               </div>
               <div className="dropdown dropdown-end">
                 <ProfileButton />
